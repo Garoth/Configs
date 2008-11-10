@@ -5,7 +5,9 @@ import os
 here = "/home/garoth/Configs/"
 
 rules = [
-        ["awesome", "/home/garoth/.config/awesome"]
+        ["awesome", "/home/garoth/.config/awesome"],
+	["vim", "/home/garoth/.vim"],
+	["vimrc", "/home/garoth/.vimrc"]
 ]
 
 for rule in rules:
@@ -13,4 +15,5 @@ for rule in rules:
         if not os.path.exists(rule[1]):
                 print "Linking '" + rule[0] + "' to '" + rule[1] + "'"
                 commands.getstatusoutput("ln -s " + rule[0] + " " + rule[1])
-        print "Already Exists: '" + rule[1] + "' -- not linking."
+        else:
+                print "Already Exists: '" + rule[1] + "' -- not linking."
