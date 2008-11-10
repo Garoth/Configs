@@ -1,0 +1,42 @@
+-------------------------------
+--    "Sky" Awesome Theme    --
+--  By Andrei "Garoth" Thorp --
+-------------------------------
+# If you want SVGs and extras, get them from garoth.com/awesome/sky-theme
+
+# BASICS
+font          = sans 8
+
+bg_focus      = #e2eeea
+bg_normal     = #729fcf
+bg_urgent     = #fce94f
+
+fg_normal     = #2e3436
+fg_focus      = #2e3436
+fg_urgent     = #2e3436
+
+border_width  = 2
+border_normal = #dae3e0
+border_focus  = #729fcf
+border_marked = #eeeeec
+
+# IMAGES
+layout_dwindle = /usr/local/share/awesome/icons/sky.theme/layouts/dwindle.png
+layout_fairh = /usr/local/share/awesome/icons/sky.theme/layouts/fairh.png
+layout_fairv = /usr/local/share/awesome/icons/sky.theme/layouts/fairv.png
+layout_floating = /usr/local/share/awesome/icons/sky.theme/layouts/floating.png
+layout_magnifier = /usr/local/share/awesome/icons/sky.theme/layouts/magnifier.png
+layout_max = /usr/local/share/awesome/icons/sky.theme/layouts/max.png
+layout_fullscreen = /usr/local/share/awesome/icons/sky.theme/layouts/fullscreen.png
+layout_spiral = /usr/local/share/awesome/icons/sky.theme/layouts/spiral.png
+layout_tilebottom = /usr/local/share/awesome/icons/sky.theme/layouts/tilebottom.png
+layout_tileleft = /usr/local/share/awesome/icons/sky.theme/layouts/tileleft.png
+layout_tile = /usr/local/share/awesome/icons/sky.theme/layouts/tile.png
+layout_tiletop = /usr/local/share/awesome/icons/sky.theme/layouts/tiletop.png
+
+awesome_icon = /usr/local/share/awesome/icons/sky.theme/awesome-icon.png
+
+# MISC
+wallpaper_cmd = awsetbg /usr/local/share/awesome/themes/sky-background.png
+taglist_squares = true
+titlebar_close_button = true
