@@ -1,0 +1,39 @@
+<+	+>	!comp!	!exe!
+%        File: !comp!expand("%")!comp!
+%     Created: !comp!strftime("%a %b %d %I:00 %p %Y ").substitute(strftime('%Z'), '\<\(\w\)\(\w*\)\>\(\W\|$\)', '\1', 'g')!comp!
+% Last Change: !comp!strftime("%a %b %d %I:00 %p %Y ").substitute(strftime('%Z'), '\<\(\w\)\(\w*\)\>\(\W\|$\)', '\1', 'g')!comp!
+%
+
+\documentclass[a4paper,12pt]{article}
+\textwidth 6.5in
+\oddsidemargin 0.0in
+\evensidemargin 0.0in 
+\topmargin -1.0in
+\textheight 10.0in
+\usepackage[]{amsmath}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{longtable}
+
+%%%%Custom Commands
+%%%Formatting
+\newcommand{\imp}{\ding{212} \ding{32}} %Important Arrow
+\newcommand{\sub}{\ding{216} \ding{32}} %Sub-point Arrow
+%%%Math
+%%These are used outside of math mode in order to generate symbols
+\newcommand{\nanum}{$\mathbb{N}$ } %Natural Numbers Sign
+\newcommand{\renum}{$\mathbb{R}$ } %Real Numbers Sign
+\newcommand{\innum}{$\mathbb{Z}$ } %Integer Numbers Sign
+\newcommand{\ranum}{$\mathbb{Q}$ } %Rational Numbers Sign
+\newcommand{\ponum}{$\mathbb{P}$ } %Positive Numbers Sign
+
+\begin{document}
+\title{ <++>}
+\author{Andrei `Garoth' Thorp}
+\date{\today}
+\maketitle
+
+<++>
+
+\end{document}
