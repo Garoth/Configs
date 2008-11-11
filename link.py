@@ -12,7 +12,10 @@ rules = [
         ["screenrc", "/home/garoth/.screenrc"],
         ["scripts", "/home/garoth/.scripts"],
         ["zshrc", "/home/garoth/.zshrc"],
-        ["bashrc", "/home/garoth/.bashrc"]
+        ["bashrc", "/home/garoth/.bashrc"],
+        ["fonts", "/home/garoth/.fonts"],
+        ["gvimrc", "/home/garoth/.gvimrc"],
+        ["plutocracy", "/home/garoth/.plutocracy"]
 ]
 
 for rule in rules:
