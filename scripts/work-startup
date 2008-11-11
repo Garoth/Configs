@@ -1,0 +1,3 @@
+#!/bin/bash
+fetchmail --daemon 120 --logfile "/home/garoth/Mail/fetchmail.log"
+/home/garoth/scripts/startup.sh
