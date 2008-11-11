@@ -124,7 +124,7 @@ for s = 1, screen.count() do
     -- Create the wibox
     statusbartop[s] = wibox({ position = "left", name = "statusbartop" .. s,
                              fg = beautiful.fg_normal, bg = beautiful.bg_normal,
-                             width=22, border_width=2, border_color = beautiful.bg_focus})
+                             width=22, border_color = beautiful.bg_focus})
     -- Add widgets to the wibox - order matters
     statusbartop[s].widgets = { mytaglist[s],
                            padding_left,
