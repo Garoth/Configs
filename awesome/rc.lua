@@ -2,16 +2,14 @@
 
 -- Include awesome library, with lots of useful function!
 require("awful")
-require("tabulous")
 require("beautiful")
 require("invaders")
+require("naughty")
 
--- {{{ Variable definitions
+-- Settings
 theme_path = "/usr/local/share/awesome/themes/default/theme"
-terminal = "sakura"
 modkey = "Mod4"
 use_titlebar = false
-
 layouts = {
     "tile",
     "fairv",
@@ -20,21 +18,23 @@ layouts = {
     "dwindle",
     "floating"
 }
-
 floatapps = {
     ["MPlayer"] = true,
     ["pinentry"] = true,
---    ["gimp"] = true,
+    ["gimp"] = true,
     ["pidgin"] = true,
+    ["epiphany"] = true
 }
-
 apptags = {
     ["Firefox"] = { screen = 1, tag = 2 },
-    ["evince"] = { screen = 1, tag = 5 },
     ["pidgin"] = { screen = 1, tag = 4 }
 }
--- }}}
 
+-- Program Variables
+terminal = "sakura"
+music_player = terminal .. " -e /home/garoth/.scripts/start-cmus.sh"
+browser = "firefox"
+mail_client = browser .. " http://gmail.com"
 
 -- {{{ Initialization
 beautiful.init(theme_path)
@@ -128,29 +128,14 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     statusbartop[s].widgets = { mytaglist[s],
                            padding_left,
---                           image_left,
                            mypromptbox[s],
                            mytasklist[s],
---                           image_right,
                            padding_right,
                            datetextbox,
                            mylayoutbox[s],
                            s == 1 and mysystray or nil }
 
-    statusbarbottom[s] = wibox({ position = "bottom", name = "statusbarbottom" .. s,
-                                 fg = beautiful.fg_normal, bg = beautiful.bg_normal,
-                                 height=20 })
-    statusbarbottom[s].widgets = {
-        padding_left,
-        image_left,
-        running_builds,
-        queued_builds,
-        image_right,
-        padding_right,
-    }
-
     statusbartop[s].screen = s
-    --statusbarbottom[s].screen = s
 end
 -- }}}
 
@@ -205,11 +190,23 @@ keybinding({ modkey }, "s", function () client.focus.sticky = true end):add()
 keybinding({ modkey }, "Left", awful.tag.viewprev):add()
 keybinding({ modkey }, "Right", awful.tag.viewnext):add()
 
+-- Media Keys
+keybinding({ }, "#129", function () awful.util.spawn(music_player) end):add()
+keybinding({ }, "#236", function () awful.util.spawn(mail_client) end):add()
+keybinding({ }, "#178", function () awful.util.spawn(browser) end):add()
+keybinding({ }, "#161", function () naughty.notify({text = "calculator", timeout = 7}) end):add()
+
+keybinding({ }, "#162", function () naughty.notify({text = "pause/play", timeout = 7}) end):add()
+keybinding({ }, "#174", function () naughty.notify({text = "volume down", timeout = 7}) end):add()
+keybinding({ }, "#176", function () naughty.notify({text = "volume up", timeout = 7}) end):add()
+keybinding({ }, "#160", function () naughty.notify({text = "mute volume", timeout = 7}) end):add()
+
 -- Client manipulation
 keybinding({ modkey, "Control" }, "space", awful.client.togglefloating):add()
 keybinding({ modkey }, "m", awful.client.maximize):add()
 keybinding({ modkey, "Shift" }, "m", function () client.focus.minimize=true end):add()
 keybinding({ modkey }, "c", function () client.focus:kill() end):add()
+
 ---- Focus by direction (vi keys)
 keybinding({ modkey }, "j", function () awful.client.focus.bydirection("down");
                                         client.focus:raise() end):add()
