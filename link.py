@@ -7,7 +7,12 @@ here = "/home/garoth/Configs/"
 rules = [
         ["awesome", "/home/garoth/.config/awesome"],
 	["vim", "/home/garoth/.vim"],
-	["vimrc", "/home/garoth/.vimrc"]
+	["vimrc", "/home/garoth/.vimrc"],
+        ["gitconfig", "/home/garoth/.gitconfig"],
+        ["screenrc", "/home/garoth/.screenrc"],
+        ["scripts", "/home/garoth/.scripts"],
+        ["zshrc", "/home/garoth/.zshrc"],
+        ["bashrc", "/home/garoth/.bashrc"]
 ]
 
 for rule in rules:

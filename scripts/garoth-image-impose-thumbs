@@ -1,0 +1,6 @@
+#!/bin/bash
+for file in ./*-thumb.png; do
+	composite -compose atop -gravity SouthWest ${0%/*}/garoth-impose-bottom.png ${file} ${file} ;
+	composite -compose atop -gravity NorthEast ${0%/*}/garoth-impose-top.png ${file} ${file} ;
+	echo "Composing image on top of ${file}" ;
+done
