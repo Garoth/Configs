@@ -7,7 +7,7 @@ require("beautiful")
 require("invaders")
 
 -- {{{ Variable definitions
-theme_path = "/home/garoth/.config/awesome/sky.theme"
+theme_path = "/usr/local/share/awesome/themes/default/theme"
 terminal = "sakura"
 modkey = "Mod4"
 use_titlebar = false
@@ -24,7 +24,7 @@ layouts = {
 floatapps = {
     ["MPlayer"] = true,
     ["pinentry"] = true,
-    ["gimp"] = true,
+--    ["gimp"] = true,
     ["pidgin"] = true,
 }
 
@@ -196,15 +196,14 @@ for i = 1, keynumber do
                    end):add()
 end
 
-keybinding({ modkey }, "Left", awful.tag.viewprev):add()
-keybinding({ modkey }, "Right", awful.tag.viewnext):add()
-
 -- Standard program
 keybinding({ modkey }, "Return", function () awful.util.spawn(terminal) end):add()
 keybinding({ modkey, "Control" }, "r", awesome.restart):add()
 keybinding({ modkey, "Control", "Shift" }, "q", awesome.quit):add()
 keybinding({ modkey }, "i", function () invaders.run() end):add()
 keybinding({ modkey }, "s", function () client.focus.sticky = true end):add()
+keybinding({ modkey }, "Left", awful.tag.viewprev):add()
+keybinding({ modkey }, "Right", awful.tag.viewnext):add()
 
 -- Client manipulation
 keybinding({ modkey, "Control" }, "space", awful.client.togglefloating):add()
@@ -212,13 +211,13 @@ keybinding({ modkey }, "m", awful.client.maximize):add()
 keybinding({ modkey, "Shift" }, "m", function () client.focus.minimize=true end):add()
 keybinding({ modkey }, "c", function () client.focus:kill() end):add()
 ---- Focus by direction (vi keys)
-keybinding({ modkey }, "j", function () awful.client.focusbydirection("down");
+keybinding({ modkey }, "j", function () awful.client.focus.bydirection("down");
                                         client.focus:raise() end):add()
-keybinding({ modkey }, "k", function () awful.client.focusbydirection("up");
+keybinding({ modkey }, "k", function () awful.client.focus.bydirection("up");
                                         client.focus:raise() end):add()
-keybinding({ modkey }, "l", function () awful.client.focusbydirection("right");
+keybinding({ modkey }, "l", function () awful.client.focus.bydirection("right");
                                         client.focus:raise() end):add()
-keybinding({ modkey }, "h", function () awful.client.focusbydirection("left");
+keybinding({ modkey }, "h", function () awful.client.focus.bydirection("left");
                                         client.focus:raise() end):add()
 ---- Swap by direction (vi keys)
 keybinding({ modkey, "Shift" }, "j", function ()
@@ -284,6 +283,7 @@ end)
 
 -- Hook function to execute when a new client appears.
 awful.hooks.manage.register(function (c)
+    c.opacity = 50
     if use_titlebar then
         -- Add a titlebar
         awful.titlebar.add(c, { modkey = modkey })
@@ -356,25 +356,14 @@ end)
 -- Hook called every so often
 awful.hooks.timer.register(3, function ()
     file = io.popen("date +\"%I:%M %p on %A %B %e \"")
-    text = file:read()
-    if text == nil then
-	    text = "ERROR"
+    if file == nil then
+    else 
+        text = file:read()
+        if text == nil then
+            text = "ERROR"
+        end
+        datetextbox.text = " " .. text
+        file:close()
     end
-    datetextbox.text = " " .. text
-    file:close()
-    file = io.popen("cat /home/garoth/data/current")
-    text = file:read()
-    if text == nil then
-	    text = "ERROR"
-    end
-    running_builds.text = " <b>Running:</b> " .. text
-    file:close()
-    file = io.popen("cat /home/garoth/data/queued")
-    text = file:read()
-    if text == nil then
-	    text = "ERROR"
-    end
-    queued_builds.text = " <b>Queued:</b> " .. text
-    file:close()
 end)
 -- }}}
