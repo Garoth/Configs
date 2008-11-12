@@ -15,7 +15,8 @@ rules = [
         ["bashrc", "/home/garoth/.bashrc"],
         ["fonts", "/home/garoth/.fonts"],
         ["gvimrc", "/home/garoth/.gvimrc"],
-        ["plutocracy", "/home/garoth/.plutocracy"]
+        ["plutocracy", "/home/garoth/.plutocracy"],
+        ["muttrc", "/home/garoth/.muttrc"]
 ]
 
 for rule in rules:
