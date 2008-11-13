@@ -16,7 +16,8 @@ rules = [
         ["fonts", "/home/garoth/.fonts"],
         ["gvimrc", "/home/garoth/.gvimrc"],
         ["plutocracy", "/home/garoth/.plutocracy"],
-        ["muttrc", "/home/garoth/.muttrc"]
+        ["muttrc", "/home/garoth/.muttrc"],
+        ["forward", "/home/garoth/.forward"]
 ]
 
 for rule in rules:
