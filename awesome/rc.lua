@@ -36,6 +36,10 @@ music_player = terminal .. " -e /home/garoth/.scripts/start-cmus.sh"
 browser = "firefox"
 mail_client = browser .. " http://gmail.com"
 
+-- Naughty Config
+naughty.config.height = 32
+naughty.config.icon_size = 32
+
 -- {{{ Initialization
 beautiful.init(theme_path)
 awful.beautiful.register(beautiful)
