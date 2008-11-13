@@ -325,7 +325,7 @@ awful.hooks.manage.register(function (c)
 
     -- Honor size hints: if you want to drop the gaps between windows,
     -- set this to false.
-    c.honorsizehints = true
+    c.honorsizehints = false
     c.name = " " .. c.name;
     awful.placement.no_overlap(c)
     awful.placement.no_offscreen(c)
