@@ -1,1 +1,1 @@
-"FS=' '&&exec /usr/local/bin/procmail -f-||exit 75 #garoth"
+"FS=' '&&exec /usr/bin/procmail -f-||exit 75 #garoth"
