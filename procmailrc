@@ -4,18 +4,22 @@ PATH=$HOME/Programs/bin:/usr/local/bin:/usr/bin:$HOME/.scripts
 MAILDIR=$HOME/Mail
 
 :0
-* ^From: marcb@xandros.com
+* ^From:.*marcb@xandros.com.*
 marc
 
 :0
-* ^From: autobuilder@xandros.com
-* ^From: builds@xandros.com
-* ^From: build-reports@xandros.com
+* ^From:.*autobuilder@xandros.com.*
+* ^From:.*builds@xandros.com.*
+* ^From:.*build-reports@xandros.com.*
 build-messages
 
 :0
-* ^Subject: .*SPAM.*
-* ^Subject: Spam
+* ^From:.*MAILER-DAEMON@gargleblaster.*
+mailer
+
+:0
+* ^Subject:.*SPAM.*
+* ^Subject:.*Spam.*
 spam
 
 # Not spam, going to my inbox
@@ -23,4 +27,4 @@ spam
 backup
 
 :0c
-| ( echo 'naughty.notify({text = "New Mail", timeout = 10 })' | awesome-client )
+| ( echo 'naughty.notify({text = "NEW MAIL", timeout = 10 })' | awesome-client )
