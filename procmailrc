@@ -8,9 +8,9 @@ MAILDIR=$HOME/Mail
 marc
 
 :0
-* ^From:.*autobuilder@xandros.com.*
-* ^From:.*builds@xandros.com.*
-* ^From:.*build-reports@xandros.com.*
+* ^From:.*autobuilder.*
+* ^From:.*builds.*
+* ^From:.*build-reports.*
 build-messages
 
 :0
@@ -26,5 +26,6 @@ spam
 :0c
 backup
 
+# Notify me with an awesome notification
 :0c
-| ( echo 'naughty.notify({text = "NEW MAIL", timeout = 10 })' | awesome-client )
+| ( echo 'naughty.notify({icon = "/home/garoth/Themes/mail.png", text = "NEW MAIL", timeout = 10 })' | awesome-client )
