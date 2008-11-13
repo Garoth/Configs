@@ -18,7 +18,7 @@ rules = [
         ["plutocracy", "/home/garoth/.plutocracy"],
         ["muttrc", "/home/garoth/.muttrc"],
         ["forward", "/home/garoth/.forward"],
-        ["procmail", "/home/garoth/.procmail"]
+        ["procmailrc", "/home/garoth/.procmailrc"]
 ]
 
 for rule in rules:
