@@ -3,5 +3,23 @@ VERBOSE=no
 PATH=$HOME/Programs/bin:/usr/local/bin:/usr/bin:$HOME/.scripts
 MAILDIR=$HOME/Mail
 
+:0
+* ^From: marcb@xandros.com
+marc
+
+:0
+* ^From: autobuilder@xandros.com
+* ^From: builds@xandros.com
+build-messages
+
+:0
+* ^Subject: .*SPAM.*
+* ^Subject: Spam
+spam
+
+# Not spam, going to my inbox
 :0c
 backup
+
+:0c
+| ( echo 'naughty.notify({text = "New Mail", timeout = 3 })' | awesome-client )
