@@ -17,7 +17,8 @@ rules = [
         ["gvimrc", "/home/garoth/.gvimrc"],
         ["plutocracy", "/home/garoth/.plutocracy"],
         ["muttrc", "/home/garoth/.muttrc"],
-        ["forward", "/home/garoth/.forward"]
+        ["forward", "/home/garoth/.forward"],
+        ["procmail", "/home/garoth/.procmail"]
 ]
 
 for rule in rules:

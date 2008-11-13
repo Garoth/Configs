@@ -1,0 +1,7 @@
+LOGFILE=$HOME/.maillog
+VERBOSE=no
+PATH=$HOME/Programs/bin:/usr/local/bin:/usr/bin:$HOME/.scripts
+MAILDIR=$HOME/Mail
+
+:0c
+backup
