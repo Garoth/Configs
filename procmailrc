@@ -9,9 +9,15 @@ marc
 
 :0
 * ^From:.*autobuilder.*
+buildmessages
+
+:0
 * ^From:.*builds.*
+buildmessages
+
+:0
 * ^From:.*build-reports.*
-build-messages
+buildmessages
 
 :0
 * ^From:.*MAILER-DAEMON@gargleblaster.*
@@ -19,6 +25,9 @@ mailer
 
 :0
 * ^Subject:.*SPAM.*
+spam
+
+:0
 * ^Subject:.*Spam.*
 spam
 
@@ -27,5 +36,5 @@ spam
 backup
 
 # Notify me with an awesome notification
-:0c
-| ( echo 'naughty.notify({icon = "/home/garoth/Themes/mail.png", text = "NEW MAIL", timeout = 10 })' | awesome-client )
+:0ci
+| ( echo 'naughty.notify({icon = "/home/garoth/Themes/mail.png", text = "NEW MAIL", timeout = 10, height = 32})' | awesome-client )
