@@ -38,7 +38,6 @@ mail_client = browser .. " http://gmail.com"
 
 -- {{{ Initialization
 beautiful.init(theme_path)
-awful.beautiful.register(beautiful)
 -- }}}
 
 -- {{{ Tags
