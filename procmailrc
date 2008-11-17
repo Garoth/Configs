@@ -20,6 +20,10 @@ buildmessages
 buildmessages
 
 :0
+* ^Subject:.*MegaMonitor.*
+buildmessages
+
+:0
 * ^From:.*MAILER-DAEMON@gargleblaster.*
 mailer
 

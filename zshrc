@@ -16,7 +16,7 @@ bindkey -v # Vim mode
 # End of lines configured by zsh-newuser-install
 
 #Startup Commands & Aliases
-export PATH=/home/garoth/Programs/bin:$PATH:/home/garoth/.scripts
+export PATH=/usr/local/bin:/home/garoth/Programs/bin:$PATH:/home/garoth/.scripts
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 if [ "$TERM" != "dumb" ]; then
 	eval "`dircolors -b`"
