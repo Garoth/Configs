@@ -7,7 +7,7 @@ require("invaders")
 require("naughty")
 
 -- Settings
-theme_path = "/usr/local/share/awesome/themes/sky/theme"
+theme_path = "/home/.config/awesome/default.theme"
 modkey = "Mod4"
 use_titlebar = false
 layouts = {
