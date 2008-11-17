@@ -42,7 +42,6 @@ naughty.config.icon_size = 32
 
 -- {{{ Initialization
 beautiful.init(theme_path)
-awful.beautiful.register(beautiful)
 -- }}}
 
 -- {{{ Tags

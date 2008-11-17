@@ -13,7 +13,7 @@ set clipboard=unnamed
 :nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 " Highlight characters that go over 80 columns
 :highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
-:match OverLength '\%82v.*'
+" :match OverLength '\%82v.*'
 
 "                            Transpose Word
 "                            --------------
