@@ -5,9 +5,10 @@ require("awful")
 require("beautiful")
 require("invaders")
 require("naughty")
+require("shifty")
 
 -- Settings
-theme_path = "/home/.config/awesome/default.theme"
+theme_path = "/usr/local/share/awesome/themes/default/theme"
 modkey = "Mod4"
 use_titlebar = false
 layouts = {
@@ -60,6 +61,27 @@ for s = 1, screen.count() do
     tags[s][5].screen = s
     tags[s][1].selected = true
 end
+config = {}
+
+config.tags = {
+        { name = "Terms",         layout = "fairv", init = true, position = 1, },
+        { name = "Browse",         layout = "fairv", },
+        { name = "Mail",        layout = "fairv", persist = true, position = 2, },
+        { name = "Chat",         layout = "floating", },
+        { name = "Spare",          layout = "fairv", },
+--        { name = "ardour",      layout = "max", },
+--        { name = "live",        layout = "max", },
+--        { name = "p2p",         layout = "max", icon = "/usr/share/pixmaps/p2p.png", notext = true, },
+--        { name = "gimp",        layout = "floating", icon="/usr/share/gimp/2.0/images/wilber.png", },
+--        { name = "gqview",      layout = "max"},
+}
+
+config.apps = {
+        { tag = "Browse",          match = {"Iceweasel.*", "Firefox.*"       },                 },
+}
+
+shifty.init()
+
 -- }}}
 
 -- {{{ Statusbars
@@ -117,7 +139,8 @@ for s = 1, screen.count() do
                              button({ }, 4, function () awful.layout.inc(layouts, 1) end),
                              button({ }, 5, function () awful.layout.inc(layouts, -1) end) })
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist.new(s, awful.widget.taglist.label.all, mytaglist.buttons)
+    mytaglist[s] = shifty.taglist_new(s, shifty.taglist_label, mytaglist.buttons)
+    shifty.taglist = mytaglist
 
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist.new(function(c)
@@ -190,8 +213,6 @@ keybinding({ modkey, "Control" }, "r", awesome.restart):add()
 keybinding({ modkey, "Control", "Shift" }, "q", awesome.quit):add()
 keybinding({ modkey }, "i", function () invaders.run() end):add()
 keybinding({ modkey }, "s", function () client.focus.sticky = true end):add()
-keybinding({ modkey }, "Left", awful.tag.viewprev):add()
-keybinding({ modkey }, "Right", awful.tag.viewnext):add()
 
 -- Media Keys
 keybinding({ }, "#129", function () awful.util.spawn(music_player) end):add()
@@ -203,6 +224,21 @@ keybinding({ }, "#162", function () naughty.notify({text = "pause/play", timeout
 keybinding({ }, "#174", function () naughty.notify({text = "volume down", timeout = 7}) end):add()
 keybinding({ }, "#176", function () naughty.notify({text = "volume up", timeout = 7}) end):add()
 keybinding({ }, "#160", function () naughty.notify({text = "mute volume", timeout = 7}) end):add()
+
+-- Tag Manipulation
+keybinding({ modkey }, "Left", shifty.prev):add()
+keybinding({ modkey }, "Right", shifty.next):add()
+--keybinding({ modkey }, "Right", shifty.move_next):add()
+--keybinding({ modkey }, "Left", shifty.move_prev):add()
+--keybinding({ modkey, "Shift" }, "Left", shifty.send_prev):add()
+--keybinding({ modkey, "Shift" }, "Right", shifty.send_next):add()
+keybinding({ modkey }, "r", shifty.rename):add()
+keybinding({ modkey }, "t", shifty.new):add()
+keybinding({ modkey }, "w", shifty.del):add()
+
+for i=1, 9 do
+  keybinding({ modkey }, i, function () shifty.viewpos(i) end):add()
+end
 
 -- Client manipulation
 keybinding({ modkey, "Control" }, "space", awful.client.togglefloating):add()
