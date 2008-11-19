@@ -5,7 +5,7 @@ my_hdr From: Andrei Thorp <andrei.thorp@xandros.com>
 
 fcc-save-hook '.*' '~/Mail/sent'
 
-set signature=makesig.sh
+set signature=makesig.sh|
 
 # ALIASES #
 alias tim Timothy <timothyk@xandros.com>
