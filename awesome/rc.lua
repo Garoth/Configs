@@ -8,7 +8,7 @@ require("naughty")
 require("shifty")
 
 -- Settings
-theme_path = "/usr/local/share/awesome/themes/default/theme"
+theme_path = "/home/garoth/.config/awesome/dark.theme"
 modkey = "Mod4"
 use_titlebar = false
 layouts = {

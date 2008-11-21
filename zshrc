@@ -17,6 +17,7 @@ bindkey -v # Vim mode
 
 #Startup Commands & Aliases
 export PATH=/usr/local/bin:/home/garoth/Programs/bin:$PATH:/home/garoth/.scripts
+export EDITOR=/usr/bin/vim
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 if [ "$TERM" != "dumb" ]; then
 	eval "`dircolors -b`"
