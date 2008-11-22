@@ -127,7 +127,7 @@ for s = 1, screen.count() do
     -- Create the wibox
     statusbartop[s] = wibox({ position = "left", name = "statusbartop" .. s,
                              fg = beautiful.fg_normal, bg = beautiful.bg_normal,
-                             width=22, border_color = beautiful.bg_focus})
+                             width=22, border_width = 1, border_color = beautiful.bg_focus})
     -- Add widgets to the wibox - order matters
     statusbartop[s].widgets = { mytaglist[s],
                            padding_left,
@@ -210,7 +210,7 @@ keybinding({ modkey }, "Right", shifty.next):add()
 --keybinding({ modkey, "Shift" }, "Left", shifty.send_prev):add()
 --keybinding({ modkey, "Shift" }, "Right", shifty.send_next):add()
 keybinding({ modkey }, "r", shifty.rename):add()
-keybinding({ modkey }, "t", shifty.new):add()
+--keybinding({ modkey }, "t", shifty.new):add()
 keybinding({ modkey }, "w", shifty.del):add()
 
 for i=1, 9 do
