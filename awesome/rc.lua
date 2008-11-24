@@ -24,7 +24,9 @@ floatapps = {
     ["pinentry"] = true,
     ["gimp"] = true,
     ["pidgin"] = true,
-    ["epiphany"] = true
+    ["epiphany"] = true,
+    ["Skype"] = true,
+    ["empathy"] = true
 }
 apptags = {
     ["Firefox"] = { screen = 1, tag = 2 },
