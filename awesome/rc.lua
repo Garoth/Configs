@@ -225,7 +225,7 @@ keybinding({ modkey }, "m", awful.client.maximize):add()
 keybinding({ modkey, "Shift" }, "m", function () client.focus.minimize=true end):add()
 keybinding({ modkey }, "c", function () client.focus:kill() end):add()
 
----- Focus by direction (vi keys)
+-- Focus by direction (vi keys)
 keybinding({ modkey }, "j", function () awful.client.focus.bydirection("down");
                                         client.focus:raise() end):add()
 keybinding({ modkey }, "k", function () awful.client.focus.bydirection("up");
@@ -234,7 +234,7 @@ keybinding({ modkey }, "l", function () awful.client.focus.bydirection("right");
                                         client.focus:raise() end):add()
 keybinding({ modkey }, "h", function () awful.client.focus.bydirection("left");
                                         client.focus:raise() end):add()
----- Swap by direction (vi keys)
+-- Swap by direction (vi keys)
 keybinding({ modkey, "Shift" }, "j", function ()
                                 awful.client.swap.bydirection("down") end):add()
 keybinding({ modkey, "Shift" }, "k", function ()
@@ -243,6 +243,11 @@ keybinding({ modkey, "Shift" }, "l", function ()
                                 awful.client.swap.bydirection("right") end):add()
 keybinding({ modkey, "Shift" }, "h", function ()
                                 awful.client.swap.bydirection("left") end):add()
+
+-- Multiscreen Keybindings
+keybinding({ modkey, "Control" }, "l", function () awful.screen.focus(1) end):add()
+keybinding({ modkey, "Control" }, "h", function () awful.screen.focus(-1) end):add()
+keybinding({ modkey }, "o", awful.client.movetoscreen):add()
 
 -- Change Layouts
 keybinding({ modkey }, "space", function ()
