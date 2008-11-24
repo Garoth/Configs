@@ -39,24 +39,47 @@ music_player = terminal .. " -e /home/garoth/.scripts/start-cmus.sh"
 browser = "firefox"
 mail_client = browser .. " http://gmail.com"
 
-beautiful.init(theme_path)
-
 -- Naughty Config
 naughty.config.height = 32
 naughty.config.icon_size = 32
 
--- {{{ Tags
-shifty.config.tags = {
-        { name = "Terms", layout = "fairv", init = true, position = 1 },
-        { name = "Browse", layout = "fairv", init = true, position = 2 },
-        { name = "Mail", layout = "fairv", init = true, position = 3 },
-        { name = "Chat", layout = "floating", init = true, position = 4},
-        { name = "Spare", layout = "fairv", init = true, position = 5}
-}
---        { name = "p2p",         layout = "max", icon = "/usr/share/pixmaps/p2p.png", notext = true, },
+-- {{{ Initialization
+beautiful.init(theme_path)
+-- }}}
 
-shifty.config.apps = {
-        { tag = "Browse", match = {"Vimperator.*" }, }
+-- {{{ Tags
+tags = {}
+for s = 1, screen.count() do
+    tags[s] = {}
+    tags[s][1] = tag({ name = " Terms", layout = "fairv" })
+    tags[s][1].screen = s
+    tags[s][2] = tag({ name = " Browse", layout = "fairv" })
+    tags[s][2].screen = s
+    tags[s][3] = tag({ name = " Mail", layout = "fairv" })
+    tags[s][3].screen = s
+    tags[s][4] = tag({ name = " Chat", layout = layouts[6] })
+    tags[s][4].screen = s
+    tags[s][5] = tag({ name = " Spare", layout = "fairv" })
+    tags[s][5].screen = s
+    tags[s][1].selected = true
+end
+config = {}
+
+config.tags = {
+        { name = "Terms",         layout = "fairv", init = true, position = 1, },
+        { name = "Browse",         layout = "fairv", },
+        { name = "Mail",        layout = "fairv", persist = true, position = 2, },
+        { name = "Chat",         layout = "floating", },
+        { name = "Spare",          layout = "fairv", },
+--        { name = "ardour",      layout = "max", },
+--        { name = "live",        layout = "max", },
+--        { name = "p2p",         layout = "max", icon = "/usr/share/pixmaps/p2p.png", notext = true, },
+--        { name = "gimp",        layout = "floating", icon="/usr/share/gimp/2.0/images/wilber.png", },
+--        { name = "gqview",      layout = "max"},
+}
+
+config.apps = {
+        { tag = "Browse",          match = {"Iceweasel.*", "Firefox.*"       },                 },
 }
 
 shifty.init()
@@ -147,40 +170,40 @@ end
 -- {{{ Key bindings
 keynumber = 0
 for s = 1, screen.count() do
-   keynumber = math.min(9, math.max(#shifty.tags[s], keynumber));
+   keynumber = math.min(9, math.max(#tags[s], keynumber));
 end
 
 for i = 1, keynumber do
     keybinding({ modkey }, i,
                    function ()
                        local screen = mouse.screen
-                       if shifty.tags[screen][i] then
-                           awful.tag.viewonly(shifty.tags[screen][i])
+                       if tags[screen][i] then
+                           awful.tag.viewonly(tags[screen][i])
                        end
                    end):add()
     keybinding({ modkey, "Shift" }, i,
                    function ()
                        local screen = mouse.screen
-                       if shifty.tags[screen][i] then
-                           shifty.tags[screen][i].selected = 
-                                                    not shifty.tags[screen][i].selected
+                       if tags[screen][i] then
+                           tags[screen][i].selected = 
+                                                    not tags[screen][i].selected
                        end
                    end):add()
     keybinding({ modkey, "Control" }, i,
                    function ()
                        if client.focus then
-                           if shifty.tags[client.focus.screen][i] then
+                           if tags[client.focus.screen][i] then
                                awful.client.movetotag(
-                                                  shifty.tags[client.focus.screen][i])
+                                                  tags[client.focus.screen][i])
                            end
                        end
                    end):add()
     keybinding({ modkey, "Control", "Shift" }, i,
                    function ()
                        if client.focus then
-                           if shifty.tags[client.focus.screen][i] then
+                           if tags[client.focus.screen][i] then
                                awful.client.toggletag(
-                                                  shifty.tags[client.focus.screen][i])
+                                                  tags[client.focus.screen][i])
                            end
                        end
                    end):add()
@@ -339,7 +362,7 @@ awful.hooks.manage.register(function (c)
     end
     if target then
         c.screen = target.screen
-        awful.client.movetotag(shifty.tags[target.screen][target.tag], c)
+        awful.client.movetotag(tags[target.screen][target.tag], c)
     end
 
     -- Set the windows at the slave,
