@@ -35,7 +35,7 @@ alias crawl='crawl -dir "/home/garoth/.crawl"'
 alias cdplu='cd /home/garoth/Coding/C/plutocracy'
 alias :q='exit'
 alias :q!='echo "Ok, ok!" && sleep 0.3 && exit'
-alias pacman="pacman-color"
+alias pacman="sudo pacman-color"
 alias gftp="gftp-text"
 
 # Colouring & Prompt
