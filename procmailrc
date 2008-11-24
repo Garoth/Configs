@@ -25,6 +25,11 @@ buildmessages
 
 :0
 * ^Subject:.*Test Report.*
+buildmessages
+
+:0
+* ^From:.*root.*
+mailer
 
 :0
 * ^From:.*MAILER-DAEMON@gargleblaster.*
