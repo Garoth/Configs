@@ -4,19 +4,13 @@
 
 first=$1
 second=$2
-foundfile="/tmp/subtract-foundfile"
+workfile="/tmp/subtract-modfile"
 
-cat $first | while linefirst=$(line); do
-        echo "0" > $foundfile
-        cat $second | while linesecond=$(line); do 
-                if [ "$linefirst" = "$linesecond" ]; then
-                        echo "1" > $foundfile
-                fi
-        done
+cp $first $workfile
 
-        if [ $(cat $foundfile) = "0" ]; then
-                echo $linefirst
-        fi
+cat $second | while myline=$(line); do
+        sed -i "/$myline/d" $workfile
 done
 
-rm $foundfile
+cat $workfile
+rm $workfile
