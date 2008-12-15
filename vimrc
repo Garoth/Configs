@@ -8,6 +8,7 @@ set expandtab
 set tabstop=8
 set shiftwidth=8
 set scrolloff=8
+set nohlsearch
 " Next two commands make vim use X11 clipboard
 set clipboard=unnamed
 :nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
