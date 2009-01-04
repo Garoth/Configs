@@ -33,10 +33,12 @@ alias uwlinuxsftp='sftp aapachin@mef-fe10.student.cs.uwaterloo.ca'
 alias definenote='cp ~garoth/Studies/UsefulBits/underline.png ./ && echo Done'
 alias crawl='crawl -dir "/home/garoth/.crawl"'
 alias cdplu='cd /home/garoth/Coding/C/plutocracy'
+alias cddra='cd /home/garoth/Coding/C/dragoon'
 alias :q='exit'
 alias :q!='echo "Ok, ok!" && sleep 0.3 && exit'
 alias pacman="sudo pacman-color"
 alias gftp="gftp-text"
+alias scons="/usr/bin/python /usr/bin/scons"
 
 # Colouring & Prompt
 autoload colors zsh/terminfo
