@@ -19,7 +19,8 @@ rules = [
         ["muttrc", "/home/garoth/.muttrc"],
         ["forward", "/home/garoth/.forward"],
         ["procmailrc", "/home/garoth/.procmailrc"],
-        ["signature-default", "/home/garoth/.signature-default"]
+        ["signature-default", "/home/garoth/.signature-default"],
+        ["xinitrc", "/home/garoth/.xinitrc"]
 ]
 
 for rule in rules:
