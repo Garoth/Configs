@@ -2,6 +2,16 @@
 
 export SPACE_EVERY=2 # put a space every this number of lines
 
+if [ $(whoami) != "root" ]; then
+        echo "Must be root to run this script."
+        exit 1
+fi
+
+if [ $(ifconfig | grep -c "wlan0") -eq 0 ]; then
+        echo "wlan0 interface must be up. Try \"ifconfig wlan0 up\""
+        exit 1
+fi
+
 iwlist wlan0 scan | egrep "Encrypt|ESSID" | sed "s/^ *//" > /tmp/outp
 
 echo "Available Networks"
