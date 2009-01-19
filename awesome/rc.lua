@@ -104,6 +104,10 @@ padding_left.text = " "
 padding_right = widget({ type = "textbox", name = "right-padding",
                         align = "right" })
 padding_right.text = " "
+-- Random Text Area
+random_text = widget({ type = "textbox", name = "left-padding",
+                        align = "left" })
+random_text.text = ""
 -- }}
 
 statusbartop = {}
@@ -133,6 +137,7 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     statusbartop[s].widgets = { mytaglist[s],
                            padding_left,
+                           random_text,
                            mypromptbox[s],
                            mytasklist[s],
                            padding_right,

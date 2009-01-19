@@ -23,7 +23,7 @@ else
 fi
 
 cd $1
-FOLDERNAME=$(python -c "print '$1'.split('/')[-1]")
+FOLDERNAME=$(python -c "print '$1'.split('/')[-1].upper()")
 
 git fetch &> /dev/null
 LOCALCOUNT=$(git log --pretty=oneline master | grep -c "")
@@ -32,9 +32,12 @@ REMOTECOUNT=$(git log --pretty=oneline origin/master | grep -c "")
 if [ $LOCALCOUNT -lt $REMOTECOUNT ]; then
         COUNTDIFF=$(python -c "print $REMOTECOUNT - $LOCALCOUNT")
         if [ "$COUNTDIFF" == "1" ]; then
-                OUTPUTSTRING="1 Update Available in $FOLDERNAME"
+                OUTPUTSTRING="$FOLDERNAME: 1 UPDATE "
         else
-                OUTPUTSTRING="$COUNTDIFF Updates Available in $FOLDERNAME"
+                OUTPUTSTRING="$FOLDERNAME: $COUNTDIFF UPDATES "
         fi
-        eval $COMMAND
+        export OUTPUTSTRING
+else
+        export OUTPUTSTRING=""
 fi
+eval $COMMAND

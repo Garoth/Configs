@@ -5,7 +5,7 @@
 #                              ~--------------~
 #
 # Original Author: Andrei "Garoth" Thorp <garoth@gmail.com>
-# License: GPL 2 or higher
+# License: GPL 2
 #------------------------------------------------------------------------------
 import dbus
 import sys
