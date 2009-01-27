@@ -3,7 +3,7 @@ setxkbmap us dvorak &
 xmodmap -e 'remove Lock = Caps_Lock' &
 xmodmap -e 'keysym Caps_Lock = Escape' &
 
-/home/garoth/.scripts/wl-connect-home &
+sudo /home/garoth/.scripts/wl-connect-home &
 /home/garoth/.scripts/check-dragoon-loop.sh &
 
 gnome-settings-daemon &
