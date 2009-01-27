@@ -16,7 +16,7 @@ bindkey -v # Vim mode
 # End of lines configured by zsh-newuser-install
 
 #Startup Commands & Aliases
-export PATH=/usr/local/bin:/home/garoth/Programs/bin:$PATH:/home/garoth/.scripts
+export PATH=/usr/local/bin:/home/garoth/Programs/bin:$PATH:/opt/kde/bin:/home/garoth/.scripts
 export EDITOR=/usr/bin/vim
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 if [ "$TERM" != "dumb" ]; then
@@ -39,6 +39,7 @@ alias :q!='echo "Ok, ok!" && sleep 0.3 && exit'
 alias pacman="sudo pacman-color"
 alias gftp="gftp-text"
 alias scons="/usr/bin/python /usr/bin/scons"
+alias tram="transmission-remote"
 
 # Colouring & Prompt
 autoload colors zsh/terminfo

@@ -1,7 +1,11 @@
 #!/bin/bash
-nm-applet &
-/home/garoth/.scripts/startup.sh &
+setxkbmap us dvorak &
+xmodmap -e 'remove Lock = Caps_Lock' &
+xmodmap -e 'keysym Caps_Lock = Escape' &
+
+/home/garoth/.scripts/wl-connect-home &
 /home/garoth/.scripts/check-dragoon-loop.sh &
+
 gnome-settings-daemon &
 pidgin &
 /usr/local/bin/awesome

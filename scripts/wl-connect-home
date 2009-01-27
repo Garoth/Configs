@@ -1,0 +1,14 @@
+#!/bin/bash
+# Connects to the home wireless network
+# Usage: wl-connect-home
+
+check-root.sh
+if [ $? -eq 1 ]; then
+        echo "Must be root to run this script."
+        exit 1
+fi
+
+ifconfig wlan0 up
+iwconfig wlan0 key aabbccddee
+iwconfig wlan0 essid "BELL281"
+dhcpcd wlan0

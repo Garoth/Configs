@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# NOTE: this fails due to lack of period at 100%
 PERCENT_DONE=$(transmission-remote -t1 -i | grep "Percent Done" | sed "s/^.* //" | sed "s/\..*//")
 
 if [ $PERCENT_DONE -ge 100 ]; then
