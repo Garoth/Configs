@@ -4,7 +4,7 @@
 
 font          = sans 8
 
-bg_normal     = #22222255
+bg_normal     = #00000099
 bg_focus      = #535d6c
 bg_urgent     = #ff0000
 

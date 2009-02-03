@@ -14,14 +14,8 @@ use_titlebar = false
 layouts =
 {
     awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
     awful.layout.suit.floating
 }
 
@@ -63,19 +57,19 @@ for s = 1, screen.count() do
     tags[s] = {}
     tags[s][1] = tag(" Terms")
     tags[s][1].screen = s
-    awful.layout.set(layouts[1], tags[s][1])
+    awful.layout.set(layouts[2], tags[s][1])
     tags[s][2] = tag(" Browse")
     tags[s][2].screen = s
-    awful.layout.set(layouts[1], tags[s][2])
+    awful.layout.set(layouts[2], tags[s][2])
     tags[s][3] = tag(" Mail")
     tags[s][3].screen = s
-    awful.layout.set(layouts[1], tags[s][3])
+    awful.layout.set(layouts[2], tags[s][3])
     tags[s][4] = tag(" Chat")
     tags[s][4].screen = s
-    awful.layout.set(layouts[1], tags[s][4])
+    awful.layout.set(layouts[4], tags[s][4])
     tags[s][5] = tag(" Spare")
     tags[s][5].screen = s
-    awful.layout.set(layouts[1], tags[s][5])
+    awful.layout.set(layouts[2], tags[s][5])
 
     tags[s][1].selected = true
 end
@@ -150,7 +144,7 @@ for s = 1, screen.count() do
     -- Create the wibox
     statusbartop[s] = wibox({ position = "left", name = "statusbartop" .. s,
                              fg = beautiful.fg_normal, bg = beautiful.bg_normal,
-                             width=22, border_width = 1, border_color = beautiful.bg_focus})
+                             width=22, border_width = 0, border_color = beautiful.bg_focus})
     -- Add widgets to the wibox - order matters
     statusbartop[s].widgets = { mytaglist[s],
                            padding_left,
