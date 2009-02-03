@@ -12,6 +12,7 @@ rules = [
         ["screenrc", "/home/garoth/.screenrc"],
         ["scripts", "/home/garoth/.scripts"],
         ["zshrc", "/home/garoth/.zshrc"],
+        ["zprofile", "/home/garoth/.zprofile"],
         ["bashrc", "/home/garoth/.bashrc"],
         ["fonts", "/home/garoth/.fonts"],
         ["gvimrc", "/home/garoth/.gvimrc"],
