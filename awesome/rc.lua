@@ -10,14 +10,21 @@ require("naughty")
 theme_path = "/home/garoth/.config/awesome/dark.theme"
 modkey = "Mod4"
 use_titlebar = false
-layouts = {
-    "tile",
-    "fairv",
-    "fairh",
-    "max",
-    "dwindle",
-    "floating"
+
+layouts =
+{
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.floating
 }
+
 floatapps = {
     ["MPlayer"] = true,
     ["pinentry"] = true,
@@ -27,10 +34,14 @@ floatapps = {
     ["Skype"] = true,
     ["empathy"] = true
 }
+
 apptags = {
     ["Firefox"] = { screen = 1, tag = 2 },
     ["pidgin"] = { screen = 1, tag = 4 }
 }
+
+globalkeys = {}
+clientkeys = {}
 
 -- Program Variables
 terminal = "sakura"
@@ -50,16 +61,22 @@ beautiful.init(theme_path)
 tags = {}
 for s = 1, screen.count() do
     tags[s] = {}
-    tags[s][1] = tag({ name = " Terms", layout = "fairv" })
+    tags[s][1] = tag(" Terms")
     tags[s][1].screen = s
-    tags[s][2] = tag({ name = " Browse", layout = "fairv" })
+    awful.layout.set(layouts[1], tags[s][1])
+    tags[s][2] = tag(" Browse")
     tags[s][2].screen = s
-    tags[s][3] = tag({ name = " Mail", layout = "fairv" })
+    awful.layout.set(layouts[1], tags[s][2])
+    tags[s][3] = tag(" Mail")
     tags[s][3].screen = s
-    tags[s][4] = tag({ name = " Chat", layout = layouts[6] })
+    awful.layout.set(layouts[1], tags[s][3])
+    tags[s][4] = tag(" Chat")
     tags[s][4].screen = s
-    tags[s][5] = tag({ name = " Spare", layout = "fairv" })
+    awful.layout.set(layouts[1], tags[s][4])
+    tags[s][5] = tag(" Spare")
     tags[s][5].screen = s
+    awful.layout.set(layouts[1], tags[s][5])
+
     tags[s][1].selected = true
 end
 -- }}}
@@ -150,28 +167,40 @@ end
 -- }}}
 
 -- {{{ Key bindings
+-- Root Keybinding convenience function
+function bind(tab, str, fnc)
+        mykey = key(tab, str, fnc)
+        table.insert(globalkeys, mykey)
+end
+
+-- Client Keybinding convenience function
+function bindclient(tab, str, fnc)
+        mykey = key(tab, str, fnc)
+        table.insert(clientkeys, mykey)
+end
+
 keynumber = 0
 for s = 1, screen.count() do
    keynumber = math.min(9, math.max(#tags[s], keynumber));
 end
 
 for i = 1, keynumber do
-    keybinding({ modkey }, i,
+    bind({ modkey }, i,
                    function ()
                        local screen = mouse.screen
                        if tags[screen][i] then
                            awful.tag.viewonly(tags[screen][i])
                        end
-                   end):add()
-    keybinding({ modkey, "Shift" }, i,
+                   end)
+    bind({ modkey, "Shift" }, i,
                    function ()
                        local screen = mouse.screen
                        if tags[screen][i] then
                            tags[screen][i].selected = 
                                                     not tags[screen][i].selected
                        end
-                   end):add()
-    keybinding({ modkey, "Control" }, i,
+                   end)
+    bind({ modkey, "Control" }, i,
                    function ()
                        if client.focus then
                            if tags[client.focus.screen][i] then
@@ -179,8 +208,8 @@ for i = 1, keynumber do
                                                   tags[client.focus.screen][i])
                            end
                        end
-                   end):add()
-    keybinding({ modkey, "Control", "Shift" }, i,
+                   end)
+    bind({ modkey, "Control", "Shift" }, i,
                    function ()
                        if client.focus then
                            if tags[client.focus.screen][i] then
@@ -188,94 +217,68 @@ for i = 1, keynumber do
                                                   tags[client.focus.screen][i])
                            end
                        end
-                   end):add()
+                   end)
 end
 
 -- Standard program
-keybinding({ modkey }, "Return", function () awful.util.spawn(terminal) end):add()
-keybinding({ modkey, "Control" }, "r", awesome.restart):add()
-keybinding({ modkey, "Control", "Shift" }, "q", awesome.quit):add()
-keybinding({ modkey }, "i", function () invaders.run() end):add()
-keybinding({ modkey }, "s", function () client.focus.sticky = true end):add()
-keybinding({ modkey }, "Left", awful.tag.viewprev):add()
-keybinding({ modkey }, "Right", awful.tag.viewnext):add()
+bind({ modkey }, "Return", function () awful.util.spawn(terminal) end)
+bind({ modkey, "Control" }, "r", awesome.restart)
+bind({ modkey, "Control", "Shift" }, "q", awesome.quit)
+bind({ modkey }, "i", function () invaders.run() end)
+bind({ modkey }, "s", function () client.focus.sticky = true end)
+bind({ modkey }, "Left", awful.tag.viewprev)
+bind({ modkey }, "Right", awful.tag.viewnext)
 
 -- Media Keys
-keybinding({ }, "#129", function () awful.util.spawn(music_player) end):add()
-keybinding({ }, "#236", function () awful.util.spawn(mail_client) end):add()
-keybinding({ }, "#178", function () awful.util.spawn(browser) end):add()
-keybinding({ }, "#161", function () naughty.notify({text = "calculator", timeout = 7}) end):add()
+bind({ }, "#129", function () awful.util.spawn(music_player) end)
+bind({ }, "#236", function () awful.util.spawn(mail_client) end)
+bind({ }, "#178", function () awful.util.spawn(browser) end)
+bind({ }, "#161", function () naughty.notify({text = "calculator", timeout = 7}) end)
 
-keybinding({ }, "#162", function () naughty.notify({text = "pause/play", timeout = 7}) end):add()
-keybinding({ }, "#174", function () naughty.notify({text = "volume down", timeout = 7}) end):add()
-keybinding({ }, "#176", function () naughty.notify({text = "volume up", timeout = 7}) end):add()
-keybinding({ }, "#160", function () naughty.notify({text = "mute volume", timeout = 7}) end):add()
+bind({ }, "#162", function () naughty.notify({text = "pause/play", timeout = 7}) end)
+bind({ }, "#174", function () naughty.notify({text = "volume down", timeout = 7}) end)
+bind({ }, "#176", function () naughty.notify({text = "volume up", timeout = 7}) end)
+bind({ }, "#160", function () naughty.notify({text = "mute volume", timeout = 7}) end)
 
 -- Client manipulation
-keybinding({ modkey, "Control" }, "space", awful.client.togglefloating):add()
-keybinding({ modkey }, "m", awful.client.maximize):add()
-keybinding({ modkey, "Shift" }, "m", function () client.focus.minimize=true end):add()
-keybinding({ modkey }, "c", function () client.focus:kill() end):add()
+bindclient({ modkey, "Control" }, "space", awful.client.floating.toggle)
+bindclient({ modkey }, "m", function (c) c.maximized_horizontal = not c.maximized_horizontal
+                                         c.maximized_vertical = not c.maximized_vertical end)
+bindclient({ modkey }, "f", function (c) c.fullscreen = not c.fullscreen end)
+bindclient({ modkey, "Shift" }, "m", function () client.focus.minimize=true end)
+bindclient({ modkey }, "c", function () client.focus:kill() end)
 
 -- Focus by direction (vi keys)
-keybinding({ modkey }, "j", function () awful.client.focus.bydirection("down");
-                                        client.focus:raise() end):add()
-keybinding({ modkey }, "k", function () awful.client.focus.bydirection("up");
-                                        client.focus:raise() end):add()
-keybinding({ modkey }, "l", function () awful.client.focus.bydirection("right");
-                                        client.focus:raise() end):add()
-keybinding({ modkey }, "h", function () awful.client.focus.bydirection("left");
-                                        client.focus:raise() end):add()
+bind({ modkey }, "j", function () awful.client.focus.bydirection("down");
+                                        client.focus:raise() end)
+bind({ modkey }, "k", function () awful.client.focus.bydirection("up");
+                                        client.focus:raise() end)
+bind({ modkey }, "l", function () awful.client.focus.bydirection("right");
+                                        client.focus:raise() end)
+bind({ modkey }, "h", function () awful.client.focus.bydirection("left");
+                                        client.focus:raise() end)
 -- Swap by direction (vi keys)
-keybinding({ modkey, "Shift" }, "j", function ()
-                                awful.client.swap.bydirection("down") end):add()
-keybinding({ modkey, "Shift" }, "k", function ()
-                                awful.client.swap.bydirection("up") end):add()
-keybinding({ modkey, "Shift" }, "l", function ()
-                                awful.client.swap.bydirection("right") end):add()
-keybinding({ modkey, "Shift" }, "h", function ()
-                                awful.client.swap.bydirection("left") end):add()
+bind({ modkey, "Shift" }, "j", function () awful.client.swap.bydirection("down") end)
+bind({ modkey, "Shift" }, "k", function () awful.client.swap.bydirection("up") end)
+bind({ modkey, "Shift" }, "l", function () awful.client.swap.bydirection("right") end)
+bind({ modkey, "Shift" }, "h", function () awful.client.swap.bydirection("left") end)
 
 -- Multiscreen Keybindings
-keybinding({ modkey, "Control" }, "l", function () awful.screen.focus(1) end):add()
-keybinding({ modkey, "Control" }, "h", function () awful.screen.focus(-1) end):add()
-keybinding({ modkey }, "o", awful.client.movetoscreen):add()
+bind({ modkey, "Control" }, "l", function () awful.screen.focus(1) end)
+bind({ modkey, "Control" }, "h", function () awful.screen.focus(-1) end)
+bind({ modkey }, "o", awful.client.movetoscreen)
 
 -- Change Layouts
-keybinding({ modkey }, "space", function ()
-                                        awful.layout.inc(layouts, 1) end):add()
-keybinding({ modkey, "Shift" }, "space", function ()
-                                       awful.layout.inc(layouts, -1) end):add()
+bind({ modkey }, "space", function () awful.layout.inc(layouts, 1) end)
+bind({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end)
 
 -- Run Prompt
-keybinding({ modkey }, "F1", function ()
-             awful.prompt.run({ prompt = "Run: " }, mypromptbox[mouse.screen],
-             awful.util.spawn, awful.completion.bash,
-             os.getenv("HOME") .. "/.cache/awesome/history")
-         end):add()
-
--- Show client information
-keybinding({ modkey, "Ctrl" }, "i", function ()
-    if mypromptbox.text then
-        mypromptbox.text = nil
-    else
-        mypromptbox.text = nil
-        if client.focus.class then
-            mypromptbox.text = "Class: " .. client.focus.class .. " "
-        end
-        if client.focus.instance then
-            mypromptbox.text = mypromptbox.text .. "Instance: "..
-                               client.focus.instance .. " "
-        end
-    end
-end):add()
--- }}}
-
--- {{{ General Functions
-function replace (str)
-    if str then
-    end
-end
+bind({ modkey }, "F1", function ()
+                            awful.prompt.run({ prompt = "Run: " },
+                            mypromptbox[mouse.screen],
+                            awful.util.spawn, awful.completion.bash,
+                            awful.util.getdir("cache") .. "/history")
+                       end)
 -- }}}
 
 -- {{{ Hooks
@@ -293,9 +296,34 @@ awful.hooks.unfocus.register(function (c)
     end
 end)
 
+-- Hook function to execute when marking a client
+awful.hooks.marked.register(function (c)
+    c.border_color = beautiful.border_marked
+end)
+
+-- Hook function to execute when unmarking a client.
+awful.hooks.unmarked.register(function (c)
+    c.border_color = beautiful.border_focus
+end)
+
+-- Hook function to execute when the mouse enters a client.
+awful.hooks.mouse_enter.register(function (c)
+    -- Sloppy focus, but disabled for magnifier layout
+    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+        and awful.client.focus.filter(c) then
+        client.focus = c
+    end
+end)
+
 -- Hook function to execute when a new client appears.
-awful.hooks.manage.register(function (c)
-    c.opacity = 50
+awful.hooks.manage.register(function (c, startup)
+    -- If we are not managing this application at startup,
+    -- move it to the screen where the mouse is.
+    -- We only do it for filtered windows (i.e. no dock, etc).
+    if not startup and awful.client.focus.filter(c) then
+        c.screen = mouse.screen
+    end
+
     if use_titlebar then
         -- Add a titlebar
         awful.titlebar.add(c, { modkey = modkey })
@@ -303,23 +331,21 @@ awful.hooks.manage.register(function (c)
     -- Add mouse bindings
     c:buttons({
         button({ }, 1, function (c) client.focus = c; c:raise() end),
-        button({ modkey, "Shift" }, 1, function(c) c.minimize=true end),
-        button({ modkey }, 1, function (c) c:mouse_move() end),
-        button({ modkey }, 3, function (c) c:mouse_resize() end)
+        button({ modkey }, 1, awful.mouse.client.move),
+        button({ modkey }, 3, awful.mouse.client.resize)
     })
     -- New client may not receive focus
     -- if they're not focusable, so set border anyway.
     c.border_width = beautiful.border_width
     c.border_color = beautiful.border_normal
-    client.focus = c
 
     -- Check if the application should be floating.
     local cls = c.class
     local inst = c.instance
     if floatapps[cls] then
-        c.floating = floatapps[cls]
+        awful.client.floating.set(c, floatapps[cls])
     elseif floatapps[inst] then
-        c.floating = floatapps[inst]
+        awful.client.floating.set(c, floatapps[inst])
     end
 
     -- Check application->screen/tag mappings.
@@ -334,23 +360,24 @@ awful.hooks.manage.register(function (c)
         awful.client.movetotag(tags[target.screen][target.tag], c)
     end
 
+    -- Do this after tag mapping, so you don't see it on the wrong tag for a split second.
+    client.focus = c
+
+    -- Set key bindings
+    c:keys(clientkeys)
+
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
     -- awful.client.setslave(c)
 
-    -- Honor size hints: if you want to drop the gaps between windows,
-    -- set this to false.
-    c.honorsizehints = false
-    c.name = " " .. c.name;
-    awful.placement.no_overlap(c)
-    awful.placement.no_offscreen(c)
+    c.size_hints_honor = false
 end)
 
--- Hook function to execute when arranging the screen
+-- Hook function to execute when arranging the screen.
 -- (tag switch, new client, etc)
 awful.hooks.arrange.register(function (screen)
-    local layout = awful.layout.get(screen)
-    if layout then
+    local layout = awful.layout.getname(awful.layout.get(screen))
+    if layout and beautiful["layout_" ..layout] then
         mylayoutbox[screen].image = image(beautiful["layout_" .. layout])
     else
         mylayoutbox[screen].image = nil
@@ -362,7 +389,6 @@ awful.hooks.arrange.register(function (screen)
         local c = awful.client.focus.history.get(screen, 0)
         if c then client.focus = c end
     end
-
 end)
 
 -- Hook called every so often
@@ -379,3 +405,6 @@ awful.hooks.timer.register(3, function ()
     end
 end)
 -- }}}
+
+-- Set keys
+root.keys(globalkeys)
