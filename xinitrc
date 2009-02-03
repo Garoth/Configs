@@ -8,4 +8,4 @@ sudo /home/garoth/.scripts/wl-connect-home &
 
 gnome-settings-daemon &
 pidgin &
-/usr/local/bin/awesome
+/usr/local/bin/awesome &> /home/garoth/Info/awesome.log
