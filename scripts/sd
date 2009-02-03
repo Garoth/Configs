@@ -1,0 +1,9 @@
+#!/bin/bash
+
+check-root.sh
+if [ $? -eq 1 ]; then
+        echo "Must be root to run this script."
+        exit 1
+fi
+
+shutdown -hP now
