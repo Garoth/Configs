@@ -44,7 +44,7 @@ globalkeys = {}
 clientkeys = {}
 
 -- Program Variables
-terminal = "sakura"
+terminal = "gnome-terminal"
 music_player = terminal .. " -e /home/garoth/.scripts/start-cmus.sh"
 browser = "firefox"
 mail_client = browser .. " http://gmail.com"
