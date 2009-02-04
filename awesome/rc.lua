@@ -365,6 +365,9 @@ awful.hooks.manage.register(function (c, startup)
     -- awful.client.setslave(c)
 
     c.size_hints_honor = false
+    c.name = " " .. c.name;
+    awful.placement.no_overlap(c)
+    awful.placement.no_offscreen(c)
 end)
 
 -- Hook function to execute when arranging the screen.
