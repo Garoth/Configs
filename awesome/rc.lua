@@ -35,6 +35,7 @@ apptags = {
 globalkeys = {}
 clientkeys = {}
 fading_out_clients = {}
+currently_fading = false
 
 -- Program Variables
 terminal = "gnome-terminal"
@@ -99,6 +100,35 @@ function fade_out(c)
         c.opacity = 1.0
         table.insert(fading_out_clients, c)
         awful.client.focus.byidx(-1)
+
+        if currently_fading == false then
+                awful.hooks.timer.register(0.02, fade_function)
+                currently_fading = true
+        end
+end
+
+-- Callback function to fade a client
+function fade_function()
+        for i = 1, #fading_out_clients do
+                local client = fading_out_clients[i]
+
+                -- Something's buggered up, ignore.
+                if client == nil then
+                        return
+                end
+
+                if client.opacity > 0.1 then
+                        client.opacity = client.opacity - 0.1
+                else
+                        table.remove(fading_out_clients, i)
+                        client:kill()
+                end
+        end
+
+        if #fading_out_clients == 0 then
+                awful.hooks.timer.unregister(fade_function)
+                currently_fading = false
+        end
 end
 
 -- Minimize Client
@@ -512,19 +542,5 @@ awful.hooks.timer.register(3, function ()
         datetextbox.text = " " .. text
         file:close()
     end
-end)
-
--- Clients Fading out Timer Hook
-awful.hooks.timer.register(0.02, function ()
-        for i = 1, #fading_out_clients do
-                local client = fading_out_clients[i]
-
-                if client.opacity > 0.1 then
-                        client.opacity = client.opacity - 0.1
-                else
-                        table.remove(fading_out_clients, i)
-                        client:kill()
-                end
-        end
 end)
 -- }}}
