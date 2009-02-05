@@ -34,6 +34,7 @@ apptags = {
 
 globalkeys = {}
 clientkeys = {}
+fading_out_clients = {}
 
 -- Program Variables
 terminal = "gnome-terminal"
@@ -72,6 +73,33 @@ for s = 1, screen.count() do
     tags[s][1].selected = true
 end
 -- }}}
+
+-- {{{ Personal Functions
+-- Root Keybinding convenience function
+function bind(tab, str, fnc)
+        mykey = key(tab, str, fnc)
+        table.insert(globalkeys, mykey)
+end
+
+-- Client Keybinding convenience function
+function bindclient(tab, str, fnc)
+        mykey = key(tab, str, fnc)
+        table.insert(clientkeys, mykey)
+end
+
+-- Client Fade Out + Kill
+function fade_out(c)
+        for i = 1, #fading_out_clients do
+                if c == fading_out_clients[i] then
+                        return
+                end
+        end
+
+        c.opacity = 1.0
+        table.insert(fading_out_clients, c)
+        awful.client.focus.byidx(-1)
+end
+--- }}}
 
 -- {{{ Statusbars
 mysystray = widget({
@@ -193,17 +221,6 @@ end
 -- }}}
 
 -- {{{ Key bindings
--- Root Keybinding convenience function
-function bind(tab, str, fnc)
-        mykey = key(tab, str, fnc)
-        table.insert(globalkeys, mykey)
-end
-
--- Client Keybinding convenience function
-function bindclient(tab, str, fnc)
-        mykey = key(tab, str, fnc)
-        table.insert(clientkeys, mykey)
-end
 
 keynumber = 0
 for s = 1, screen.count() do
@@ -269,7 +286,7 @@ bindclient({ modkey }, "m", function (c) c.maximized_horizontal = not c.maximize
                                          c.maximized_vertical = not c.maximized_vertical end)
 bindclient({ modkey }, "f", function (c) c.fullscreen = not c.fullscreen end)
 bindclient({ modkey, "Shift" }, "m", function () client.focus.minimize=true end)
-bindclient({ modkey }, "c", function () client.focus:kill() end)
+bindclient({ modkey }, "c", function() fade_out(client.focus) end)
 
 -- Focus by direction (vi keys)
 bind({ modkey }, "j", function () awful.client.focus.bydirection("down");
@@ -369,7 +386,7 @@ awful.hooks.manage.register(function (c, startup)
 
     -- Do this after tag mapping, so you don't see it on the wrong tag for a split second.
     client.focus = c
-
+    
     -- Set key bindings
     c:keys(clientkeys)
 
@@ -401,7 +418,7 @@ awful.hooks.arrange.register(function (screen)
     end
 end)
 
--- Hook called every so often
+-- Date Update Hook
 awful.hooks.timer.register(3, function ()
     file = io.popen("date +\"%I:%M %p on %A %B %e \"")
     if file == nil then
@@ -413,5 +430,19 @@ awful.hooks.timer.register(3, function ()
         datetextbox.text = " " .. text
         file:close()
     end
+end)
+
+-- Clients Fading out Timer Hook
+awful.hooks.timer.register(0.02, function ()
+        for i = 1, #fading_out_clients do
+                local client = fading_out_clients[i]
+
+                if client.opacity > 0.1 then
+                        client.opacity = client.opacity - 0.1
+                else
+                        table.remove(fading_out_clients, i)
+                        client:kill()
+                end
+        end
 end)
 -- }}}
