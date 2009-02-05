@@ -42,31 +42,32 @@ music_player = "songbird"
 browser = "firefox"
 mail_client = browser .. " http://gmail.com"
 
+-- {{{ Initialization
+beautiful.init(theme_path)
+
 -- Naughty Config
 naughty.config.height = 32
 naughty.config.icon_size = 32
 
--- {{{ Initialization
-beautiful.init(theme_path)
 -- }}}
 
 -- {{{ Tags
 tags = {}
 for s = 1, screen.count() do
     tags[s] = {}
-    tags[s][1] = tag(" Terms")
+    tags[s][1] = tag("   λ  ")
     tags[s][1].screen = s
     awful.layout.set(layouts[2], tags[s][1])
-    tags[s][2] = tag(" Browse")
+    tags[s][2] = tag("   β  ")
     tags[s][2].screen = s
     awful.layout.set(layouts[2], tags[s][2])
-    tags[s][3] = tag(" Mail")
+    tags[s][3] = tag("   Ω  ")
     tags[s][3].screen = s
     awful.layout.set(layouts[2], tags[s][3])
-    tags[s][4] = tag(" Chat")
+    tags[s][4] = tag("   Ϙ  ")
     tags[s][4].screen = s
     awful.layout.set(layouts[4], tags[s][4])
-    tags[s][5] = tag(" Spare")
+    tags[s][5] = tag("   Σ  ")
     tags[s][5].screen = s
     awful.layout.set(layouts[2], tags[s][5])
 
@@ -99,6 +100,63 @@ function fade_out(c)
         table.insert(fading_out_clients, c)
         awful.client.focus.byidx(-1)
 end
+
+-- Minimize Client
+function minimize(c)
+        c.minimized = true
+        display_minimized_sign()
+end
+
+-- Unminimize All (for current tag(s))
+function unminimize_all()
+        local curtag
+        local curtags = awful.tag.selectedlist()
+        local client
+        local clients
+
+        for x, curtag in pairs(curtags) do
+                clients = curtag:clients()
+                for y, client in pairs(clients) do
+                        client.minimized = false
+                end
+        end
+
+        display_minimized_sign()
+end
+
+-- Does the tag have minimized windows?
+function has_minimized(tag)
+        local clients = tag:clients()
+        local client
+        local minimized = false
+
+        for x, client in pairs(clients) do
+                if client.minimized == true then
+                        minimized = true
+                end
+        end
+
+        return minimized
+end
+
+-- Check whether the minimize sign needs displaying + display it
+function display_minimized_sign(curtags)
+        local curtags = curtags or awful.tag.selectedlist()
+        local curtag
+        local minimized_found = false
+
+        for x, curtag in pairs(curtags) do
+               if has_minimized(curtag) then
+                       minimized_found = true
+               end
+       end
+
+       if minimized_found == true then
+               taginfobox.text = "(M)"
+       else
+               taginfobox.text = ""
+       end
+end
 --- }}}
 
 -- {{{ Statusbars
@@ -118,13 +176,6 @@ mytaglist.buttons = {
         button({ modkey }, 1, awful.client.movetotag),
         button({ }, 3, function (tag) tag.selected = not tag.selected end),
         button({ modkey }, 3, awful.client.toggletag)
-}
-
-mytasklist = {}
-mytasklist.buttons = { 
-        button({ },
-        1, 
-        function (c) client.focus = c; c:raise() end)
 }
 
 random_text = widget({
@@ -158,6 +209,13 @@ file = io.popen("date +\"%I:%M %p on %A %B %e \"")
 datetextbox.text = " " .. file:read()
 file:close()
 
+-- Has minimized windows text box
+taginfobox = widget({
+        type = "textbox",
+        name = "taginfobox",
+        align = "left"
+})
+
 statusbartop = {}
 for s = 1, screen.count() do
     mypromptbox[s] = widget({
@@ -186,12 +244,6 @@ for s = 1, screen.count() do
             awful.widget.taglist.label.all,
             mytaglist.buttons)
 
-    -- Create a tasklist widget
-    mytasklist[s] = awful.widget.tasklist.new(function(c)
-                    return awful.widget.tasklist.label.currenttags(c, s)
-            end,
-            mytasklist.buttons)
-
     -- Create the wibox
     statusbartop[s] = wibox({ 
             position = "left",
@@ -207,11 +259,11 @@ for s = 1, screen.count() do
     statusbartop[s].widgets = {
             mytaglist[s],
             padding_left,
+            taginfobox,
             random_text,
             mypromptbox[s],
-    --        mytasklist[s],
-            padding_right,
             datetextbox,
+            padding_right,
             mylayoutbox[s],
             s == 1 and mysystray or nil
     }
@@ -235,6 +287,8 @@ for i = 1, keynumber do
                if tags[screen][i] then
                    awful.tag.viewonly(tags[screen][i])
                end
+
+               display_minimized_sign()
            end)
     bind({ modkey, "Shift" }, i,
            function ()
@@ -242,6 +296,8 @@ for i = 1, keynumber do
                if tags[screen][i] then
                    tags[screen][i].selected = not tags[screen][i].selected
                end
+
+               display_minimized_sign()
            end)
     bind({ modkey, "Control" }, i,
            function ()
@@ -250,6 +306,8 @@ for i = 1, keynumber do
                        awful.client.movetotag(tags[client.focus.screen][i])
                    end
                end
+awful.tag.selectedlist()
+               display_minimized_sign()
            end)
     bind({ modkey, "Control", "Shift" }, i,
            function ()
@@ -258,6 +316,8 @@ for i = 1, keynumber do
                        awful.client.toggletag(tags[client.focus.screen][i])
                    end
                end
+
+               display_minimized_sign()
            end)
 end
 
@@ -265,7 +325,9 @@ end
 bind({ modkey }, "Return", function () awful.util.spawn(terminal) end)
 bind({ modkey, "Control" }, "r", awesome.restart)
 bind({ modkey, "Control", "Shift" }, "q", awesome.quit)
-bind({ modkey }, "s", function () client.focus.sticky = not client.focus.sticky end)
+bind({ modkey }, "s", function ()
+                client.focus.sticky = not client.focus.sticky
+        end)
 bind({ modkey }, "Left", awful.tag.viewprev)
 bind({ modkey }, "Right", awful.tag.viewnext)
 
@@ -273,35 +335,52 @@ bind({ modkey }, "Right", awful.tag.viewnext)
 bind({ }, "#129", function () awful.util.spawn(music_player) end)
 bind({ }, "#236", function () awful.util.spawn(mail_client) end)
 bind({ }, "#178", function () awful.util.spawn(browser) end)
-bind({ }, "#161", function () naughty.notify({text = "calculator", timeout = 7}) end)
-
-bind({ }, "#162", function () naughty.notify({text = "pause/play", timeout = 7}) end)
-bind({ }, "#174", function () naughty.notify({text = "volume down", timeout = 7}) end)
-bind({ }, "#176", function () naughty.notify({text = "volume up", timeout = 7}) end)
-bind({ }, "#160", function () naughty.notify({text = "mute volume", timeout = 7}) end)
+bind({ }, "#161", function ()
+        naughty.notify({text = "calculator", timeout = 7})
+end)
 
 -- Client manipulation
 bindclient({ modkey, "Control" }, "space", awful.client.floating.toggle)
-bindclient({ modkey }, "m", function (c) c.maximized_horizontal = not c.maximized_horizontal
-                                         c.maximized_vertical = not c.maximized_vertical end)
+bindclient({ modkey }, "m", function (c)
+                c.maximized_horizontal = not c.maximized_horizontal
+                c.maximized_vertical = not c.maximized_vertical
+        end)
 bindclient({ modkey }, "f", function (c) c.fullscreen = not c.fullscreen end)
-bindclient({ modkey, "Shift" }, "m", function () client.focus.minimize=true end)
+bindclient({ modkey, "Shift" }, "m", function () minimize(client.focus) end)
 bindclient({ modkey }, "c", function() fade_out(client.focus) end)
+bind({ modkey, "Shift", "Control" }, "m", unminimize_all)
 
 -- Focus by direction (vi keys)
-bind({ modkey }, "j", function () awful.client.focus.bydirection("down");
-                                        client.focus:raise() end)
-bind({ modkey }, "k", function () awful.client.focus.bydirection("up");
-                                        client.focus:raise() end)
-bind({ modkey }, "l", function () awful.client.focus.bydirection("right");
-                                        client.focus:raise() end)
-bind({ modkey }, "h", function () awful.client.focus.bydirection("left");
-                                        client.focus:raise() end)
+bind({ modkey }, "j", function ()
+                awful.client.focus.bydirection("down")
+                client.focus:raise()
+        end)
+bind({ modkey }, "k", function ()
+                awful.client.focus.bydirection("up")
+                client.focus:raise()
+        end)
+bind({ modkey }, "l", function ()
+                awful.client.focus.bydirection("right")
+                client.focus:raise()
+        end)
+bind({ modkey }, "h", function ()
+                awful.client.focus.bydirection("left");
+                client.focus:raise()
+        end)
+
 -- Swap by direction (vi keys)
-bind({ modkey, "Shift" }, "j", function () awful.client.swap.bydirection("down") end)
-bind({ modkey, "Shift" }, "k", function () awful.client.swap.bydirection("up") end)
-bind({ modkey, "Shift" }, "l", function () awful.client.swap.bydirection("right") end)
-bind({ modkey, "Shift" }, "h", function () awful.client.swap.bydirection("left") end)
+bind({ modkey, "Shift" }, "j", function ()
+                awful.client.swap.bydirection("down")
+        end)
+bind({ modkey, "Shift" }, "k", function ()
+                awful.client.swap.bydirection("up")
+        end)
+bind({ modkey, "Shift" }, "l", function ()
+                awful.client.swap.bydirection("right")
+        end)
+bind({ modkey, "Shift" }, "h", function ()
+                awful.client.swap.bydirection("left")
+        end)
 
 -- Multiscreen Keybindings
 bind({ modkey, "Control" }, "l", function () awful.screen.focus(1) end)
@@ -310,7 +389,9 @@ bind({ modkey }, "o", awful.client.movetoscreen)
 
 -- Change Layouts
 bind({ modkey }, "space", function () awful.layout.inc(layouts, 1) end)
-bind({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end)
+bind({ modkey, "Shift" }, "space", function ()
+                awful.layout.inc(layouts, -1)
+        end)
 
 -- Run Prompt
 bind({ modkey }, "F1", function ()
@@ -384,7 +465,8 @@ awful.hooks.manage.register(function (c, startup)
         awful.client.movetotag(tags[target.screen][target.tag], c)
     end
 
-    -- Do this after tag mapping, so you don't see it on the wrong tag for a split second.
+    -- Do this after tag mapping, so you don't see it on the wrong tag for
+    -- a split second.
     client.focus = c
     
     -- Set key bindings
