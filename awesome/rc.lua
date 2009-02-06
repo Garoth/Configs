@@ -38,7 +38,7 @@ fading_out_clients = {}
 currently_fading = false
 
 -- Program Variables
-terminal = "gnome-terminal"
+terminal = "terminal"
 music_player = "songbird"
 browser = "firefox"
 mail_client = browser .. " http://gmail.com"
@@ -502,12 +502,7 @@ awful.hooks.manage.register(function (c, startup)
     -- Set key bindings
     c:keys(clientkeys)
 
-    -- Set the windows at the slave,
-    -- i.e. put it at the end of others instead of setting it master.
-    -- awful.client.setslave(c)
-
     c.size_hints_honor = false
-    c.name = " " .. c.name;
     awful.placement.no_overlap(c)
     awful.placement.no_offscreen(c)
 end)
