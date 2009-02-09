@@ -1,4 +1,5 @@
 #!/bin/bash
+PATH=/home/garoth/.scripts:$PATH
 xcompmgr &
 
 setxkbmap us dvorak &
