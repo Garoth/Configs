@@ -2,26 +2,27 @@
 import commands
 import os
 
-here = "/home/garoth/Configs/"
+home = "/home/garoth/"
+here = home + "Configs/"
 
 rules = [
-        ["awesome", "/home/garoth/.config/awesome"],
-	["vim", "/home/garoth/.vim"],
-	["vimrc", "/home/garoth/.vimrc"],
-        ["gitconfig", "/home/garoth/.gitconfig"],
-        ["screenrc", "/home/garoth/.screenrc"],
-        ["scripts", "/home/garoth/.scripts"],
-        ["zshrc", "/home/garoth/.zshrc"],
-        ["zprofile", "/home/garoth/.zprofile"],
-        ["bashrc", "/home/garoth/.bashrc"],
-        ["fonts", "/home/garoth/.fonts"],
-        ["gvimrc", "/home/garoth/.gvimrc"],
-        ["plutocracy", "/home/garoth/.plutocracy"],
-        ["muttrc", "/home/garoth/.muttrc"],
-        ["forward", "/home/garoth/.forward"],
-        ["procmailrc", "/home/garoth/.procmailrc"],
-        ["signature-default", "/home/garoth/.signature-default"],
-        ["xinitrc", "/home/garoth/.xinitrc"]
+        ["awesome", home + ".config/awesome"],
+	["vim", home + ".vim"],
+	["vimrc", home + ".vimrc"],
+        ["gitconfig", home + ".gitconfig"],
+        ["screenrc", home + ".screenrc"],
+        ["scripts", home + ".scripts"],
+        ["zshrc", home + ".zshrc"],
+        ["zprofile", home + ".zprofile"],
+        ["bashrc", home + ".bashrc"],
+        ["fonts", home + ".fonts"],
+        ["gvimrc", home + ".gvimrc"],
+        ["plutocracy", home + ".plutocracy"],
+        ["muttrc", home + ".muttrc"],
+        ["forward", home + ".forward"],
+        ["procmailrc", home + ".procmailrc"],
+        ["signature-default", home + ".signature-default"],
+        ["xinitrc", home + ".xinitrc"]
 ]
 
 for rule in rules:
