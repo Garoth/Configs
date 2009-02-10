@@ -3,12 +3,15 @@
 syn on
 filetype indent on
 set ignorecase
+set smartcase
 let g:showmarks_enable=0
 set expandtab
 set tabstop=8
 set shiftwidth=8
 set scrolloff=8
+set softtabstop=8
 set nohlsearch
+set list listchars=tab:»·,trail:·,extends:>,nbsp:_
 " Next two commands make vim use X11 clipboard
 set clipboard=unnamed
 :nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
