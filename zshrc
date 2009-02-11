@@ -60,17 +60,18 @@ $PR_WHITE: '
 # DEVTODO
 TODO_OPTIONS="--summary"
 
-cd()
-{
-        if builtin cd "$@"; then
-                devtodo ${TODO_OPTIONS}
-        fi
-}
-
 ls()
 {
         devtodo ${TODO_OPTIONS}
         /bin/ls --color=auto "$@"
+}
+
+cd()
+{
+        if builtin cd "$@"; then
+                devtodo ${TODO_OPTIONS}
+                /bin/ls --color=auto
+        fi
 }
 
 pushd()
