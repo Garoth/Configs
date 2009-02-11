@@ -7,14 +7,15 @@ here = home + "Configs/"
 
 rules = [
         ["awesome", home + ".config/awesome"],
-	["vim", home + ".vim"],
-	["vimrc", home + ".vimrc"],
+        ["vim", home + ".vim"],
+        ["vimrc", home + ".vimrc"],
         ["gitconfig", home + ".gitconfig"],
         ["screenrc", home + ".screenrc"],
         ["scripts", home + ".scripts"],
         ["zshrc", home + ".zshrc"],
         ["zprofile", home + ".zprofile"],
         ["bashrc", home + ".bashrc"],
+        ["profile", home + ".profile"],
         ["fonts", home + ".fonts"],
         ["gvimrc", home + ".gvimrc"],
         ["plutocracy", home + ".plutocracy"],
