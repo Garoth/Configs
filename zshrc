@@ -20,8 +20,8 @@ export PATH=/usr/local/bin:/home/garoth/Programs/bin:$PATH:/opt/kde/bin:/home/ga
 export EDITOR=/usr/bin/vim
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 if [ "$TERM" != "dumb" ]; then
-	eval "`dircolors -b`"
-	alias ls='ls --color=auto'
+        eval "`dircolors -b`"
+        alias ls='ls --color=auto'
 fi
 
 alias althack='telnet nethack.alt.org'
