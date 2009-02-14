@@ -152,6 +152,23 @@ function unminimize_all()
         display_minimized_sign()
 end
 
+-- Minimize All (for current tag(s))
+function minimize_all()
+        local curtag
+        local curtags = awful.tag.selectedlist()
+        local client
+        local clients
+
+        for x, curtag in pairs(curtags) do
+                clients = curtag:clients()
+                for y, client in pairs(clients) do
+                        client.minimized = true
+                end
+        end
+
+        display_minimized_sign()
+end
+
 -- Does the tag have minimized windows?
 function has_minimized(tag)
         local clients = tag:clients()
@@ -378,6 +395,7 @@ bindclient({ modkey }, "f", function (c) c.fullscreen = not c.fullscreen end)
 bindclient({ modkey, "Shift" }, "m", function () minimize(client.focus) end)
 bindclient({ modkey }, "c", function() fade_out(client.focus) end)
 bind({ modkey, "Shift", "Control" }, "m", unminimize_all)
+bind({ modkey, "Control" }, "m", minimize_all)
 
 -- Focus by direction (vi keys)
 bind({ modkey }, "j", function ()
