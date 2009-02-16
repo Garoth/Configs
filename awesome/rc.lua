@@ -223,26 +223,28 @@ mytaglist.buttons = {
         button({ modkey }, 3, awful.client.toggletag)
 }
 
+-- External scripts change this
 random_text = widget({
         type = "textbox",
-        name = "left-padding",
+        name = "random_text",
         align = "left"
 })
 random_text.text = ""
 
-padding_left = widget({
-        type = "textbox",
-        name = "left-padding",
+-- Padding widgets
+divider_l = widget({
+        type = "imagebox",
+        name = "divider_l",
         align = "left"
 })
-padding_left.text = " "
+divider_l.image = image(os.getenv("HOME") .. "/.config/awesome/div.png")
 
-padding_right = widget({
-        type = "textbox",
-        name = "right-padding",
+divider_r = widget({
+        type = "imagebox",
+        name = "divider_r",
         align = "right"
 })
-padding_right.text = " "
+divider_r.image = image(os.getenv("HOME") .. "/.config/awesome/div.png")
 
 -- Date box
 datetextbox = widget({
@@ -250,7 +252,7 @@ datetextbox = widget({
         name = "mytextbox",
         align = "right"
 })
-datetextbox.text = os.date(" %a %b %e ")
+datetextbox.text = os.date("%a %b %e")
 
 -- Has minimized windows text box
 taginfobox = widget({
@@ -301,12 +303,13 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     statusbartop[s].widgets = {
             mytaglist[s],
-            padding_left,
+            divider_l,
             taginfobox,
             random_text,
             mypromptbox[s],
+            divider_r,
             datetextbox,
-            padding_right,
+            divider_r,
             mylayoutbox[s],
             s == 1 and mysystray or nil
     }
@@ -542,6 +545,6 @@ end)
 
 -- Date Update Hook
 awful.hooks.timer.register(3, function ()
-    datetextbox.text = os.date(" %a %b %e ")
+    datetextbox.text = os.date("%a %b %e")
 end)
 -- }}}
