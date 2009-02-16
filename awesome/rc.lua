@@ -250,9 +250,7 @@ datetextbox = widget({
         name = "mytextbox",
         align = "right"
 })
-file = io.popen("date +\"%I:%M %p on %A %B %e \"") 
-datetextbox.text = " " .. file:read()
-file:close()
+datetextbox.text = os.date(" %a %b %e ")
 
 -- Has minimized windows text box
 taginfobox = widget({
@@ -544,15 +542,6 @@ end)
 
 -- Date Update Hook
 awful.hooks.timer.register(3, function ()
-    file = io.popen("date +\"%I:%M %p on %A %B %e \"")
-    if file == nil then
-    else 
-        text = file:read()
-        if text == nil then
-            text = "ERROR"
-        end
-        datetextbox.text = " " .. text
-        file:close()
-    end
+    datetextbox.text = os.date(" %a %b %e ")
 end)
 -- }}}
