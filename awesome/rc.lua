@@ -197,7 +197,7 @@ function display_minimized_sign(curtags)
        end
 
        if minimized_found == true then
-               taginfobox.text = "(M)"
+               taginfobox.text = "(M) "
        else
                taginfobox.text = ""
        end
@@ -227,7 +227,7 @@ mytaglist.buttons = {
 random_text = widget({
         type = "textbox",
         name = "random_text",
-        align = "left"
+        align = "right"
 })
 random_text.text = ""
 
@@ -305,8 +305,8 @@ for s = 1, screen.count() do
             mytaglist[s],
             divider_l,
             taginfobox,
-            random_text,
             mypromptbox[s],
+            random_text,
             divider_r,
             datetextbox,
             divider_r,
