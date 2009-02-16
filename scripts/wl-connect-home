@@ -8,6 +8,12 @@ if [ $? -eq 1 ]; then
         exit 1
 fi
 
+check-connection.sh
+if [ $? -eq 0 ]; then
+        echo "Already have internet connection."
+        exit 0
+fi
+
 ifconfig wlan0 up
 iwconfig wlan0 key aabbccddee
 iwconfig wlan0 essid "BELL281"
