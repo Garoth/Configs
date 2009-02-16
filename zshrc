@@ -1,29 +1,20 @@
-# The following lines were added by compinstall
-
 zstyle ':completion:*' completer _complete _ignored
 zstyle :compinstall filename '/home/garoth/.zshrc'
-
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
-# Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt autocd extendedglob
+setopt autocd
 unsetopt beep notify
 bindkey -v # Vim mode
-# End of lines configured by zsh-newuser-install
 
 #Startup Commands & Aliases
+eval "$(dircolors -b)"
 export PATH=/usr/local/bin:/home/garoth/Programs/bin:$PATH:/opt/kde/bin:/home/garoth/.scripts
 export EDITOR=/usr/bin/vim
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
-if [ "$TERM" != "dumb" ]; then
-        eval "`dircolors -b`"
-        alias ls='ls --color=auto'
-fi
-
+alias ls='ls --color=auto'
 alias althack='telnet nethack.alt.org'
 alias dance='ssh dwc.mercenariesguild.net'
 alias uwsolaris='ssh -X aapachin@cpu10.student.cs.uwaterloo.ca'
@@ -40,6 +31,7 @@ alias pacman="sudo pacman-color"
 alias gftp="gftp-text"
 alias scons="/usr/bin/python /usr/bin/scons"
 alias tram="transmission-remote"
+alias top="htop"
 
 # Colouring & Prompt
 autoload colors zsh/terminfo
