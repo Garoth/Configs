@@ -1,0 +1,3 @@
+#!/bin/bash
+
+DISPLAY=:0.0 echo 'awful.util.spawn("$1")' | awesome-client
