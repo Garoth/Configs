@@ -15,7 +15,8 @@ zstyle ':vcs_info:*' enable git svn
 autoload -Uz zsh-mime-setup
 autoload -Uz pick-web-browser
 zstyle ':mime:*' mailcap ~/.mailcap
-zstyle ':mime:.txt:' flags needsterminal
+# Example: to make it not background an app
+# zstyle ':mime:.txt:' flags needsterminal
 zsh-mime-setup
 alias -s html=pick-web-browser
 
@@ -32,10 +33,35 @@ for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
 done
 PR_NO_COLOUR="%{$terminfo[sgr0]%}"
 
-setopt autocd
-setopt prompt_subst
-unsetopt beep notify
-bindkey -v # Vim mode
+### ZSH options
+
+# pushd options
+setopt auto_pushd # pushes visited dirs on a stack to popd
+setopt pushd_silent # pushd silently
+setopt pushd_to_home # "pushd" w/o args takes you home
+# completion options
+setopt auto_list # outputs completion opts immediately on ambig
+setopt list_types # shows types of possible completion opts
+# history options
+setopt share_history # all zsh sessions merge history
+setopt hist_ignore_dups # don't put duplicates in history
+setopt hist_reduce_blanks # remove extra spaces hist commands
+# input/output options
+setopt aliases # expand aliases
+setopt clobber # allow > and >> to clobber/create files
+setopt correct_all # tries to correct mispellings
+setopt dvorak # analyze corrections with dvorak kb in mind
+setopt interactive_comments # allow comments in interactive shell
+setopt print_exit_value # outputs exit status when it's not 0
+# job control options
+setopt no_hup # don't kill bg jobs as terminal ends
+unsetopt notify # output status of bg'd jobs just before prompt
+# prompt options
+setopt prompt_subst # allow param expansion, command subst, arith in prompt
+# misc
+unsetopt beep # never beep please
+setopt auto_cd # you can cd by just typing a folder name
+setopt vi # vim mode
 
 #Aliases
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
