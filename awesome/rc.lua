@@ -281,7 +281,7 @@ minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m-dim.png")
 floatingimg = widget({
         type = "imagebox",
         name = "floatingimg",
-        align = "left"
+        align = "right"
 })
 floatingimg.image = image(os.getenv("HOME") ..
                         "/.config/awesome/floating-dim.png")
@@ -331,10 +331,11 @@ for s = 1, screen.count() do
             divider_l,
             minimizedimg,
             divider_l,
-            floatingimg,
-            divider_l,
             mypromptbox[s],
+            -- Gap here
             random_text,
+            divider_r,
+            floatingimg,
             divider_r,
             datetextbox,
             divider_r,
