@@ -53,7 +53,6 @@ setopt clobber # allow > and >> to clobber/create files
 setopt correct_all # tries to correct mispellings
 setopt dvorak # analyze corrections with dvorak kb in mind
 setopt interactive_comments # allow comments in interactive shell
-setopt print_exit_value # outputs exit status when it's not 0
 # job control options
 setopt no_hup # don't kill bg jobs as terminal ends
 unsetopt notify # output status of bg'd jobs just before prompt
