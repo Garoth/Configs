@@ -21,7 +21,8 @@ zsh-mime-setup
 alias -s html=pick-web-browser
 
 # Colors
-autoload colors zsh/terminfo
+autoload -Uz colors
+autoload -Uz zsh/terminfo
 eval "$(dircolors -b)"
 if [[ "$terminfo[colors]" -ge 8 ]]; then
     colors
@@ -34,7 +35,6 @@ done
 PR_NO_COLOUR="%{$terminfo[sgr0]%}"
 
 ### ZSH options
-
 # pushd options
 setopt auto_pushd # pushes visited dirs on a stack to popd
 setopt pushd_silent # pushd silently
@@ -42,6 +42,7 @@ setopt pushd_to_home # "pushd" w/o args takes you home
 # completion options
 setopt auto_list # outputs completion opts immediately on ambig
 setopt list_types # shows types of possible completion opts
+setopt complete_in_word # complete while in mid of word, and don't move cursor
 # history options
 setopt share_history # all zsh sessions merge history
 setopt hist_ignore_dups # don't put duplicates in history
@@ -67,13 +68,14 @@ setopt vi # vim mode
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 alias ls='ls --color=auto'
 alias althack='telnet nethack.alt.org'
-alias mgirc='ssh irssi.mercenariesguild.net'
-alias uwsolaris='ssh -X aapachin@cpu10.student.cs.uwaterloo.ca'
-alias uwlinux='ssh -X aapachin@mef-fe10.student.cs.uwaterloo.ca'
+alias -g mgirc="irssi.mercenariesguild.net"
+alias -g uwsol="aapachin@cpu10.student.cs.uwaterloo.ca"
+alias -g uwlin="aapachin@mef-fe10.student.cs.uwaterloo.ca"
+alias -g uwcsc="aapachin@csclub.uwaterloo.ca"
 alias preparenote="cp $HOME/Studies/UsefulBits/underline.png ./ && echo Done"
 alias crawl="crawl -dir \"$HOME/.crawl\""
-alias cdplu="cd $HOME/Coding/C/plutocracy"
-alias cddra="cd $HOME/Coding/C/dragoon"
+alias -g plu="$HOME/Coding/C/plutocracy"
+alias -g dra="$HOME/Coding/C/dragoon"
 alias pacman="sudo pacman-color"
 alias ftp="gftp-text"
 alias scons="/usr/bin/python /usr/bin/scons"
@@ -89,8 +91,23 @@ export PROMPT='$PR_GREEN%m$PR_WHITE.$PR_BLUE%n$PR_WHITE $PR_MAGENTA%c\
 $PR_WHITE${vcs_info_msg_0_}: '
 
 # ZSH functions
+preexec() {
+        COMMAND="${1%% *}"
+}
+
 precmd() {
+        # Needed for revision control identification
         vcs_info
+
+        # Command not found hook for zsh 
+        if [ -n "$COMMAND" -a -x /usr/bin/pkgfile ]; then
+                which "$COMMAND" &> /dev/null;
+                if [ "$?" -eq 1 ]; then
+                        echo -n "This file can be found in package "
+                        pkgfile "bin/$COMMAND"
+                        unset COMMAND
+                fi
+        fi
 }
 
 # Modified cd/ls functions
@@ -108,6 +125,51 @@ cd()
                 devtodo ${TODO_OPTIONS}
                 /bin/ls --color=auto
         fi
+}
+
+# Devin's extract
+xtr () {
+    local ARCHIVE
+    local archive
+    local unrecognized
+    local success
+    for ARCHIVE in "$@"; do
+        echo -n Extracting "$ARCHIVE"... ''
+        archive=`echo "$ARCHIVE"|tr A-Z a-z`
+        unrecognized=0
+        success=0
+        case "$archive" in
+            *.tar)
+                tar xf "$ARCHIVE" && success=1
+                ;;
+            *.tar.gz|*.tgz)
+                tar xzf "$ARCHIVE" && success=1
+                ;;
+            *.tar.bz2|*.tbz2)
+                tar xjf "$ARCHIVE" && success=1
+                ;;
+            *.gz)
+                gunzip "$ARCHIVE" && success=1
+                ;;
+            *.bz2)
+                bunzip2 "$ARCHIVE" && success=1
+                ;;
+            *.zip|*.jar|*.pk3|*.pk4)
+                unzip -o -qq "$ARCHIVE" && success=1
+                ;;
+            *.rar)
+                unrar e -y -idp -inul "$ARCHIVE" && success=1
+                ;;
+            *)
+                unrecognized=1
+                ;;
+        esac
+        if [ $unrecognized = 1 ]; then
+            echo -e '[\e[31;1munrecognized file format\e[0m]'
+        elif [ $success = 1 ]; then
+            echo -e '[\e[32;1mOK\e[0m]'
+        fi
+    done
 }
 
 #Execute these as a terminal opens
