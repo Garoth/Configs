@@ -103,9 +103,12 @@ precmd() {
         if [ -n "$COMMAND" -a -x /usr/bin/pkgfile ]; then
                 which "$COMMAND" &> /dev/null;
                 if [ "$?" -eq 1 ]; then
-                        echo -n "This file can be found in package "
-                        pkgfile "bin/$COMMAND"
-                        unset COMMAND
+                        PACK=$(pkgfile "bin/$COMMAND")
+                        if [ -n "$PACK" ]; then
+                                echo -n "This file can be found in package "
+                                echo $PACK
+                                unset COMMAND
+                        fi
                 fi
         fi
 }
