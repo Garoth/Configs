@@ -1,1 +1,7 @@
 application/pdf;/usr/bin/evince %s
+video/mp4;/usr/bin/totem %s
+video/mpeg;/usr/bin/totem %s
+video/quicktime;/usr/bin/totem %s
+video/x-ms-wmv;/usr/bin/totem %s
+video/x-msvideo;/usr/bin/totem %s
+video/x-flv;/usr/bin/totem %s
