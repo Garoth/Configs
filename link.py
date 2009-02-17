@@ -19,6 +19,7 @@ rules = [
         ["fonts", home + ".fonts"],
         ["gvimrc", home + ".gvimrc"],
         ["plutocracy", home + ".plutocracy"],
+        ["mailcap", home + ".mailcap"],
         ["muttrc", home + ".muttrc"],
         ["forward", home + ".forward"],
         ["procmailrc", home + ".procmailrc"],
