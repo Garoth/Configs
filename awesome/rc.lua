@@ -197,9 +197,9 @@ function display_minimized_sign(curtags)
        end
 
        if minimized_found == true then
-               taginfobox.text = "(M) "
+               minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m.png")
        else
-               taginfobox.text = ""
+               minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m-dim.png")
        end
 end
 --- }}}
@@ -254,12 +254,13 @@ datetextbox = widget({
 })
 datetextbox.text = os.date("%a %b %e")
 
--- Has minimized windows text box
-taginfobox = widget({
-        type = "textbox",
-        name = "taginfobox",
+-- Has minimized windows images
+minimizedimg = widget({
+        type = "imagebox",
+        name = "minimizedimg",
         align = "left"
 })
+minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m-dim.png")
 
 statusbartop = {}
 for s = 1, screen.count() do
@@ -304,7 +305,8 @@ for s = 1, screen.count() do
     statusbartop[s].widgets = {
             mytaglist[s],
             divider_l,
-            taginfobox,
+            minimizedimg,
+            divider_l,
             mypromptbox[s],
             random_text,
             divider_r,
