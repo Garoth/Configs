@@ -197,10 +197,25 @@ function display_minimized_sign(curtags)
        end
 
        if minimized_found == true then
-               minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m.png")
+               minimizedimg.image = image(os.getenv("HOME") ..
+                        "/.config/awesome/m.png")
        else
-               minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m-dim.png")
+               minimizedimg.image = image(os.getenv("HOME") ..
+                        "/.config/awesome/m-dim.png")
        end
+end
+
+function display_floating_sign(c)
+        local sel = c or awful.client.focus
+        local is_floating = awful.client.floating.get(c)
+
+        if is_floating then
+                floatingimg.image = image(os.getenv("HOME") ..
+                                    "/.config/awesome/floating.png")
+        else
+                floatingimg.image = image(os.getenv("HOME") ..
+                                    "/.config/awesome/floating-dim.png")
+        end
 end
 --- }}}
 
@@ -262,6 +277,15 @@ minimizedimg = widget({
 })
 minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m-dim.png")
 
+-- Current client is floating images
+floatingimg = widget({
+        type = "imagebox",
+        name = "floatingimg",
+        align = "left"
+})
+floatingimg.image = image(os.getenv("HOME") ..
+                        "/.config/awesome/floating-dim.png")
+
 statusbartop = {}
 for s = 1, screen.count() do
     mypromptbox[s] = widget({
@@ -306,6 +330,8 @@ for s = 1, screen.count() do
             mytaglist[s],
             divider_l,
             minimizedimg,
+            divider_l,
+            floatingimg,
             divider_l,
             mypromptbox[s],
             random_text,
@@ -388,7 +414,10 @@ bind({ }, "#161", function ()
 end)
 
 -- Client manipulation
-bindclient({ modkey, "Control" }, "space", awful.client.floating.toggle)
+bindclient({ modkey, "Control" }, "space", function(c)
+                awful.client.floating.toggle(c)
+                display_floating_sign()
+        end)
 bindclient({ modkey }, "m", function (c)
                 c.maximized_horizontal = not c.maximized_horizontal
                 c.maximized_vertical = not c.maximized_vertical
@@ -461,6 +490,8 @@ awful.hooks.focus.register(function (c)
     if not awful.client.ismarked(c) then
         c.border_color = beautiful.border_focus
     end
+
+    display_floating_sign()
 end)
 
 -- Hook function to execute when unfocusing a client.
