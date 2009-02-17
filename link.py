@@ -24,6 +24,7 @@ rules = [
         ["forward", home + ".forward"],
         ["procmailrc", home + ".procmailrc"],
         ["signature-default", home + ".signature-default"],
+        ["Terminal", home + ".config/Terminal"],
         ["xinitrc", home + ".xinitrc"]
 ]
 
