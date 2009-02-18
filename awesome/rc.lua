@@ -276,6 +276,7 @@ minimizedimg = widget({
         align = "left"
 })
 minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m-dim.png")
+minimizedimg:buttons({ button({ }, 1, function () unminimize_all() end) })
 
 -- Current client is floating images
 floatingimg = widget({
