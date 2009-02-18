@@ -1,0 +1,7 @@
+#
+# /etc/hosts.allow
+#
+# Lets let everyone connect through ssh if they can
+sshd: ALL
+
+# End of file
