@@ -105,6 +105,12 @@ function fade_out(c)
         end
 end
 
+function toggle_floating(c)
+        local sel = c or client.focus
+        awful.client.floating.toggle(c)
+        display_floating_sign()
+end
+
 -- Callback function to fade a client
 function fade_function()
         for i = 1, #fading_out_clients do
@@ -276,7 +282,22 @@ minimizedimg = widget({
         align = "left"
 })
 minimizedimg.image = image(os.getenv("HOME") .. "/.config/awesome/m-dim.png")
-minimizedimg:buttons({ button({ }, 1, function () unminimize_all() end) })
+minimizedimg:buttons({ button({ }, 1, function () 
+        local curtags = awful.tag.selectedlist()
+        local any_minimized = false
+
+        for x, curtag in pairs(curtags) do
+                if has_minimized(curtag) then
+                        any_minimized = true
+                end
+        end
+
+        if any_minimized == true then
+                unminimize_all()
+        else
+                minimize_all()
+        end
+end) })
 
 -- Current client is floating images
 floatingimg = widget({
@@ -286,6 +307,10 @@ floatingimg = widget({
 })
 floatingimg.image = image(os.getenv("HOME") ..
                         "/.config/awesome/floating-dim.png")
+floatingimg:buttons({ button({ }, 1, function () 
+                toggle_floating(client.focus)
+        end) })
+
 
 statusbartop = {}
 for s = 1, screen.count() do
@@ -417,8 +442,7 @@ end)
 
 -- Client manipulation
 bindclient({ modkey, "Control" }, "space", function(c)
-                awful.client.floating.toggle(c)
-                display_floating_sign()
+                toggle_floating(c)
         end)
 bindclient({ modkey }, "m", function (c)
                 c.maximized_horizontal = not c.maximized_horizontal
