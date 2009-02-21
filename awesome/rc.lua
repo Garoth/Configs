@@ -4,6 +4,7 @@
 require("awful")
 require("beautiful")
 require("naughty")
+require("mpd")
 
 -- Settings
 theme_path = "/home/garoth/.config/awesome/dark.theme"
@@ -85,6 +86,16 @@ end
 function bindclient(tab, str, fnc)
         mykey = key(tab, str, fnc)
         table.insert(clientkeys, mykey)
+end
+
+-- Set Foreground colour of text
+function colour(colour, text)
+        return '<span color="' .. colour .. '">' .. text .. '</span>'
+end
+
+-- Make bold text
+function bold(text)
+        return '<b>' .. text .. '</b>'
 end
 
 -- Client Fade Out + Kill
@@ -311,7 +322,42 @@ floatingimg:buttons({ button({ }, 1, function ()
                 toggle_floating(client.focus)
         end) })
 
+-- MPD - now playing
+mympd = {}
+mympd.playing = {}
+mympd.tools = {}
+mympd.playing.widget = widget({ type = "textbox",
+                              name = "mpd-playing",
+                              align = "left" })
 
+function mympd.tools.unknownize(text)
+        return awful.util.escape(text or "(unknown)")
+end
+
+function mympd.playing.update()
+        local status = mpd.send("status")
+        local now_playing, songstats
+
+        if not status.state then
+                now_playing = "Music Off"
+                now_playing = colour("yellow", now_playing)
+        elseif status.state == "stop" then
+                now_playing = "Music Stopped"
+        else
+                songstats = mpd.send("playlistid " .. status.songid)
+                now_playing = mympd.tools.unknownize(songstats.artist) ..
+                              " - " ..
+                              mympd.tools.unknownize(songstats.album) ..
+                              " - " ..
+                              mympd.tools.unknownize(songstats.title)
+        end
+
+        mympd.playing.widget.text = now_playing
+end
+awful.hooks.timer.register(1, mympd.playing.update)
+mympd.playing.update()
+
+-- Generate Statusbars, finally
 statusbartop = {}
 for s = 1, screen.count() do
     mypromptbox[s] = widget({
@@ -357,6 +403,7 @@ for s = 1, screen.count() do
             divider_l,
             minimizedimg,
             divider_l,
+            mympd.playing,
             mypromptbox[s],
             -- Gap here
             random_text,
