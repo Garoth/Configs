@@ -271,6 +271,14 @@ divider_l = widget({
 })
 divider_l.image = image(os.getenv("HOME") .. "/.config/awesome/div.png")
 
+divider_l_prompt = widget({
+        type = "imagebox",
+        name = "divider_l",
+        align = "left"
+})
+divider_l_prompt.image = image(os.getenv("HOME") .. "/.config/awesome/div.png")
+divider_l_prompt.visible = false
+
 divider_r = widget({
         type = "imagebox",
         name = "divider_r",
@@ -403,8 +411,9 @@ for s = 1, screen.count() do
             divider_l,
             minimizedimg,
             divider_l,
-            mympd.playing,
             mypromptbox[s],
+            divider_l_prompt,
+            mympd.playing,
             -- Gap here
             random_text,
             divider_r,
@@ -546,10 +555,17 @@ bind({ modkey, "Shift" }, "space", function ()
         end)
 
 -- Run Prompt
+function run_prompt_callback(text)
+        awful.util.spawn(text)
+        divider_l_prompt.visible = false
+end
+
 bind({ modkey }, "F1", function ()
+                            divider_l_prompt.visible = true
+
                             awful.prompt.run({ prompt = "Run: " },
                             mypromptbox[mouse.screen],
-                            awful.util.spawn, awful.completion.bash,
+                            run_prompt_callback, awful.completion.bash,
                             awful.util.getdir("cache") .. "/history")
                        end)
 
