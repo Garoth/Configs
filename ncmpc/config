@@ -14,7 +14,7 @@ auto-center = yes
 wide-cursor = yes
 
 ## wrapped cursor movement
-wrap-around = yes
+wrap-around = no
 
 ## wrapped find mode
 find-wrap = yes
