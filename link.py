@@ -21,6 +21,7 @@ rules = [
         ["plutocracy", home + ".plutocracy"],
         ["mailcap", home + ".mailcap"],
         ["muttrc", home + ".muttrc"],
+        ["ncmpc", home + ".ncmpc"],
         ["forward", home + ".forward"],
         ["procmailrc", home + ".procmailrc"],
         ["signature-default", home + ".signature-default"],
