@@ -78,6 +78,7 @@ alias ftp="gftp-text"
 alias scons="/usr/bin/python /usr/bin/scons"
 alias tram="transmission-remote"
 alias top="htop"
+alias music="ncmpc"
 
 # Variables
 HISTFILE=~/.histfile
