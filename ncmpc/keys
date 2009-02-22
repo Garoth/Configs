@@ -48,7 +48,7 @@ key screen-browse = '3',  267
 key play = 13
 
 ## Pause
-key pause = 'P'
+key pause = 'p'
 
 ## Stop
 key stop = 's',  263
@@ -132,10 +132,7 @@ key find-next = 'n'
 key rfind = 63
 
 ## Backward find previous
-key rfind-next = 'p'
+key rfind-next = 'P'
 
 ## Key configuration screen
 #key screen-keyedit = 'K'
-
-
-
