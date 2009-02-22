@@ -338,8 +338,13 @@ mympd.playing.widget = widget({ type = "textbox",
                               name = "mpd-playing",
                               align = "left" })
 
-function mympd.tools.unknownize(text)
-        return awful.util.escape(text or "(unknown)")
+function mympd.tools.handle_metadata(text)
+        if not text then
+                return awful.util.escape("(unknown)")
+        end
+
+        text = string.sub(text, 0, 11)
+        return awful.util.escape(text)
 end
 
 function mympd.playing.update()
@@ -353,11 +358,11 @@ function mympd.playing.update()
                 now_playing = "Music Stopped"
         else
                 songstats = mpd.send("playlistid " .. status.songid)
-                now_playing = mympd.tools.unknownize(songstats.artist) ..
+                now_playing = mympd.tools.handle_metadata(songstats.title) ..
                               " - " ..
-                              mympd.tools.unknownize(songstats.album) ..
+                              mympd.tools.handle_metadata(songstats.artist) ..
                               " - " ..
-                              mympd.tools.unknownize(songstats.title)
+                              mympd.tools.handle_metadata(songstats.album)
         end
 
         mympd.playing.widget.text = now_playing
