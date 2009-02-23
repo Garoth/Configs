@@ -16,6 +16,7 @@ rules = [
         ["zprofile", home + ".zprofile"],
         ["bashrc", home + ".bashrc"],
         ["profile", home + ".profile"],
+        ["htoprc", home + ".htoprc"],
         ["fonts", home + ".fonts"],
         ["gvimrc", home + ".gvimrc"],
         ["plutocracy", home + ".plutocracy"],
