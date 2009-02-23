@@ -343,7 +343,8 @@ function mympd.tools.handle_metadata(text)
                 return awful.util.escape("(unknown)")
         end
 
-        text = string.sub(text, 0, 11)
+        -- Max length of any metadata string shall be 25
+        text = string.sub(text, 0, 25)
         return awful.util.escape(text)
 end
 
