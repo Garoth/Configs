@@ -1,0 +1,5 @@
+cdrom -fstype=iso9660,ro,nodev,nosuid :/dev/cdrom
+floppy -fstype=auto,async,nodev,nosuid,umask=000 :/dev/fl
+usbstick -fstype=auto,async,nodev,nosuid,umask=000 :/dev/sdb1
+ipod -fstype=vfat,iocharset=iso8859-1,fmask=0117,dmask=0007,gid=plugdev :/dev/disk/by-id/usb-Apple_iPod_000A27001931A6CC-0:0-part2
+
