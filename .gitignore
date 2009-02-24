@@ -1,3 +1,4 @@
 *.pyc
 *.swp
 plutocracy/autogen.cfg
+ncmpcpp/error.log

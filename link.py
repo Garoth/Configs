@@ -6,28 +6,29 @@ home = "/home/garoth/"
 here = home + "Configs/"
 
 rules = [
+        ["Terminal", home + ".config/Terminal"],
         ["awesome", home + ".config/awesome"],
-        ["vim", home + ".vim"],
-        ["vimrc", home + ".vimrc"],
-        ["gitconfig", home + ".gitconfig"],
-        ["screenrc", home + ".screenrc"],
-        ["scripts", home + ".scripts"],
-        ["zshrc", home + ".zshrc"],
-        ["zprofile", home + ".zprofile"],
         ["bashrc", home + ".bashrc"],
-        ["profile", home + ".profile"],
-        ["htoprc", home + ".htoprc"],
         ["fonts", home + ".fonts"],
+        ["forward", home + ".forward"],
+        ["gitconfig", home + ".gitconfig"],
         ["gvimrc", home + ".gvimrc"],
-        ["plutocracy", home + ".plutocracy"],
+        ["htoprc", home + ".htoprc"],
         ["mailcap", home + ".mailcap"],
         ["muttrc", home + ".muttrc"],
         ["ncmpc", home + ".ncmpc"],
-        ["forward", home + ".forward"],
+        ["ncmpcpp", home + ".ncmpcpp"],
+        ["plutocracy", home + ".plutocracy"],
         ["procmailrc", home + ".procmailrc"],
+        ["profile", home + ".profile"],
+        ["screenrc", home + ".screenrc"],
+        ["scripts", home + ".scripts"],
         ["signature-default", home + ".signature-default"],
-        ["Terminal", home + ".config/Terminal"],
-        ["xinitrc", home + ".xinitrc"]
+        ["vim", home + ".vim"],
+        ["vimrc", home + ".vimrc"],
+        ["xinitrc", home + ".xinitrc"],
+        ["zprofile", home + ".zprofile"],
+        ["zshrc", home + ".zshrc"]
 ]
 
 for rule in rules:
