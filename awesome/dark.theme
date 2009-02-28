@@ -48,7 +48,7 @@ titlebar_close_button_normal = /usr/local/share/awesome/themes/default/titlebar/
 titlebar_close_button_focus = /usr/local/share/awesome/themes/default/titlebar/closer.png
 
 # You can use your own command to set your wallpaper
-wallpaper_cmd = feh --bg-scale /home/garoth/Graphics/Dragoon/dragoon-concept-1.png
+wallpaper_cmd = feh --bg-scale /home/garoth/Themes/Backgrounds/Waiting_for_the_sun_again_by_lassekongo83.png
 
 # You can use your own layout icons like this:
 layout_dwindle = /usr/local/share/awesome/themes/default/layouts/dwindlew.png
