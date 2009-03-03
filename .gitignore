@@ -2,3 +2,5 @@
 *.swp
 plutocracy/autogen.cfg
 ncmpcpp/error.log
+irssi/away.log
+irssi/logs
