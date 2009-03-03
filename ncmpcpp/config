@@ -89,11 +89,11 @@ song_window_title_format = "{%a - }{%t}|{%f}"
 ## - color is optional (if you want the default one, type [])
 ##
 #
-#song_columns_list_format = "(7)[green]{l} (28)[cyan]{a} (28)[]{b} (50)[red]{t}"
+song_columns_list_format = "(34)[green]{a}  (64)[green]{t}"
 #
 ##### various settings #####
 #
-playlist_display_mode = "classic" (classic/columns)
+playlist_display_mode = "columns" (classic/columns)
 incremental_seeking = "yes"
 seek_time = "1"
 autocenter_mode = "no"
