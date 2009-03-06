@@ -20,6 +20,8 @@ set clipboard=unnamed
 " Highlight characters that go over 80 columns
 :highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
 " :match OverLength '\%82v.*'
+" Bind the make command
+map <F2> :make<Enter>
 
 "                           Vala Highlighting
 "                           -----------------
