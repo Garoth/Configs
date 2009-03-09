@@ -89,26 +89,9 @@ export PROMPT='$PR_GREEN%m$PR_WHITE.$PR_BLUE%n$PR_WHITE $PR_MAGENTA%c\
 $PR_WHITE${vcs_info_msg_0_}: '
 
 # ZSH functions
-preexec() {
-        COMMAND="${1%% *}"
-}
-
 precmd() {
         # Needed for revision control identification
         vcs_info
-
-        # Command not found hook for zsh 
-        if [ -n "$COMMAND" -a -x /usr/bin/pkgfile ]; then
-                which "$COMMAND" &> /dev/null;
-                if [ "$?" -eq 1 ]; then
-                        PACK=$(pkgfile "bin/$COMMAND")
-                        if [ -n "$PACK" ]; then
-                                echo -n "This file can be found in package "
-                                echo $PACK
-                                unset COMMAND
-                        fi
-                fi
-        fi
 }
 
 # Modified cd/ls functions
