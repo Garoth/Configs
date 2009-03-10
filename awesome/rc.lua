@@ -566,14 +566,17 @@ function run_prompt_callback(text)
         divider_l_prompt.visible = false
 end
 
-bind({ modkey }, "F1", function ()
-                            divider_l_prompt.visible = true
+bind({ modkey }, "F1",
+        function ()
+                divider_l_prompt.visible = true
 
-                            awful.prompt.run({ prompt = "Run: " },
-                            mypromptbox[mouse.screen],
-                            run_prompt_callback, awful.completion.bash,
-                            awful.util.getdir("cache") .. "/history")
-                       end)
+                awful.prompt.run({ prompt = "Run: " },
+                        mypromptbox[mouse.screen],
+                        run_prompt_callback,
+                        awful.completion.shell,
+                        awful.util.getdir("cache") .. "/history"
+                )
+        end)
 
 -- Set keys
 root.keys(globalkeys)
@@ -644,7 +647,7 @@ awful.hooks.manage.register(function (c, startup)
     -- Do this after tag mapping, so you don't see it on the wrong tag for
     -- a split second.
     client.focus = c
-    
+
     -- Set key bindings
     c:keys(clientkeys)
 
