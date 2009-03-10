@@ -26,12 +26,14 @@ local settings =
 -- our socket
 local sock = nil;
 
-
 -- override default settings values
 function setup(hostname, port, password)
   settings.hostname = hostname
   settings.port = port
   settings.password = password
+  -- Unset this so that next operation knows to
+  -- get a different server
+  sock = nil
 end
 
 
