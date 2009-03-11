@@ -13,6 +13,8 @@ set scrolloff=8
 set backspace=indent,eol,start
 set nohlsearch
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_
+" Turn the mouse off (Arch sets it by default)
+set mouse=
 " Next two commands make vim use X11 clipboard
 imap <BS> <C-H>
 set clipboard=unnamed
