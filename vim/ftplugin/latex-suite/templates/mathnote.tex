@@ -5,16 +5,20 @@
 %
 
 \documentclass[a4paper,12pt]{article}
-\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=6.0cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, left=1.0cm, right=2.5cm, marginpar=3.0cm,
+marginparsep=0.5cm, ignoremp=false, reversemp=true]{geometry}
 \usepackage[]{amsmath}
 \usepackage{pifont}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{fancybox}
+\usepackage{color}
 
-%%%%Custom Commands
+%%%%Custom
 %%%Formatting
+\reversemarginpar
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \newcommand{\imp}{\ding{212} \ding{32}} %Important Arrow
 \newcommand{\sub}{\ding{216} \ding{32}} %Sub-point Arrow
 %%%Math
@@ -26,12 +30,29 @@
 \newcommand{\ponum}{$\mathbb{P}$ } %Positive Numbers Sign
 %% QED Box
 \newcommand{\qed}{\hfill \ensuremath{\Box}}
+%% Restriction (ex.  (n > 0))
+\newcommand{\rest}[1]{\ensuremath{\qquad\left(#1\right)}}
+%% Redifinitions
+\renewcommand{\implies}{\Rightarrow}
+\renewcommand{\implies}{\Rightarrow}
+\renewcommand{\iff}{\Leftrightarrow}
+%% Example start
+\newcommand{\ex}{\textcolor{lgrey}{\textbf{Ex.}}}
+%%% Colors
+\definecolor{lred}{rgb}{0.94, 0.16, 0.16}
+\definecolor{lgreen}{rgb}{0.54, 0.89, 0.20}
+\definecolor{lblue}{rgb}{0.56, 0.62, 0.81}
+\definecolor{lyellow}{rgb}{0.99, 0.91, 0.30}
+\definecolor{lgrey}{rgb}{0.53, 0.53, 0.53}
+%%% Margin
+\newcommand{\mnote}[1]{\marginpar{\footnotesize\textcolor{lgrey}{#1}}}
 
 \begin{document}
-\title{<++>}
-\author{Andrei `Garoth' Thorp}
-\date{\today}
-\maketitle
+\begin{center}
+{ \huge \textsc{ <++>} } \\[0.2cm]
+\today \hfill Andrei `Garoth' Thorp
+\HRule
+\end{center}
 
 <++>
 
