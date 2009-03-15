@@ -4,3 +4,4 @@
 :set guioptions=aegit
 :colorscheme pyte
 :set number
+:set guifont=Terminus\ 14
