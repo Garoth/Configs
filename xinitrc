@@ -9,7 +9,6 @@ xmodmap -e 'keysym Caps_Lock = Escape'
 ) &
 
 sudo /home/garoth/.scripts/wl-connect-home &
-/home/garoth/.scripts/check-dragoon-loop.sh &
 
 # These things will only start after internet is established
 (
@@ -21,6 +20,7 @@ while true; do
 
                 # List of programs (background them)
                 pidgin &
+                /home/garoth/.scripts/check-dragoon-loop.sh &
 
                 break
         fi
