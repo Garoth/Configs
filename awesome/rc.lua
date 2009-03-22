@@ -338,9 +338,24 @@ mympd.playing.widget = widget({ type = "textbox",
                               name = "mpd-playing",
                               align = "left" })
 
+---- Switch between main PC and laptop for what we're controlling
+function mympd.tools.toggle_host()
+        local myhostname = io.popen("uname -n"):read()
+        if mpd.settings.hostname == "localhost"then
+                if myhostname == "DeepThought" then
+                        mpd.setup("Reason", 6600, nil)
+                elseif myhostname == "Reason" then
+                        mpd.setup("DeepThought", 6600, nil)
+                end
+        else
+                mpd.setup("localhost", 6600, nil)
+        end
+        mympd.playing.update()
+end
+
 function mympd.tools.handle_metadata(text)
         if not text then
-                return awful.util.escape("(unknown)")
+                return awful.util.escape("(unknwn)")
         end
 
         -- Max length of any metadata string shall be 25
@@ -559,6 +574,12 @@ bind({ modkey }, "space", function () awful.layout.inc(layouts, 1) end)
 bind({ modkey, "Shift" }, "space", function ()
                 awful.layout.inc(layouts, -1)
         end)
+
+-- Plugins
+bind({ modkey }, "p", mpd.toggle_play)
+bind({ modkey, "Shift" }, "=", function () mpd.volume_up(5) end)
+bind({ modkey }, "-", function () mpd.volume_down(5) end)
+bind({ modkey, "Shift" }, "8", mympd.tools.toggle_host)
 
 -- Run Prompt
 function run_prompt_callback(text)

@@ -16,7 +16,7 @@ local tonumber = tonumber
 module("mpd")
 
 -- default settings values
-local settings =
+settings =
 {
   hostname = "localhost",
   port = 6600,
