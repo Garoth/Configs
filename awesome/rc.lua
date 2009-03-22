@@ -580,6 +580,8 @@ bind({ modkey }, "p", mpd.toggle_play)
 bind({ modkey, "Shift" }, "=", function () mpd.volume_up(5) end)
 bind({ modkey }, "-", function () mpd.volume_down(5) end)
 bind({ modkey, "Shift" }, "8", mympd.tools.toggle_host)
+bind({ modkey, "Shift" }, ",", mpd.previous)
+bind({ modkey, "Shift" }, ".", mpd.next)
 
 -- Run Prompt
 function run_prompt_callback(text)
