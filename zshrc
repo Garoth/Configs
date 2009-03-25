@@ -65,7 +65,7 @@ setopt vi # vim mode
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 alias ls='ls --color=auto'
 alias althack='telnet nethack.alt.org'
-alias -g mgirc="irssi.mercenariesguild.net"
+alias -g mgirc="garoth@irc.o09.us"
 alias -g uwsol="aapachin@cpu10.student.cs.uwaterloo.ca"
 alias -g uwlin="aapachin@mef-fe10.student.cs.uwaterloo.ca"
 alias -g uwcsc="aapachin@csclub.uwaterloo.ca"
