@@ -13,6 +13,7 @@ set scrolloff=8
 set backspace=indent,eol,start
 set nohlsearch
 set confirm
+set vb t_vb=
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_
 " Turn the mouse off (Arch sets it by default)
 set mouse=
