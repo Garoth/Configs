@@ -13,7 +13,7 @@ use_titlebar = false
 
 layouts =
 {
-    awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.floating
@@ -21,7 +21,6 @@ layouts =
 
 floatapps = {
     ["MPlayer"] = true,
-    ["pinentry"] = true,
     ["gimp"] = true,
     ["epiphany"] = true,
     ["Skype"] = true
@@ -66,7 +65,7 @@ for s = 1, screen.count() do
     awful.layout.set(layouts[2], tags[s][3])
     tags[s][4] = tag("   Ϙ  ")
     tags[s][4].screen = s
-    awful.layout.set(layouts[4], tags[s][4])
+    awful.layout.set(layouts[1], tags[s][4])
     tags[s][5] = tag("   Σ  ")
     tags[s][5].screen = s
     awful.layout.set(layouts[2], tags[s][5])
