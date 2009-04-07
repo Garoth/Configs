@@ -19,6 +19,7 @@ while true; do
                 sleep 8
 
                 # List of programs (background them)
+                skype &
                 pidgin &
                 /home/garoth/.scripts/check-dragoon-loop.sh &
 
@@ -27,5 +28,13 @@ while true; do
         sleep 3
 done
 ) &
+
+# Make sure that the user DBUS Session is online
+if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
+        ## if not found, launch a new one
+        eval `dbus-launch --sh-syntax --exit-with-session`
+        echo "D-Bus per-session daemon address is: $DBUS_SESSION_BUS_ADDRESS"
+fi
+
 
 /usr/local/bin/awesome &> /home/garoth/Info/awesome.log
