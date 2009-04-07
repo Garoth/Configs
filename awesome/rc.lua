@@ -528,6 +528,7 @@ bindclient({ modkey }, "i", function(c) awful.client.maximumize(c) end)
 bindclient({ modkey }, "f", function (c) c.fullscreen = not c.fullscreen end)
 bindclient({ modkey, "Shift" }, "m", function () minimize(client.focus) end)
 bindclient({ modkey }, "c", function() fade_out(client.focus) end)
+bindclient({ modkey, "Shift"}, "c", function (c) c:kill() end)
 bind({ modkey, "Shift", "Control" }, "m", unminimize_all)
 bind({ modkey, "Control" }, "m", minimize_all)
 
