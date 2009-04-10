@@ -17,6 +17,7 @@ rules = [
         ["irssi", home + ".irssi"],
         ["mailcap", home + ".mailcap"],
         ["muttrc", home + ".muttrc"],
+        ["nethackrc", home + ".nethackrc"],
         ["ncmpc", home + ".ncmpc"],
         ["ncmpcpp", home + ".ncmpcpp"],
         ["plutocracy", home + ".plutocracy"],

@@ -1,0 +1,6 @@
+OPTIONS=showexp,showscore,time,color,!autopickup,hilite_pet,DECgraphics
+OPTIONS=catname:Mr.BittyBoots,dogname:Mr.WoofWoof
+OPTIONS=autodig,fruit:kiwi,boulder:0
+OPTIONS=msg_window:reversed
+OPTIONS=number_pad:0
+OPTIONS=suppress_alert:3.4.3
