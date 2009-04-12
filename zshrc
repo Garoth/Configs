@@ -43,6 +43,7 @@ setopt pushd_to_home # "pushd" w/o args takes you home
 setopt auto_list # outputs completion opts immediately on ambig
 setopt list_types # shows types of possible completion opts
 setopt complete_in_word # complete while in mid of word, and don't move cursor
+setopt extended_glob # extra zsh glob features
 # history options
 setopt share_history # all zsh sessions merge history
 setopt hist_ignore_dups # don't put duplicates in history
