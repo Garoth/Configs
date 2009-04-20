@@ -4,11 +4,10 @@ xcompmgr &
 
 setxkbmap us dvorak &
 (
+sleep 10
 xmodmap -e 'remove Lock = Caps_Lock'
 xmodmap -e 'keysym Caps_Lock = Escape'
 ) &
-
-sudo /home/garoth/.scripts/wl-connect-home &
 
 # These things will only start after internet is established
 (
