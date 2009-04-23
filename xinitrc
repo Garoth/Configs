@@ -2,9 +2,9 @@
 PATH=/home/garoth/.scripts:$PATH
 xcompmgr &
 
-setxkbmap us dvorak &
 (
 sleep 10
+setxkbmap us dvorak
 xmodmap -e 'remove Lock = Caps_Lock'
 xmodmap -e 'keysym Caps_Lock = Escape'
 ) &
