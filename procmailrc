@@ -32,7 +32,7 @@ buildmessages
 mailer
 
 :0
-* ^From:.*MAILER-DAEMON@gargleblaster.*
+* ^From:.*MAILER-DAEMON@.*
 mailer
 
 :0
@@ -49,4 +49,4 @@ backup
 
 # Notify me with an awesome notification
 :0ci
-| ( echo 'naughty.notify({icon = "/home/garoth/Themes/mail.png", text = "NEW MAIL", timeout = 10})' | awesome-client )
+| ( echo 'naughty.notify({text = "NEW MAIL", timeout = 10})' | DISPLAY=:0.0 awesome-client )
