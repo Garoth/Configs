@@ -14,11 +14,14 @@ set backspace=indent,eol,start
 set nohlsearch
 set confirm
 set vb t_vb=
+set shortmess=a
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_
 " Turn the mouse off (Arch sets it by default)
 set mouse=
 " Next two commands make vim use X11 clipboard
-imap <BS> <C-H>
+set foldenable
+set foldmethod=syntax
+set foldlevel=100
 set clipboard=unnamed
 :nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 " Make integration stuff
@@ -29,6 +32,8 @@ let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 " Highlight characters that go over 80 columns
 :highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
 " :match OverLength '\%82v.*'
+imap <BS> <C-H>
+cmap W<cr> w<cr>
 
 "                           Vala Highlighting
 "                           -----------------
