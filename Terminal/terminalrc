@@ -29,7 +29,7 @@ AccelContents=F1
 BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
 BackgroundImageFile=
 BackgroundImageStyle=TERMINAL_BACKGROUND_STYLE_TILED
-BackgroundDarkness=0.694915
+BackgroundDarkness=0.628352
 BindingBackspace=TERMINAL_ERASE_BINDING_AUTO
 BindingDelete=TERMINAL_ERASE_BINDING_AUTO
 ColorForeground=#c0c0c0c0c0c0
@@ -84,4 +84,6 @@ TitleMode=TERMINAL_TITLE_APPEND
 Term=xterm
 VteWorkaroundTitleBug=TRUE
 WordChars=-A-Za-z0-9,./?%&#:_~
+TabActivityColor=#afff00000000
+TabActivityTimeout=2.000000
 
