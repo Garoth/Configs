@@ -4,7 +4,11 @@ import xml.dom.minidom as xml
 f = open("/home/garoth/.todo")
 dom = xml.parse(f)
 notes = dom.getElementsByTagName("note")
-print(dom.attributes)
-print(notes)
 for note in notes:
-        pass
+        print(note.attributes["priority"].firstChild.data) + " | ",
+        print(note.attributes["time"].firstChild.data) + " | ",
+        if note.hasAttribute("done"):
+                print(note.attributes["done"].firstChild.data)
+        else:
+                print("")
+        print(note.firstChild.data.strip())
