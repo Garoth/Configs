@@ -14,7 +14,6 @@ rules = [
         ["gitconfig", home + ".gitconfig"],
         ["gvimrc", home + ".gvimrc"],
         ["htoprc", home + ".htoprc"],
-        ["irssi", home + ".irssi"],
         ["mailcap", home + ".mailcap"],
         ["muttrc", home + ".muttrc"],
         ["nethackrc", home + ".nethackrc"],
