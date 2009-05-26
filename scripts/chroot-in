@@ -1,0 +1,30 @@
+#!/bin/bash
+export SHELL=/bin/bash
+export LC_ALL="en_US.UTF-8"
+
+usage() {
+        echo "Usage: chroot-in path/to/chroot"
+        echo ""
+        echo "This program sets up a chroot's proc, etc. and then chroots in."
+}
+
+check-root.sh
+if [ $? -eq 1 ]; then
+        echo "Must be root to run this script."
+        exit 1
+fi
+
+if [ -n "$1" ]; then
+        chroot=$1
+else
+        usage
+        exit 1
+fi
+
+mount -t proc proc $chroot/proc
+mount -t sysfs sysfs $chroot/sys
+mount -o bind /dev $chroot/dev
+chroot $chroot
+umount $chroot/proc
+umount $chroot/sys
+umount $chroot/dev
