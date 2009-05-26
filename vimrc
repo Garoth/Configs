@@ -18,10 +18,10 @@ set shortmess=a
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_
 " Turn the mouse off (Arch sets it by default)
 set mouse=
+" set foldenable
+" set foldmethod=syntax
+" set foldlevel=100
 " Next two commands make vim use X11 clipboard
-set foldenable
-set foldmethod=syntax
-set foldlevel=100
 set clipboard=unnamed
 :nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 " Make integration stuff
