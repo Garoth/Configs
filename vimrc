@@ -57,6 +57,18 @@ function ClosePair(char)
   endif
 endf
 
+"                           Auto Add Modeline
+"                           -----------------
+" Append modeline after last line in buffer.
+" Use substitute() (not printf()) to handle '%%s' modeline in LaTeX files.
+function! AppendModeline()
+  let save_cursor = getpos('.')
+  let append = ' vim: set ts='.&tabstop.' sw='.&shiftwidth.' tw='.&textwidth.': '
+  $put =substitute(&commentstring, '%s', append, '')
+  call setpos('.', save_cursor)
+endfunction
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
 "                            Vim-Latex Stuff 
 "                            ---------------
 " IMPORTANT: grep will sometimes skip displaying the file name if you
