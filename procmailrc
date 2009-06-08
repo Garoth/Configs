@@ -43,10 +43,6 @@ spam
 * ^Subject:.*Spam.*
 spam
 
-# Not spam, going to my inbox
-:0c
-backup
-
 # Notify me with an awesome notification
 :0ci
-| ( echo 'naughty.notify({text = "NEW MAIL", timeout = 10})' | DISPLAY=:0.0 awesome-client )
+| ( echo 'naughty.notify({width=300, text = "NEW MAIL", timeout = 10})' | DISPLAY=:0.0 awesome-client )
