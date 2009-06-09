@@ -7,7 +7,7 @@ require("naughty")
 require("mpd")
 
 -- Settings
-theme_path = "/home/garoth/.config/awesome/dark.theme"
+theme_path = os.getenv("HOME") .. "/.config/awesome/dark.theme.lua"
 modkey = "Mod4"
 use_titlebar = false
 
@@ -380,7 +380,9 @@ function mympd.playing.update()
                               mympd.tools.handle_metadata(songstats.album)
         end
 
-        mympd.playing.widget.text = now_playing
+        if mympd.playing.widget then
+                mympd.playing.widget.text = now_playing
+        end
 end
 awful.hooks.timer.register(1, mympd.playing.update)
 mympd.playing.update()
@@ -416,14 +418,14 @@ for s = 1, screen.count() do
             mytaglist.buttons)
 
     -- Create the wibox
-    statusbartop[s] = wibox({ 
+    statusbartop[s] = awful.wibox({
             position = "left",
-            name = "statusbartop" .. s,
             fg = beautiful.fg_normal,
             bg = beautiful.bg_normal,
             width=22,
             border_width = 0,
-            border_color = beautiful.bg_focus
+            border_color = beautiful.bg_focus,
+            screen = s
     })
 
     -- Add widgets to the wibox - order matters
@@ -442,9 +444,9 @@ for s = 1, screen.count() do
             datetextbox,
             divider_r,
             mylayoutbox[s],
-            s == 1 and mysystray or nil
+            (s == 1 and mysystray or nil),
+            divider_r,
     }
-
     -- Run Prompt Wibox
     runwibox[s] = awful.wibox({
             position = "bottom",
