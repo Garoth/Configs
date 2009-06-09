@@ -387,6 +387,7 @@ mympd.playing.update()
 
 -- Generate Statusbars, finally
 statusbartop = {}
+runwibox = {}
 for s = 1, screen.count() do
     mypromptbox[s] = widget({
             type = "textbox",
@@ -431,7 +432,6 @@ for s = 1, screen.count() do
             divider_l,
             minimizedimg,
             divider_l,
-            mypromptbox[s],
             divider_l_prompt,
             mympd.playing,
             -- Gap here
@@ -445,7 +445,22 @@ for s = 1, screen.count() do
             s == 1 and mysystray or nil
     }
 
-    statusbartop[s].screen = s
+    -- Run Prompt Wibox
+    runwibox[s] = awful.wibox({
+            position = "bottom",
+            fg = beautiful.fg_normal,
+            bg = beautiful.bg_normal,
+            width=22,
+            border_width = 0,
+            border_color = beautiful.bg_focus,
+            screen = s
+    })
+    runwibox[s].visible = false
+
+    -- Widgets for prompt wibox
+    runwibox[s].widgets = {
+            mypromptbox[s],
+    }
 end
 -- }}}
 
@@ -590,20 +605,21 @@ bind({ modkey, "Shift" }, ".", function ()
         end)
 
 -- Run Prompt
-function run_prompt_callback(text)
-        awful.util.spawn(text)
-        divider_l_prompt.visible = false
+function run_prompt_callback()
+        runwibox[mouse.screen].visible = false
 end
 
 bind({ modkey }, "F1",
         function ()
-                divider_l_prompt.visible = true
+                runwibox[mouse.screen].visible = true
 
                 awful.prompt.run({ prompt = "Run: " },
                         mypromptbox[mouse.screen],
-                        run_prompt_callback,
+                        awful.util.spawn,
                         awful.completion.shell,
-                        awful.util.getdir("cache") .. "/history"
+                        awful.util.getdir("cache") .. "/history",
+                        100,
+                        run_prompt_callback
                 )
         end)
 
