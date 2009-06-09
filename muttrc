@@ -27,7 +27,7 @@ mailboxes =sent =builderspam
 set sendmail="/usr/sbin/sendmail -v"
 set envelope_from=yes
 
-color status    white black 
-color indicator white black
-color search    white black 
-color markers   white black 
+color status    white blue
+color indicator white blue
+color search    white blue
+color markers   white blue
