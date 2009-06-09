@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require "sup"
+
+
+Redwood::start
+begin
+  index = Redwood::Index.new
+  index.load
+
+  @text = []
+  labels = Redwood::LabelManager.all_labels
+
+  counts = labels.map do |label|
+    string = Redwood::LabelManager.string_for label
+    total = index.num_results_for :label => label
+    unread = (label == :unread)? total : index.num_results_for(:labels => [label, :unread])
+    [label, string, total, unread]
+  end.sort_by { |l, s, t, u| s.downcase }
+
+  width = counts.max_of { |l, s, t, u| s.length }
+
+  if @unread_only
+    counts.delete_if { | l, s, t, u | u == 0 }
+  end
+
+  @labels = []
+  counts.map do |label, string, total, unread|
+    ## if we've done a search and there are no messages for this label, we can delete it from the
+    ## list. BUT if it's a brand-new label, the user may not have sync'ed it to the index yet, so
+    ## don't delete it in this case.
+    ##
+    ## this is all a hack. what should happen is:
+    ##   TODO make the Redwood::LabelManager responsible for label counts
+    ## and then it can listen to labeled and unlabeled events, etc.
+    if total == 0 && !Redwood::LabelManager::RESERVED_LABELS.include?(label) && !Redwood::LabelManager.new_label?(label)
+      Redwood::log "no hits for label #{label}, deleting"
+      Redwood::LabelManager.delete label
+      next
+    end
+
+    printf("%#{width + 1}s %5d %s, %5d unread\n", string, total, total == 1 ? " message" : "messages", unread)
+    #@labels << [label, unread]
+    yield i if block_given?
+  end.compact
+
+  BufferManager.flash "No labels with unread messages!" if counts.empty? && @unread_only
+
+rescue Exception => e
+  File.open("sup-exception-log.txt", "w") { |f| f.puts e.backtrace }
+  raise
+ensure
+  index.save
+  Redwood::finish
+  index.unlock
+end
+
