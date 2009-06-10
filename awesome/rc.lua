@@ -445,7 +445,6 @@ for s = 1, screen.count() do
             divider_r,
             mylayoutbox[s],
             (s == 1 and mysystray or nil),
-            divider_r,
     }
     -- Run Prompt Wibox
     runwibox[s] = awful.wibox({
