@@ -427,6 +427,7 @@ for s = 1, screen.count() do
             border_color = beautiful.bg_focus,
             screen = s
     })
+    statusbartop[s].opacity = 0.7
 
     -- Add widgets to the wibox - order matters
     statusbartop[s].widgets = {
@@ -461,6 +462,7 @@ for s = 1, screen.count() do
             x = screen[s].geometry.width * 0.2,
             y = screen[s].geometry.height - 22,
     })
+    runwibox[s].opacity = 0.7
     runwibox[s].visible = false
     runwibox[s].ontop = true
 
