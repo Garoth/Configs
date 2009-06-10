@@ -459,8 +459,8 @@ for s = 1, screen.count() do
     runwibox[s]:geometry({
             width = screen[s].geometry.width * 0.6,
             height = 22,
-            x = screen[s].geometry.width * 0.2,
-            y = screen[s].geometry.height - 22,
+            x = screen[s].geometry.x + screen[s].geometry.width * 0.2,
+            y = screen[s].geometry.y + screen[s].geometry.height - 22,
     })
     runwibox[s].opacity = 0.7
     runwibox[s].visible = false
@@ -559,19 +559,19 @@ bind({ modkey, "Control" }, "m", minimize_all)
 -- Focus by direction (vi keys)
 bind({ modkey }, "j", function ()
                 awful.client.focus.bydirection("down")
-                client.focus:raise()
+                if client.focus then client.focus:raise() end
         end)
 bind({ modkey }, "k", function ()
                 awful.client.focus.bydirection("up")
-                client.focus:raise()
+                if client.focus then client.focus:raise() end
         end)
 bind({ modkey }, "l", function ()
                 awful.client.focus.bydirection("right")
-                client.focus:raise()
+                if client.focus then client.focus:raise() end
         end)
 bind({ modkey }, "h", function ()
                 awful.client.focus.bydirection("left");
-                client.focus:raise()
+                if client.focus then client.focus:raise() end
         end)
 
 -- Swap by direction (vi keys)
