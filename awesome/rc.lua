@@ -448,15 +448,21 @@ for s = 1, screen.count() do
     }
     -- Run Prompt Wibox
     runwibox[s] = awful.wibox({
-            position = "bottom",
+            position = "float",
             fg = beautiful.fg_normal,
             bg = beautiful.bg_normal,
-            width=22,
-            border_width = 0,
+            border_width = 1,
             border_color = beautiful.bg_focus,
             screen = s
     })
+    runwibox[s]:geometry({
+            width = screen[s].geometry.width * 0.6,
+            height = 22,
+            x = screen[s].geometry.width * 0.2,
+            y = screen[s].geometry.height - 22,
+    })
     runwibox[s].visible = false
+    runwibox[s].ontop = true
 
     -- Widgets for prompt wibox
     runwibox[s].widgets = {
@@ -614,7 +620,7 @@ bind({ modkey }, "F1",
         function ()
                 runwibox[mouse.screen].visible = true
 
-                awful.prompt.run({ prompt = "Run: " },
+                awful.prompt.run({ prompt = "  Run~  " },
                         mypromptbox[mouse.screen],
                         awful.util.spawn,
                         awful.completion.shell,
