@@ -72,7 +72,7 @@ theme.titlebar_maximized_button_normal_active = "/usr/local/share/awesome/themes
 theme.titlebar_maximized_button_focus_active = "/usr/local/share/awesome/themes/default/titlebar/maximized_focus_active.png"
 
 -- You can use your own command to set your wallpaper
-theme.wallpaper_cmd = { "feh --bg-tile /home/garoth/Themes/backgrounds/and-the-living-is-easy.jpg" }
+theme.wallpaper_cmd = { "feh --bg-tile /home/garoth/Themes/Backgrounds/darkwood-1680x1050.jpg" }
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/local/share/awesome/themes/default/layouts/fairhw.png"
