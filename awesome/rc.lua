@@ -1,12 +1,12 @@
 -- awesome 3 configuration file
 require("awful")
 require("beautiful")
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/dark.theme.lua")
 require("naughty")
 require("mpd")
 require("obvious.popup_run_prompt")
 
 -- Settings
-theme_path = os.getenv("HOME") .. "/.config/awesome/dark.theme.lua"
 modkey = "Mod4"
 
 layouts = {
@@ -36,8 +36,6 @@ currently_fading = false
 terminal = "terminal"
 
 -- {{{ Initialization
-beautiful.init(theme_path)
-
 -- Naughty Config
 naughty.config.height = 32
 naughty.config.icon_size = 32
