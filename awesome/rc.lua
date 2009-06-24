@@ -5,6 +5,7 @@ require("awful")
 require("beautiful")
 require("naughty")
 require("mpd")
+require("obvious.popup_run_prompt")
 
 -- Settings
 theme_path = os.getenv("HOME") .. "/.config/awesome/dark.theme.lua"
@@ -48,6 +49,9 @@ beautiful.init(theme_path)
 naughty.config.height = 32
 naughty.config.icon_size = 32
 
+-- Run Prompt Config
+obvious.popup_run_prompt.set_opacity(0.7)
+obvious.popup_run_prompt.set_slide(true)
 -- }}}
 
 -- {{{ Tags
@@ -613,24 +617,8 @@ bind({ modkey, "Shift" }, ".", function ()
                 mympd.playing.update()
         end)
 
--- Run Prompt
-function run_prompt_callback()
-        runwibox[mouse.screen].visible = false
-end
-
-bind({ modkey }, "F1",
-        function ()
-                runwibox[mouse.screen].visible = true
-
-                awful.prompt.run({ prompt = "  Run~  " },
-                        mypromptbox[mouse.screen],
-                        awful.util.spawn,
-                        awful.completion.shell,
-                        awful.util.getdir("cache") .. "/history",
-                        100,
-                        run_prompt_callback
-                )
-        end)
+-- Prompt
+bind({ modkey }, "F1", obvious.popup_run_prompt.run_prompt)
 
 -- Set keys
 root.keys(globalkeys)
