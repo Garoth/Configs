@@ -23,8 +23,7 @@ set mouse=
 " set foldlevel=100
 " Next two commands make vim use X11 clipboard
 set clipboard=unnamed
-au BufRead *sup.compose-mode set ft=mail
-au BufRead *sup.reply-mode set ft=mail
+au BufRead *sup.*-mode set ft=mail
 au BufRead *pde set ft=c
 :nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 " Make integration stuff
