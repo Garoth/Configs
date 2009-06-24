@@ -1,6 +1,4 @@
 -- awesome 3 configuration file
-
--- Include awesome library, with lots of useful function!
 require("awful")
 require("beautiful")
 require("naughty")
@@ -10,10 +8,8 @@ require("obvious.popup_run_prompt")
 -- Settings
 theme_path = os.getenv("HOME") .. "/.config/awesome/dark.theme.lua"
 modkey = "Mod4"
-use_titlebar = false
 
-layouts =
-{
+layouts = {
     awful.layout.suit.tile.left,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
@@ -38,9 +34,6 @@ currently_fading = false
 
 -- Program Variables
 terminal = "terminal"
-music_player = "songbird"
-browser = "firefox"
-mail_client = browser .. " http://gmail.com"
 
 -- {{{ Initialization
 beautiful.init(theme_path)
@@ -409,13 +402,6 @@ for s = 1, screen.count() do
             align = "right"
     })
 
-    mylayoutbox[s]:buttons({
-            button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-            button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-            button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-            button({ }, 5, function () awful.layout.inc(layouts, -1) end)
-    })
-
     -- Create a taglist widget
     mytaglist[s] = awful.widget.taglist.new(s,
             awful.widget.taglist.label.all,
@@ -530,19 +516,6 @@ end
 bind({ modkey }, "Return", function () awful.util.spawn(terminal) end)
 bind({ modkey, "Control" }, "r", awesome.restart)
 bind({ modkey, "Control", "Shift" }, "q", awesome.quit)
-bind({ modkey }, "s", function ()
-                client.focus.sticky = not client.focus.sticky
-        end)
-bind({ modkey }, "Left", awful.tag.viewprev)
-bind({ modkey }, "Right", awful.tag.viewnext)
-
--- Media Keys
-bind({ }, "#129", function () awful.util.spawn(music_player) end)
-bind({ }, "#236", function () awful.util.spawn(mail_client) end)
-bind({ }, "#178", function () awful.util.spawn(browser) end)
-bind({ }, "#161", function ()
-        naughty.notify({text = "calculator", timeout = 7})
-end)
 
 -- Client manipulation
 bindclient({ modkey, "Control" }, "space", function(c)
@@ -552,7 +525,6 @@ bindclient({ modkey }, "m", function (c)
                 c.maximized_horizontal = not c.maximized_horizontal
                 c.maximized_vertical = not c.maximized_vertical
         end)
-bindclient({ modkey }, "i", function(c) awful.client.maximumize(c) end)
 bindclient({ modkey }, "f", function (c) c.fullscreen = not c.fullscreen end)
 bindclient({ modkey, "Shift" }, "m", function () minimize(client.focus) end)
 bindclient({ modkey }, "c", function() fade_out(client.focus) end)
@@ -627,18 +599,13 @@ root.keys(globalkeys)
 -- {{{ Hooks
 -- Hook function to execute when focusing a client.
 awful.hooks.focus.register(function (c)
-    if not awful.client.ismarked(c) then
-        c.border_color = beautiful.border_focus
-    end
-
+    c.border_color = beautiful.border_focus
     display_floating_sign()
 end)
 
 -- Hook function to execute when unfocusing a client.
 awful.hooks.unfocus.register(function (c)
-    if not awful.client.ismarked(c) then
-        c.border_color = beautiful.border_normal
-    end
+    c.border_color = beautiful.border_normal
 end)
 
 -- Hook function to execute when a new client appears.
@@ -650,18 +617,12 @@ awful.hooks.manage.register(function (c, startup)
         c.screen = mouse.screen
     end
 
-    if use_titlebar then
-        -- Add a titlebar
-        awful.titlebar.add(c, { modkey = modkey })
-    end
     -- Add mouse bindings
     c:buttons({
         button({ }, 1, function (c) client.focus = c; c:raise() end),
         button({ modkey }, 1, awful.mouse.client.move),
         button({ modkey }, 3, awful.mouse.client.resize)
     })
-    -- New client may not receive focus
-    -- if they're not focusable, so set border anyway.
     c.border_width = beautiful.border_width
     c.border_color = beautiful.border_normal
 
@@ -686,8 +647,7 @@ awful.hooks.manage.register(function (c, startup)
         awful.client.movetotag(tags[target.screen][target.tag], c)
     end
 
-    -- Do this after tag mapping, so you don't see it on the wrong tag for
-    -- a split second.
+    -- Do this after tag mapping
     client.focus = c
 
     -- Set key bindings
