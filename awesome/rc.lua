@@ -5,6 +5,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/dark.theme.lua")
 require("naughty")
 require("mpd")
 require("obvious.popup_run_prompt")
+require("obvious.clock")
 
 -- Settings
 modkey = "Mod4"
@@ -43,6 +44,9 @@ naughty.config.icon_size = 32
 -- Run Prompt Config
 obvious.popup_run_prompt.set_opacity(0.7)
 obvious.popup_run_prompt.set_slide(true)
+
+-- Clock Config
+obvious.clock.set_editor(terminal .. " -x vim")
 -- }}}
 
 -- {{{ Tags
@@ -280,14 +284,6 @@ divider_r = widget({
 })
 divider_r.image = image(os.getenv("HOME") .. "/.config/awesome/div.png")
 
--- Date box
-datetextbox = widget({
-        type = "textbox",
-        name = "mytextbox",
-        align = "right"
-})
-datetextbox.text = os.date("%a %b %e")
-
 -- Has minimized windows images
 minimizedimg = widget({
         type = "imagebox",
@@ -430,7 +426,7 @@ for s = 1, screen.count() do
             divider_r,
             floatingimg,
             divider_r,
-            datetextbox,
+            obvious.clock(),
             divider_r,
             mylayoutbox[s],
             (s == 1 and mysystray or nil),
@@ -672,10 +668,5 @@ awful.hooks.arrange.register(function (screen)
         local c = awful.client.focus.history.get(screen, 0)
         if c then client.focus = c end
     end
-end)
-
--- Date Update Hook
-awful.hooks.timer.register(3, function ()
-    datetextbox.text = os.date("%a %b %e")
 end)
 -- }}}
