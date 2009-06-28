@@ -47,6 +47,8 @@ obvious.popup_run_prompt.set_slide(true)
 
 -- Clock Config
 obvious.clock.set_editor(terminal .. " -x vim")
+obvious.clock.set_shortformat("%a %b %d")
+obvious.clock.set_longformat("%T %a %b %d %Y")
 -- }}}
 
 -- {{{ Tags
