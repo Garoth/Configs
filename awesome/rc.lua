@@ -3,9 +3,10 @@ require("awful")
 require("beautiful")
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/dark.theme.lua")
 require("naughty")
-require("mpd")
 require("obvious.popup_run_prompt")
 require("obvious.clock")
+require("obvious.basic_mpd")
+require("obvious.lib.mpd")
 
 -- Settings
 modkey = "Mod4"
@@ -87,16 +88,6 @@ end
 function bindclient(tab, str, fnc)
         mykey = key(tab, str, fnc)
         table.insert(clientkeys, mykey)
-end
-
--- Set Foreground colour of text
-function colour(colour, text)
-        return '<span color="' .. colour .. '">' .. text .. '</span>'
-end
-
--- Make bold text
-function bold(text)
-        return '<b>' .. text .. '</b>'
 end
 
 -- Client Fade Out + Kill
@@ -323,63 +314,6 @@ floatingimg:buttons({ button({ }, 1, function ()
                 toggle_floating(client.focus)
         end) })
 
--- MPD - now playing
-mympd = {}
-mympd.playing = {}
-mympd.tools = {}
-mympd.playing.widget = widget({ type = "textbox",
-                              name = "mpd-playing",
-                              align = "left" })
-
----- Switch between main PC and laptop for what we're controlling
-function mympd.tools.toggle_host()
-        local myhostname = io.popen("uname -n"):read()
-        if mpd.settings.hostname == "localhost"then
-                if myhostname == "DeepThought" then
-                        mpd.setup("Reason", 6600, nil)
-                elseif myhostname == "Reason" then
-                        mpd.setup("DeepThought", 6600, nil)
-                end
-        else
-                mpd.setup("localhost", 6600, nil)
-        end
-        mympd.playing.update()
-end
-
-function mympd.tools.handle_metadata(text)
-        if not text then
-                return awful.util.escape("(unknwn)")
-        end
-
-        -- Max length of any metadata string shall be 25
-        text = string.sub(text, 0, 25)
-        return awful.util.escape(text)
-end
-
-function mympd.playing.update()
-        local status = mpd.send("status")
-        local now_playing, songstats
-
-        if not status.state then
-                now_playing = "Music Off"
-                now_playing = colour("yellow", now_playing)
-        elseif status.state == "stop" then
-                now_playing = "Music Stopped"
-        else
-                songstats = mpd.send("playlistid " .. status.songid)
-                now_playing = mympd.tools.handle_metadata(songstats.title) ..
-                              " - " ..
-                              mympd.tools.handle_metadata(songstats.artist) ..
-                              " - " ..
-                              mympd.tools.handle_metadata(songstats.album)
-        end
-
-        if mympd.playing.widget then
-                mympd.playing.widget.text = now_playing
-        end
-end
-awful.hooks.timer.register(1, mympd.playing.update)
-mympd.playing.update()
 
 -- Generate Statusbars, finally
 statusbartop = {}
@@ -422,8 +356,7 @@ for s = 1, screen.count() do
             divider_l,
             minimizedimg,
             divider_l,
-            divider_l_prompt,
-            mympd.playing,
+            obvious.basic_mpd.getWidget(),
             -- Gap here
             random_text,
             divider_r,
@@ -579,17 +512,16 @@ bind({ modkey, "Shift" }, "space", function ()
         end)
 
 -- Plugins
-bind({ modkey }, "p", mpd.toggle_play)
-bind({ modkey, "Shift" }, "=", function () mpd.volume_up(5) end)
-bind({ modkey }, "-", function () mpd.volume_down(5) end)
-bind({ modkey, "Shift" }, "8", mympd.tools.toggle_host)
+bind({ modkey }, "p", obvious.lib.mpd.toggle_play)
+bind({ modkey, "Shift" }, "=", function () obvious.lib.mpd.volume_up(5) end)
+bind({ modkey }, "-", function () obvious.lib.mpd.volume_down(5) end)
 bind({ modkey, "Shift" }, ",", function ()
-                mpd.previous()
-                mympd.playing.update()
+                obvious.lib.mpd.previous()
+                obvious.basic_mpd.mympd.playing.update()
         end)
 bind({ modkey, "Shift" }, ".", function ()
-                mpd.next()
-                mympd.playing.update()
+                obvious.lib.mpd.next()
+                obvious.basic_mpd.mympd.playing.update()
         end)
 
 -- Prompt
