@@ -21,10 +21,10 @@ set mouse=
 " set foldenable
 " set foldmethod=syntax
 " set foldlevel=100
-" Next two commands make vim use X11 clipboard
-set clipboard=unnamed
 au BufRead *sup.*-mode set ft=mail
 au BufRead *pde set ft=c
+" Next two commands make vim use X11 clipboard
+set clipboard=unnamed
 :nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 " Make integration stuff
 map <F2> :make<Enter>
