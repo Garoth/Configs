@@ -14,7 +14,8 @@ layouts = {
     awful.layout.suit.tile.left,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.floating
+    awful.layout.suit.floating,
+    awful.layout.suit.tile.bottom,
 }
 
 floatapps = {
