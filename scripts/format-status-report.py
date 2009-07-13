@@ -23,6 +23,7 @@ if __name__ == "__main__":
         file = open(sys.argv[1])
         hash = None
         message = None
+        author = None
         while True:
                 line = file.readline()
                 if len(line) == 0:
@@ -38,8 +39,9 @@ if __name__ == "__main__":
                                 message = None
 
                         hash = line.split(" ")[1]
-                        # skip Author, Date, blank line
-                        file.readline()
+                        # skip this message if author ain't me
+                        author = line.split(" ", 1)[1]
+                        # skip Date, blank line
                         file.readline()
                         file.readline()
                 else:
@@ -49,7 +51,7 @@ if __name__ == "__main__":
                         else:
                                 message += line.strip(" ")
         # And the last one...
-        if hash:
+        if hash and ("Andrei" in author):
                 hash = hash.strip()
                 message = message.strip()
                 commits.append(Commit(hash, message))
