@@ -561,6 +561,12 @@ bind({ modkey, "Shift" }, "h", function ()
                 awful.client.swap.bydirection("left")
         end)
 
+-- Column Manipulation
+bind({ modkey, "Shift"}, "g", function () awful.tag.incncol(1) end)
+bind({ modkey, "Shift"}, "f", function () awful.tag.incncol(-1) end)
+bind({ modkey, "Control"}, "g", function () awful.tag.incnmaster(1) end)
+bind({ modkey, "Control"}, "f", function () awful.tag.incnmaster(-1) end)
+
 -- Multiscreen Keybindings
 bind({ modkey, "Control" }, "l", function () awful.screen.focus(1) end)
 bind({ modkey, "Control" }, "h", function () awful.screen.focus(-1) end)
