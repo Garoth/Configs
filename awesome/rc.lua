@@ -51,6 +51,9 @@ obvious.popup_run_prompt.set_slide(true)
 obvious.clock.set_editor(terminal .. " -x vim")
 obvious.clock.set_shortformat("%a %b %d")
 obvious.clock.set_longformat("%T %a %b %d %Y")
+
+-- Basic MPD Config
+obvious.basic_mpd.set_format("$title - $artist - $album")
 -- }}}
 
 -- {{{ Tags
@@ -356,7 +359,7 @@ for s = 1, screen.count() do
             divider_l,
             minimizedimg,
             divider_l,
-            obvious.basic_mpd.getWidget(),
+            obvious.basic_mpd(),
             -- Gap here
             random_text,
             divider_r,
@@ -517,11 +520,11 @@ bind({ modkey, "Shift" }, "=", function () obvious.lib.mpd.volume_up(5) end)
 bind({ modkey }, "-", function () obvious.lib.mpd.volume_down(5) end)
 bind({ modkey, "Shift" }, ",", function ()
                 obvious.lib.mpd.previous()
-                obvious.basic_mpd.mympd.playing.update()
+                obvious.basic_mpd.update()
         end)
 bind({ modkey, "Shift" }, ".", function ()
                 obvious.lib.mpd.next()
-                obvious.basic_mpd.mympd.playing.update()
+                obvious.basic_mpd.update()
         end)
 
 -- Prompt
