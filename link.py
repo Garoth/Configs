@@ -26,6 +26,7 @@ rules = [
         ["screenrc", home + ".screenrc"],
         ["scripts", home + ".scripts"],
         ["signature-default", home + ".signature-default"],
+        ["sup/hooks", home + ".sup/hooks"],
         ["vim", home + ".vim"],
         ["vimrc", home + ".vimrc"],
         ["xinitrc", home + ".xinitrc"],
