@@ -9,6 +9,7 @@ rules = [
         ["Terminal", home + ".config/Terminal"],
         ["awesome", home + ".config/awesome"],
         ["bashrc", home + ".bashrc"],
+        ["fetchmailrc", home + ".fetchmailrc"],
         ["fonts", home + ".fonts"],
         ["forward", home + ".forward"],
         ["gitconfig", home + ".gitconfig"],
