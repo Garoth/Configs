@@ -18,9 +18,7 @@ while true; do
                 sleep 8
 
                 # List of programs (background them)
-                skype &
                 pidgin &
-                /home/garoth/.scripts/check-dragoon-loop.sh &
 
                 break
         fi
@@ -36,4 +34,4 @@ if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
 fi
 
 
-/usr/local/bin/awesome &> /home/garoth/Info/awesome.log
+/usr/bin/awesome &> /home/garoth/Info/awesome.log
