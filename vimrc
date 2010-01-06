@@ -62,6 +62,17 @@ function! NewJavaFile()
         $put =function
 endfunction
 
+nnoremap <Leader>p :call InsertPackageStatement()<CR>
+" Generates a package statement for the current file
+" Limitation: assumes that the src/ folder is just above the package structure
+function! InsertPackageStatement()
+        let path = substitute(expand('%:p'), '.*src/', '', '')
+        let path = substitute(path, '/' . expand('%') . "$", '', '')
+        let path = "package " . substitute(path, '/', '.', 'g') . ';'
+
+        -put =path
+endfunction
+
 "                          Paren Autocompletion
 "                          ---------------------
 :inoremap ( ()<ESC>i
