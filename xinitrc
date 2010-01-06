@@ -1,13 +1,8 @@
 #!/bin/bash
 PATH=/home/garoth/.scripts:$PATH
-xcompmgr &
-
-(
-sleep 10
 setxkbmap us dvorak
 xmodmap -e 'remove Lock = Caps_Lock'
 xmodmap -e 'keysym Caps_Lock = Escape'
-) &
 
 # These things will only start after internet is established
 (
@@ -33,5 +28,7 @@ if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
         echo "D-Bus per-session daemon address is: $DBUS_SESSION_BUS_ADDRESS"
 fi
 
-
+unclutter &
+xcompmgr &
+#/usr/local/bin/awesome &> /home/garoth/Info/awesome.log
 /usr/bin/awesome &> /home/garoth/Info/awesome.log
