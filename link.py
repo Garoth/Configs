@@ -12,6 +12,7 @@ rules = [
         ["fetchmailrc", home + ".fetchmailrc"],
         ["fonts", home + ".fonts"],
         ["forward", home + ".forward"],
+        ["gcextras", home + ".gcextras"],
         ["gitconfig", home + ".gitconfig"],
         ["gvimrc", home + ".gvimrc"],
         ["htoprc", home + ".htoprc"],
