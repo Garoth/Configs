@@ -45,6 +45,23 @@ au BufRead,BufNewFile *.vala            setfiletype vala
 au BufRead,BufNewFile *.vapi            setfiletype vala
 au! Syntax vala source $VIM/syntax/cs.vim
 
+"
+"                              Java Hacks
+"                              ----------
+autocmd BufNewFile *.java call NewJavaFile()
+function! NewJavaFile()
+        let filename = expand("%:t:r")
+        let comment = "/* " . filename . " Class File */"
+        let constructor = "    /* Constructor */\<NL>" .
+                \ "    public " . filename .
+                \ "() {\<NL>          \<NL>    }"
+        let function = "public class " . filename . " {\<NL>\<NL>" .
+                \ constructor . "\<NL>}"
+
+        -put =comment
+        $put =function
+endfunction
+
 "                          Paren Autocompletion
 "                          ---------------------
 :inoremap ( ()<ESC>i
