@@ -66,6 +66,7 @@ setopt auto_cd # you can cd by just typing a folder name
 setopt vi # vim mode
 
 #Aliases
+alias chrome='google-chrome --enable-extension-timeline-api'
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 alias ls='ls --color=auto'
 alias althack='telnet nethack.alt.org'
