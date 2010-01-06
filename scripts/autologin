@@ -1,12 +1,14 @@
 #!/bin/bash
-
 . /etc/rc.conf
 . /etc/rc.d/functions
 
+LOGIN_USER="garoth"
+
 case "$1" in
   start)
-    stat_busy "Automatically logging in"
-    dtach -n /var/run/autologin.dtach su -c 'sh -l -c startx' robin
+    stat_busy "Automatically logging ${LOGIN_USER} in"
+    cd "/home/${LOGIN_USER}"
+    dtach -n /var/run/autologin.dtach su -c 'sh -l -c startx' "${LOGIN_USER}"
     if [ $? -gt 0 ]; then
       stat_fail
     else
@@ -19,6 +21,6 @@ case "$1" in
     $0 start
     ;;
   *)
-    echo "usage: $0 {start|stop|restart}"  
+    echo "usage: $0 {start|stop|restart}"
 esac
 exit 0
