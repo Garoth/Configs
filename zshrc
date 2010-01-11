@@ -12,7 +12,7 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 zstyle ':vcs_info:*' actionformats '.%F{2}%b%F{3}.%F{1}%a%f'
 zstyle ':vcs_info:*' formats '.%F{2}%b%%f'
-zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' enable git svn hg
 
 # Auto Mime Type Running
 autoload -Uz zsh-mime-setup
