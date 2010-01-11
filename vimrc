@@ -48,13 +48,23 @@ au! Syntax vala source $VIM/syntax/cs.vim
 "
 "                              Java Hacks
 "                              ----------
+" General Settings
+let java_mode = 1
+if java_mode == 1
+        set shiftwidth=4
+        set tabstop=4
+        set softtabstop=4
+        set expandtab
+endif
+
 autocmd BufNewFile *.java call NewJavaFile()
+" Create a template on new Java File
 function! NewJavaFile()
         let filename = expand("%:t:r")
         let comment = "/* " . filename . " Class File */"
         let constructor = "    /* Constructor */\<NL>" .
                 \ "    public " . filename .
-                \ "() {\<NL>          \<NL>    }"
+                \ "() {\<NL>    }"
         let function = "public class " . filename . " {\<NL>\<NL>" .
                 \ constructor . "\<NL>}"
 
@@ -62,7 +72,7 @@ function! NewJavaFile()
         $put =function
 endfunction
 
-nnoremap <Leader>p :call InsertPackageStatement()<CR>
+nnoremap <Leader>jp :call InsertPackageStatement()<CR>
 " Generates a package statement for the current file
 " Limitation: assumes that the src/ folder is just above the package structure
 function! InsertPackageStatement()
@@ -72,6 +82,47 @@ function! InsertPackageStatement()
 
         -put =path
 endfunction
+
+" Returns a string of spaces of length &tabstop
+function! GetTabSpace()
+        return repeat(' ', &tabstop)
+endfunction
+
+nnoremap <Leader>ja :call InsertAccessorStatements(input('Variable Type: '),
+        \ input('Variable Name: '))<CR>
+" Generates getter, setter, and instance variable for given variable name
+function! InsertAccessorStatements(type, varname)
+        echo 'Generating Instance, Getter, Setter'
+        let blank = ''
+        let instance = 'private ' . a:type . ' ' . a:varname . ';'
+        let getter = 'public ' . a:type . ' get' .
+                \ toupper(strpart(a:varname, 0, 1)) . strpart(a:varname, 1) .
+                \ "() {\<NL>" . GetTabSpace() . 'return this.' . a:varname .
+                \ ";\<NL>}"
+        let setter = 'public void set' .
+                \ toupper(strpart(a:varname, 0, 1)) . strpart(a:varname, 1) .
+                \ "(" . a:type . ' ' . a:varname . ") {\<NL>" . GetTabSpace() .
+                \ 'this.' . a:varname . ' = ' . a:varname .  ";\<NL>}"
+
+        put =instance
+        put =blank
+        put =getter
+        put =blank
+        put =setter
+endfunction
+
+" Configure the JavaBrowser plugin
+let JavaBrowser_Ctags_Cmd = '/usr/bin/ctags'
+let JavaBrowser_Inc_Winwidth = 0
+let JavaBrowser_Compact_Format = 1
+let JavaBrowser_Use_Text_Icon = 0
+let JavaBrowser_Use_Icon = 0
+let JavaBrowser_Use_Highlight_Tag = 1
+nnoremap <Leader>jb :JavaBrowser<CR>
+
+" Set up JavaComplete plugin
+autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+inoremap <buffer> <C-Space> <C-X><C-O>
 
 "                          Paren Autocompletion
 "                          ---------------------
