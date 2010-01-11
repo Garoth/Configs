@@ -248,8 +248,8 @@ bind({ modkey, "Control"}, "g", function () awful.tag.incnmaster(1) end)
 bind({ modkey, "Control"}, "f", function () awful.tag.incnmaster(-1) end)
 
 -- Multiscreen Keybindings
-bind({ modkey, "Control" }, "l", function () awful.screen.focus(1) end)
-bind({ modkey, "Control" }, "h", function () awful.screen.focus(-1) end)
+bind({ modkey, "Control" }, "l", function () awful.screen.focus_relative(1) end)
+bind({ modkey, "Control" }, "h", function () awful.screen.focus_relative(-1) end)
 bind({ modkey }, "o", awful.client.movetoscreen)
 
 -- Change Layouts
@@ -299,7 +299,7 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "Pidgin" },
-      properties = { floating = true, tag = tags[1][4] } },
+      properties = { tag = tags[1][4] } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
 }
