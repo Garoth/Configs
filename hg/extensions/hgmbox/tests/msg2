@@ -1,0 +1,26 @@
+Delivered-To: foobar@gmail.com
+Received: by 10.114.108.3 with SMTP id g3cs509927wac;
+        Mon, 29 Dec 2008 17:13:30 -0800 (PST)
+MIME-Version: 1.0
+Subject: [PATCH] patch1
+Message-Id: <5ab3c4562bd574dbd782.1230599538@localhost>
+Date: Tue, 29 Dec 2008 03:12:18 +0100
+From: Bar Baz <barbaz@gmail.com>
+To: mercurial-devel@selenic.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: mercurial-devel-bounces@selenic.com
+
+test diff
+
+diff --git a/a b/a
+new file mode 100644
+--- /dev/null
++++ b/a
+@@ -0,0 +1,1 @@
++b
+
+_______________________________________________
+Mercurial-devel mailing list
+Mercurial-devel@selenic.com
+http://selenic.com/mailman/listinfo/mercurial-devel

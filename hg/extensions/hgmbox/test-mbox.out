@@ -1,0 +1,79 @@
+% help (no mq, so no mimport)
+hg: unknown command 'mimport'
+% help (mq present)
+hg mimport PATTERN...
+% test with no mbox specified
+abort: no mailbox path configured
+% test --mbox option
+[PATCH] patch2
+import this group? [Nydq?]  abort: user quit
+% test default behaviour, help and quit
+[PATCH] patch2
+import this group? [Nydq?]  n - skip this patch group
+y - qimport this patch group
+d - done, import selected patches and quit
+q - quit, importing nothing
+? - display help
+
+import this group? [Nydq?]  
+[PATCH] patch1
+import this group? [Nydq?]  abort: user quit
+% test no answer
+[PATCH] patch2
+import this group? [Nydq?]  
+[PATCH] patch1
+import this group? [Nydq?]  
+0 patches imported
+% mimport everything
+[PATCH] patch2
+import this group? [Nydq?]  
+[PATCH] patch1
+import this group? [Nydq?]  
+adding patch2 to series file
+adding patch1 to series file
+2 patches imported
+patch1
+patch2
+test diff
+
+diff --git a/a b/a
+new file mode 100644
+--- /dev/null
++++ b/a
+@@ -0,0 +1,1 @@
++b
+
+_______________________________________________
+Mercurial-devel mailing list
+Mercurial-devel@selenic.com
+http://selenic.com/mailman/listinfo/mercurial-devel% test patch filtering and patch name generation
+[PATCH] patch2
+import this group? [Nydq?]  
+adding patch2__1 to series file
+1 patches imported
+patch2__1
+patch1
+patch2
+% test filtering by date
+[PATCH] patch1
+import this group? [Nydq?]  
+adding patch1__1 to series file
+1 patches imported
+% test date based heuristic
+[PATCH] standalone
+import this group? [Nydq?]  
+[PATCH 0 of 2] header
+    [PATCH 1 of 2] patch 1 of 2
+    [PATCH 2 of 2] patch 2 of 2
+import this group? [Nydq?]  
+0 patches imported
+% test all option
+[PATCH] standalone
+import this group? [Nydq?]  
+[PATCH 0 of 2] header
+    [PATCH 1 of 2] patch 1 of 2
+    [PATCH 2 of 2] patch 2 of 2
+import this group? [Nydq?]  
+[PATCH 2 of 2] patch 2 of 2, single
+import this group? [Nydq?]  
+0 patches imported

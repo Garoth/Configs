@@ -1,0 +1,46 @@
+#!/bin/sh
+
+echo "[extensions]" >> $HGRCPATH
+echo "localbranch=" >> $HGRCPATH
+
+hg init base
+cd base
+echo foo > foo
+hg ci -Amfoo -d'0 0'
+
+echo '% create local branch'
+hg lbranch b1
+hg lbranch
+echo bar > bar
+hg ci -Ambar -d'0 0'
+hg tip
+
+echo '% switch to default'
+hg lbranch default
+hg lbranch
+hg tip
+hg id
+hg st
+
+echo '% pull local branch to default'
+hg in lbranch://b1
+hg in b1
+
+hg lbranch b2
+echo '% pull one local branch to another'
+hg in b1
+
+echo '% delete own branch'
+hg lbranch b2
+hg lbranch
+hg lbranch -d b2
+hg lbranch
+
+echo '% delete default branch'
+hg lbranch -d default
+
+echo '% delete nonexistent branch'
+hg lbranch -d b3
+
+exit 0
+

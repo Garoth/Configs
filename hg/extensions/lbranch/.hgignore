@@ -1,0 +1,8 @@
+^\.(pydev)?project
+^\.settings/
+
+syntax: glob
+*.err
+*.orig
+*.pyc
+*.rej

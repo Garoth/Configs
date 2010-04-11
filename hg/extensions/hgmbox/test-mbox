@@ -1,0 +1,76 @@
+#!/bin/sh
+
+echo "[ui]"             >> $HGRCPATH
+echo "interactive=true" >> $HGRCPATH
+echo "[extensions]"     >> $HGRCPATH
+echo "mbox="            >> $HGRCPATH
+
+echo "% help (no mq, so no mimport)"
+hg help mimport | grep "hg mimport"
+
+echo "mq="              >> $HGRCPATH
+
+echo "% help (mq present)"
+hg help mimport | grep "hg mimport"
+
+hg init repo
+cd repo
+
+echo  "% test with no mbox specified"
+hg mimport
+echo  "% test --mbox option"
+hg mimport --mbox $TESTDIR/tests/test.mbx <<EOF
+q
+EOF
+
+echo "[mbox]"           >> $HGRCPATH
+echo "paths=$TESTDIR/tests/test.mbx" >> $HGRCPATH
+
+echo "% test default behaviour, help and quit"
+hg mimport <<EOF
+?
+
+q
+EOF
+hg qseries
+
+echo % test no answer
+hg mimport <<EOF
+n
+n
+EOF
+hg qseries
+
+echo % mimport everything
+hg mimport <<EOF
+y
+y
+EOF
+hg qseries
+# Check we got the right one
+cat .hg/patches/patch1
+
+echo % test patch filtering and patch name generation
+hg mimport 2 <<EOF
+y
+EOF
+hg qseries
+
+echo % test filtering by date
+hg mimport -d '<2008-12-16' <<EOF
+y
+EOF
+
+echo % test date based heuristic
+hg mimport --mbox $TESTDIR/tests/test2.mbx <<EOF
+n
+n
+EOF
+
+echo % test all option
+hg mimport -a --mbox $TESTDIR/tests/test2.mbx <<EOF
+n
+n
+n
+EOF
+

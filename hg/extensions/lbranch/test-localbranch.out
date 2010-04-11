@@ -1,0 +1,58 @@
+adding foo
+% create local branch
+default
+* b1
+adding bar
+changeset:   1:c0c7cf58edc5
+tag:         tip
+user:        test
+date:        Thu Jan 01 00:00:00 1970 +0000
+summary:     bar
+
+% switch to default
+* default
+b1
+changeset:   0:e63c23eaa88a
+tag:         tip
+user:        test
+date:        Thu Jan 01 00:00:00 1970 +0000
+summary:     foo
+
+e63c23eaa88a tip
+? bar
+% pull local branch to default
+comparing with lbranch://b1
+searching for changes
+changeset:   1:c0c7cf58edc5
+tag:         tip
+user:        test
+date:        Thu Jan 01 00:00:00 1970 +0000
+summary:     bar
+
+comparing with lbranch://b1
+searching for changes
+changeset:   1:c0c7cf58edc5
+tag:         tip
+user:        test
+date:        Thu Jan 01 00:00:00 1970 +0000
+summary:     bar
+
+% pull one local branch to another
+comparing with lbranch://b1
+searching for changes
+changeset:   1:c0c7cf58edc5
+tag:         tip
+user:        test
+date:        Thu Jan 01 00:00:00 1970 +0000
+summary:     bar
+
+% delete own branch
+default
+b1
+* b2
+* default
+b1
+% delete default branch
+abort: cannot delete default branch
+% delete nonexistent branch
+abort: local branch b3 not found

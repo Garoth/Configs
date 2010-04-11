@@ -1,0 +1,27 @@
+[extensions]
+color =
+hgext.bookmarks =
+hgext.fetch =
+hgext.graphlog =
+hgshelve = /home/garoth/.hg/extensions/hgshelve.py
+histedit = /home/garoth/.hg/extensions/histedit
+pager =
+rebase =
+transplant =
+parentrevspec =
+mq =
+
+[pager]
+pager = LESS='FSRX' less
+quiet = True
+
+[ui]
+username = Andrei Thorp <athorp@gridcentric.ca>
+
+[diff]
+showfunc = 1
+nodates = 1
+
+[alias]
+spush = push -b trunk
+spull = pull --rebase
