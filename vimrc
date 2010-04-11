@@ -1,7 +1,6 @@
 "                           General Settings
 "                           ---------------
 syn on
-" Note: plugin is important to invoke latex-suite
 filetype indent plugin on
 set ignorecase
 set smartcase
@@ -14,36 +13,69 @@ set backspace=indent,eol,start
 set nohlsearch
 set confirm
 set vb t_vb=
+set mouse=
 set shortmess=a
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_
-" Turn the mouse off (Arch sets it by default)
-set mouse=
-" set foldenable
-" set foldmethod=syntax
-" set foldlevel=100
+set wrap
 au BufRead *sup.*-mode set ft=mail
 au BufRead *pde set ft=c
 " Next two commands make vim use X11 clipboard
 set clipboard=unnamed
-:nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
+nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 " Make integration stuff
-map <F2> :make<Enter>
-nmap e :cn<Enter>
-nmap E :cN<Enter>
-let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat 
+map <F2> :make<cr>
+let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 " Highlight characters that go over 80 columns
-:highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
-" :match OverLength '\%82v.*'
+highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
+" match OverLength '\%82v.*'
+"
+
 imap <BS> <C-H>
-cmap W<cr> w<cr>
+cmap W<cr> up<cr>
+map Y y$
+" File suffixes that get lower priority in completion
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.ld
+" Jump to where you were last time in the file on open
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Set up omnicompletion functions
+set omnifunc=syntaxcomplete#Complete
+autocmd FileType html :set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType c set omnifunc=ccomplete#Complete
+" graywh -- formatting
+set formatoptions=
+set formatoptions+=c  " Format comments
+set formatoptions+=r  " Continue comments by default
+set formatoptions+=o  " Make comment when using o or O from comment line
+set formatoptions+=q  " Format comments with gq
+set formatoptions+=n  " Recognize numbered lists
+set formatoptions+=2  " Use indent from 2nd line of a paragraph
+set formatoptions+=l  " Don't break lines that are already long
+set formatoptions+=t  " Wrap when using textwidth
+set formatoptions+=1  " Break before 1-letter words
+set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
+
+" Temporary wiki helper
+function! LinkToDef()
+    :exe "normal ve\"xxi[[Definitions#\<ESC>\"xpli|\<ESC>\"xp"
+endfunction
+nnoremap <Leader>d :call LinkToDef()<CR>
 
 "                           Vala Highlighting
 "                           -----------------
 autocmd BufRead *.vala set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
 autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
-au BufRead,BufNewFile *.vala            setfiletype vala
-au BufRead,BufNewFile *.vapi            setfiletype vala
+au BufRead,BufNewFile *.vala setfiletype vala
+au BufRead,BufNewFile *.vapi setfiletype vala
 au! Syntax vala source $VIM/syntax/cs.vim
+
+"                               Taglist
+"                               -------
+let TList_Inc_Winwidth = 0
+nnoremap <Leader>b :TlistToggle<CR>
 
 "
 "                              Java Hacks
@@ -111,18 +143,8 @@ function! InsertAccessorStatements(type, varname)
         put =setter
 endfunction
 
-" Configure the JavaBrowser plugin
-let JavaBrowser_Ctags_Cmd = '/usr/bin/ctags'
-let JavaBrowser_Inc_Winwidth = 0
-let JavaBrowser_Compact_Format = 1
-let JavaBrowser_Use_Text_Icon = 0
-let JavaBrowser_Use_Icon = 0
-let JavaBrowser_Use_Highlight_Tag = 1
-nnoremap <Leader>jb :JavaBrowser<CR>
-
-" Set up JavaComplete plugin
-autocmd Filetype java setlocal omnifunc=javacomplete#Complete
-inoremap <buffer> <C-Space> <C-X><C-O>
+nnoremap <silent> <buffer> <leader>i :JavaImport<cr>
+nnoremap <silent> <buffer> <cr> :JavaSearchContext<cr>
 
 "                          Paren Autocompletion
 "                          ---------------------
