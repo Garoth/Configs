@@ -66,7 +66,7 @@ setopt auto_cd # you can cd by just typing a folder name
 setopt vi # vim mode
 
 #Aliases
-alias chrome='google-chrome --enable-extension-timeline-api'
+alias chrome='chromium --enable-extension-timeline-api'
 alias date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 alias ls='ls --color=auto'
 alias althack='telnet nethack.alt.org'
@@ -75,16 +75,19 @@ alias -g uwsol="aapachin@cpu10.student.cs.uwaterloo.ca"
 alias -g uwlin="aapachin@mef-fe10.student.cs.uwaterloo.ca"
 alias -g uwcsc="aapachin@csclub.uwaterloo.ca"
 alias -g uwask="aapachin@acesulfame-potassium.csclub.uwaterloo.ca"
+alias -g kasuko="garoth@mediapc.thruhere.net"
 alias preparenote="cp $HOME/Studies/UsefulBits/underline.png ./ && echo Done"
 alias crawl="crawl -dir \"$HOME/.crawl\""
 alias -g plu="$HOME/Coding/C/plutocracy"
 alias -g dra="$HOME/Coding/C/dragoon"
 alias -g sto="/home/storage"
-alias pacman="sudo pacman-color"
+alias pacman="sudo clyde"
 alias ftp="gftp-text"
 alias tram="transmission-remote"
 alias top="htop"
 alias music="ncmpcpp"
+alias pwmd="pwd" # I typo this 90% of the time
+alias -g slog='log -b $(hg branch)'
 
 # Variables
 HISTFILE=~/.histfile
