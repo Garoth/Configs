@@ -47,7 +47,7 @@ ColorPalette13=#72729f9fcfcf
 ColorPalette14=#adad7f7fa8a8
 ColorPalette15=#3434e2e2e2e2
 ColorPalette16=#eeeeeeeeecec
-FontName=Terminus 14
+FontName=Terminus 16
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBordersDefault=TRUE
@@ -66,4 +66,5 @@ ScrollingBar=TERMINAL_SCROLLBAR_NONE
 VteWorkaroundTitleBug=TRUE
 MiscCursorShape=TERMINAL_CURSOR_SHAPE_BLOCK
 MiscTabCloseMiddleClick=TRUE
+AccelContents=
 
