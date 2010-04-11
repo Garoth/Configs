@@ -1,8 +1,10 @@
 #!/bin/bash
-PATH=/home/garoth/.scripts:$PATH
+PATH=/home/garoth/.scripts:/home/garoth/Programs/bin:$PATH
 setxkbmap us dvorak
-xmodmap -e 'remove Lock = Caps_Lock'
-xmodmap -e 'keysym Caps_Lock = Escape'
+xmodmap - << EOF
+remove Lock = Caps_Lock
+keysym Caps_Lock = Escape
+EOF
 
 # These things will only start after internet is established
 (
@@ -21,14 +23,13 @@ while true; do
 done
 ) &
 
-# Make sure that the user DBUS Session is online
+# Launch a DBus session if one is not running.
 if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
-        ## if not found, launch a new one
         eval `dbus-launch --sh-syntax --exit-with-session`
         echo "D-Bus per-session daemon address is: $DBUS_SESSION_BUS_ADDRESS"
 fi
 
+hourly-break.sh &
 unclutter &
 xcompmgr &
-#/usr/local/bin/awesome &> /home/garoth/Info/awesome.log
 /usr/bin/awesome &> /home/garoth/Info/awesome.log
