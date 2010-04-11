@@ -1,11 +1,14 @@
 [user]
-	name = Andrei 'Garoth' Thorp
-	email = garoth@gmail.com
+    name = Andrei 'Garoth' Thorp
+    email = garoth@gmail.com
 
 [color]
-        branch = auto
-        diff = auto
-        status = auto
+    branch = auto
+    diff = auto
+    status = auto
 
 [push]
-        default = tracking
+    default = tracking
+
+[alias]
+    st = status
