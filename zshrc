@@ -93,10 +93,8 @@ alias -g slog='log -b $(hg branch)'
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-export EDITOR=/usr/bin/vim
 export PROMPT='$PR_GREEN%m$PR_WHITE.$PR_BLUE%n$PR_WHITE $PR_MAGENTA%c\
 $PR_WHITE${vcs_info_msg_0_}: '
-export _JAVA_AWT_WM_NONREPARENTING=1
 
 # ZSH functions
 precmd() {
