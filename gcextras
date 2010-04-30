@@ -1,4 +1,5 @@
-export PATH="${PATH}:/home/garoth/Work/gc2/gridcentric/bin"
-export GRIDCENTRIC_USER=athorp
-#export GRIDCENTRIC_PASSWORD=default
-export GRIDCENTRIC_HOME=/home/garoth/Work/gc2/gridcentric/
+export PATH="${PATH}:/home/garoth/Work/gridcentric/gridcentric/bin"
+export GRIDCENTRIC_HOST=controller-dogfood
+export GRIDCENTRIC_USER=root
+export GRIDCENTRIC_PASSWORD=default
+export GRIDCENTRIC_HOME=/home/garoth/Work/gridcentric/gridcentric/
