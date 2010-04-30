@@ -22,6 +22,7 @@ layouts = {
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.floating,
     awful.layout.suit.tile.bottom,
+    awful.layout.suit.magnifier
 }
 
 globalkeys = {}
