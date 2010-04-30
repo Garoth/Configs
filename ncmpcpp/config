@@ -89,14 +89,14 @@ song_window_title_format = "{%a - }{%t}|{%f}"
 ## - color is optional (if you want the default one, type [])
 ##
 #
-song_columns_list_format = "(34)[green]{a}  (64)[green]{t}"
+song_columns_list_format = "(34)[green]{a} (64)[green]{t}"
 #
 ##### various settings #####
 #
 playlist_display_mode = "columns" (classic/columns)
 incremental_seeking = "yes"
 seek_time = "1"
-autocenter_mode = "no"
+autocenter_mode = "yes"
 repeat_one_mode = "no"
 default_place_to_search_in = "database" (database/playlist)
 media_library_left_column = "a" (possible values: a,y,g,c,p, legend above)
