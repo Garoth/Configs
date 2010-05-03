@@ -86,6 +86,7 @@ alias ftp="gftp-text"
 alias tram="transmission-remote"
 alias top="htop"
 alias music="ncmpcpp"
+alias cscmusic="ssh aapachin@strombola"
 alias pwmd="pwd" # I typo this 90% of the time
 alias -g slog='log -b $(hg branch)'
 
