@@ -1,6 +1,7 @@
 *.pyc
 *.swp
 .todo
+vim/doc/tags
 plutocracy/autogen.cfg
 ncmpcpp/error.log
 irssi/away.log

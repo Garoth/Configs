@@ -9,6 +9,7 @@ require("obvious.popup_run_prompt")
 require("obvious.clock")
 require("obvious.basic_mpd")
 require("obvious.keymap_switch")
+require("obvious.wlan")
 
 -- {{{ Settings
 terminal = "terminal"
@@ -151,6 +152,8 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         divider,
         obvious.clock(),
+        divider,
+        obvious.wlan():set_type("textbox"):set_layout(awful.widget.layout.horizontal.rightleft),
         divider,
         obvious.keymap_switch(),
         divider,
