@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function atexit
+{
+        echo "Exiting."
+        exit ${SUCCESS}
+}
+
+trap atexit SIGKILL EXIT
+
+if [ -z "$1" ]; then
+        echo "Argument necessary."
+        exit 1
+fi
+
+COUNT=1
+SUCCESS=1
+while true; do
+        echo "=> ATTEMPT ${COUNT}"
+        COUNT=$(($COUNT + 1))
+        eval "$@"
+        SUCCESS="$?"
+        if [ "${SUCCESS}" == 0 ]; then
+                break
+        fi
+        sleep 0.1
+done
