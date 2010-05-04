@@ -32,4 +32,4 @@ fi
 hourly-break.sh &
 unclutter &
 xcompmgr &
-/usr/bin/awesome &> /home/garoth/Info/awesome.log
+awesome &> /home/garoth/Info/awesome.log
