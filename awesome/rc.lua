@@ -8,7 +8,6 @@ require("naughty")
 require("obvious.popup_run_prompt")
 require("obvious.clock")
 require("obvious.basic_mpd")
-require("obvious.keymap_switch")
 require("obvious.wlan")
 
 -- {{{ Settings
@@ -42,9 +41,6 @@ obvious.clock.set_longformat("%T %a %b %d %Y")
 
 -- Basic MPD Config
 obvious.basic_mpd.set_format("$title - $artist - $album")
-
--- Keymap Switcher
-obvious.keymap_switch.set_layouts({ "us", "us(dvorak)" })
 -- }}}
 
 -- {{{ Tags
@@ -154,8 +150,6 @@ for s = 1, screen.count() do
         obvious.clock(),
         divider,
         obvious.wlan():set_type("textbox"):set_layout(awful.widget.layout.horizontal.rightleft),
-        divider,
-        obvious.keymap_switch(),
         divider,
         random_text,
         layout = awful.widget.layout.horizontal.rightleft
