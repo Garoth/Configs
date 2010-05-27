@@ -149,7 +149,7 @@ for s = 1, screen.count() do
         divider,
         obvious.clock(),
         divider,
-        obvious.wlan():set_type("textbox"):set_layout(awful.widget.layout.horizontal.rightleft),
+        obvious.wlan():set_layout(awful.widget.layout.horizontal.rightleft),
         divider,
         random_text,
         layout = awful.widget.layout.horizontal.rightleft
