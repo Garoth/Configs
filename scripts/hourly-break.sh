@@ -6,10 +6,8 @@ SECONDS_IN_HOUR=3600
 function notify {
     DISPLAY=:1
     echo "mywibox[1].bg='darkgreen'" | awesome-client
-    echo "mywibox[2].bg='darkgreen'" | awesome-client
     sleep 3
     echo "mywibox[1].bg=beautiful.bg_normal" | awesome-client
-    echo "mywibox[2].bg=beautiful.bg_normal" | awesome-client
 }
 
 # Initial snap to hour.
