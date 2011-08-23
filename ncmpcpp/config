@@ -65,7 +65,7 @@ message_delay_time = "8"
 ## Note: colors can be nested.
 ##
 #
-song_list_format = "{%a - }{%t}|{$8%f$9}%r{$3(%l)$9}"
+song_list_format = "{%a - }{%t}|{$8%f$9}{$3(%l)$9}"
 song_library_format = "{%n - }{%t}|{%f}"
 media_library_album_format = "{(%y) }%b"
 tag_editor_album_format = "{(%y) }%b"
