@@ -16,6 +16,8 @@ while true; do
 
                 # List of programs (background them)
                 pidgin &
+                skype &
+                mumble &
 
                 break
         fi
@@ -32,4 +34,7 @@ fi
 hourly-break.sh &
 unclutter &
 xcompmgr &
+noblank &
+sudo netcfg kent &
+#jackd -r -d alsa &
 awesome &> /home/garoth/Info/awesome.log
