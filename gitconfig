@@ -12,3 +12,6 @@
 
 [alias]
     st = status
+
+[receive]
+    denyCurrentBranch = warn
