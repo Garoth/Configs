@@ -310,6 +310,7 @@ awful.rules.rules = {
                                  buttons = clientbuttons } },
     { rule = { class = "MPlayer" }, properties = { floating = true } },
     { rule = { class = "Pidgin" }, properties = { tag = tags[#tags][4] } },
+    { rule = { class = "Skype" }, properties = { tag = tags[#tags][4] } },
     { rule = { class = "gimp" }, properties = { floating = true } },
 }
 -- }}}
