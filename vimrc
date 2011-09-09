@@ -1,22 +1,23 @@
 "                           General Settings
 "                           ---------------
-syn on
-filetype indent plugin on
-set ignorecase
-set smartcase
-set expandtab
-set tabstop=8
-set shiftwidth=8
-set softtabstop=8
-set scrolloff=8
-set backspace=indent,eol,start
-set nohlsearch
-set confirm
-set vb t_vb=
-set mouse=
-set shortmess=a
-set list listchars=tab:»·,trail:·,extends:>,nbsp:_
-set wrap
+syn on                                             " syntax highlighting on
+filetype indent plugin on                          " turn on plugins
+set ignorecase                                     " ignore case in matching
+set smartcase                                      " override ignorecase if a capital is typed
+set expandtab                                      " extpand tabs to spaces
+set tabstop=8                                      " tab size
+set shiftwidth=8                                   " amount to shift by
+set softtabstop=8                                  " allows you to delete 8 spaces when backspacing a "tab"
+set scrolloff=8                                    " don't touch top/bottom of screen by this many
+set backspace=indent,eol,start                     " allow backspacing over all sorts of stuff
+set nohlsearch                                     " don't highlight previous search matches
+set confirm                                        " do ask for confirmation
+set vb t_vb=                                       " turn off visual bell
+set mouse=                                         " turn off mouse
+set shortmess=a                                    " use abbreviations like [NEW] instead of [NEW FILE]
+set list listchars=tab:»·,trail:·,extends:>,nbsp:_ " visually display whitespace
+set wrap                                           " allow visual wrapping
+
 au BufRead *sup.*-mode set ft=mail
 au BufRead *pde set ft=c
 " Next two commands make vim use X11 clipboard
@@ -29,23 +30,24 @@ let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
 " match OverLength '\%82v.*'
 
-" Statusline
-set statusline= " Clear statusline
-set statusline+=[%n] " Buffer number
-set statusline+=\ %<%.99f " Filename
-set statusline+=\ %h " help file flag
-set statusline+=%w " preview window flag [Preview]
-set statusline+=%m " modified flag
-set statusline+=%r " read only flag
-set statusline+=%y " filetype
+" Statusline (largely frogonweels)
+set statusline=                                 " Clear statusline
+set statusline+=[%n]                            " Buffer number
+set statusline+=\ %<%.99f                       " Filename
+set statusline+=\ %h                            " help file flag
+set statusline+=%w                              " preview window flag [Preview]
+set statusline+=%m                              " modified flag
+set statusline+=%r                              " read only flag
+set statusline+=%y                              " filetype
 set statusline+=[%{strlen(&fenc)?&fenc:'none'}] " file encoding
-set statusline+=%= " right/left separator
-set statusline+=%-16(\ %l,%c-%v\ %) " line number, column number - visual column number
-set statusline+=%P " percent through file
-set laststatus=2 " Always on
+set statusline+=%=                              " right/left separator
+set statusline+=%-16(\ %l,%c-%v\ %)             " line number, column number - visual column number
+set statusline+=%P                              " percent through file
+set laststatus=2                                " Always on
 
 imap <BS> <C-H>
 cmap W<cr> up<cr>
+" Y to copy until end of line, like D
 map Y y$
 " File suffixes that get lower priority in completion
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.ld,.pdf,.ps
@@ -53,6 +55,7 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 " Set up omnicompletion functions
 set omnifunc=syntaxcomplete#Complete
+
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 " Make tags magically close themselves!
 autocmd FileType html imap </ </<C-X><C-O><C-[><<
@@ -61,6 +64,7 @@ autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c set omnifunc=ccomplete#Complete
+
 " graywh -- formatting
 set formatoptions=
 set formatoptions+=c  " Format comments
@@ -93,10 +97,11 @@ au! Syntax vala source $VIM/syntax/cs.vim
 let TList_Inc_Winwidth = 0
 nnoremap <Leader>b :TlistToggle<CR>
 
-"
+
 "                              Java Hacks
 "                              ----------
 " General Settings
+" autocmd FileType java let java_mode = 1
 let java_mode = 1
 if java_mode == 1
         set shiftwidth=4
