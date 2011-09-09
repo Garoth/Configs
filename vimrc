@@ -28,7 +28,21 @@ let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 " Highlight characters that go over 80 columns
 highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
 " match OverLength '\%82v.*'
-"
+
+" Statusline
+set statusline= " Clear statusline
+set statusline+=[%n] " Buffer number
+set statusline+=\ %<%.99f " Filename
+set statusline+=\ %h " help file flag
+set statusline+=%w " preview window flag [Preview]
+set statusline+=%m " modified flag
+set statusline+=%r " read only flag
+set statusline+=%y " filetype
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}] " file encoding
+set statusline+=%= " right/left separator
+set statusline+=%-16(\ %l,%c-%v\ %) " line number, column number - visual column number
+set statusline+=%P " percent through file
+set laststatus=2 " Always on
 
 imap <BS> <C-H>
 cmap W<cr> up<cr>
@@ -39,7 +53,9 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 " Set up omnicompletion functions
 set omnifunc=syntaxcomplete#Complete
-autocmd FileType html :set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+" Make tags magically close themselves!
+autocmd FileType html imap </ </<C-X><C-O><C-[><<
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
