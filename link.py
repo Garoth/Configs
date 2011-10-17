@@ -2,7 +2,7 @@
 import commands
 import os
 
-home = "/home/garoth/"
+home = "/Users/athorp/"
 here = home + "Configs/"
 
 rules = [
