@@ -5,9 +5,9 @@ filetype indent plugin on                          " turn on plugins
 set ignorecase                                     " ignore case in matching
 set smartcase                                      " override ignorecase if a capital is typed
 set expandtab                                      " extpand tabs to spaces
-set tabstop=8                                      " tab size
-set shiftwidth=8                                   " amount to shift by
-set softtabstop=8                                  " allows you to delete 8 spaces when backspacing a "tab"
+set tabstop=4                                      " tab size
+set shiftwidth=4                                   " amount to shift by
+set softtabstop=4                                  " allows you to delete 8 spaces when backspacing a "tab"
 set scrolloff=8                                    " don't touch top/bottom of screen by this many
 set backspace=indent,eol,start                     " allow backspacing over all sorts of stuff
 set nohlsearch                                     " don't highlight previous search matches
@@ -26,9 +26,15 @@ nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . 
 " Make integration stuff
 map <F2> :make<cr>
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
-" Highlight characters that go over 80 columns
-highlight OverLength ctermbg=blue ctermfg=white guibg=blue guifg=white
-" match OverLength '\%82v.*'
+
+" Highlights
+highlight SpellBad ctermbg=lightyellow ctermfg=black
+highlight OverLength ctermbg=lightblue ctermfg=black
+function! s:setoverlength(col)
+    exe 'match OverLength "\%' . a:col . 'v.*"'
+endfunction
+command! -nargs=1 SetOverLength call s:setoverlength(<args>)
+SetOverLength 81
 
 " Statusline (largely frogonweels)
 set statusline=                                 " Clear statusline
@@ -47,6 +53,8 @@ set laststatus=2                                " Always on
 
 imap <BS> <C-H>
 cmap W<cr> up<cr>
+nmap <Space> 1<C-D>
+nmap ; 1<C-U>
 " Y to copy until end of line, like D
 map Y y$
 " File suffixes that get lower priority in completion
@@ -61,6 +69,7 @@ autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType html imap </ </<C-X><C-O><C-[><<
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript SetOverLength 101
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c set omnifunc=ccomplete#Complete
@@ -100,16 +109,6 @@ nnoremap <Leader>b :TlistToggle<CR>
 
 "                              Java Hacks
 "                              ----------
-" General Settings
-" autocmd FileType java let java_mode = 1
-let java_mode = 1
-if java_mode == 1
-        set shiftwidth=4
-        set tabstop=4
-        set softtabstop=4
-        set expandtab
-endif
-
 autocmd BufNewFile *.java call NewJavaFile()
 " Create a template on new Java File
 function! NewJavaFile()
