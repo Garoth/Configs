@@ -1,0 +1,44 @@
+#!/bin/zsh
+
+# Devin's extract
+local ARCHIVE
+local archive
+local unrecognized
+local success
+for ARCHIVE in "$@"; do
+    echo -n Extracting "$ARCHIVE"... ''
+    archive=`echo "$ARCHIVE"|tr A-Z a-z`
+    unrecognized=0
+    success=0
+    case "$archive" in
+        *.tar)
+            tar xf "$ARCHIVE" && success=1
+            ;;
+        *.tar.gz|*.tgz)
+            tar xzf "$ARCHIVE" && success=1
+            ;;
+        *.tar.bz2|*.tbz2)
+            tar xjf "$ARCHIVE" && success=1
+            ;;
+        *.gz)
+            gunzip "$ARCHIVE" && success=1
+            ;;
+        *.bz2)
+            bunzip2 "$ARCHIVE" && success=1
+            ;;
+        *.zip|*.jar|*.pk3|*.pk4)
+            unzip -o -qq "$ARCHIVE" && success=1
+            ;;
+        *.rar)
+            unrar e -y -idp -inul "$ARCHIVE" && success=1
+            ;;
+        *)
+            unrecognized=1
+            ;;
+    esac
+    if [ $unrecognized = 1 ]; then
+        echo -e '[\e[31;1munrecognized file format\e[0m]'
+    elif [ $success = 1 ]; then
+        echo -e '[\e[32;1mOK\e[0m]'
+    fi
+done

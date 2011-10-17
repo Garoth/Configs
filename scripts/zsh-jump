@@ -1,0 +1,54 @@
+#!/bin/zsh
+
+# You can define this somewhere else
+if [[ -z "$ZSH_WORKDIR" ]]; then
+    export ZSH_WORKDIR="$HOME/.zsh"
+fi
+
+# Setup where we're storing files
+mkdir -p $ZSH_WORKDIR/locations/
+local locfile=$(mktemp --tmpdir=$ZSH_WORKDIR/locations/)
+echo $(pwd) > $locfile
+
+jump() {
+    DIRS=( $(ls $ZSH_WORKDIR/locations) )
+    typeset -A DIRMAP
+    local MYDIR="$(pwd)"
+    local COUNTER=1
+
+    for dir in $DIRS; do
+        if [[ "$(cat $ZSH_WORKDIR/locations/$dir)" != "$MYDIR" ]]; then
+            echo "$COUNTER)" $(cat $ZSH_WORKDIR/locations/$dir) >&2
+            DIRMAP[$COUNTER]="$ZSH_WORKDIR/locations/$dir"
+            COUNTER=$((COUNTER + 1))
+        fi
+    done
+
+    echo -n "> " >&2
+    read input >&2
+
+    if [ $input -eq $input &> /dev/null -a $input -lt $COUNTER -a $input -gt 0 ]; then
+        cat $DIRMAP[$input]
+    elif [ -z "$input" -a -n "$DIRMAP[1]" ]; then
+        cat $DIRMAP[1]
+    else
+        echo "Give me valid input..." >&2
+        echo "."
+    fi
+}
+
+jump_chpwd() {
+    ls
+    echo $(pwd) > $locfile
+}
+
+jump_zshexit() {
+    echo "Cleaning up location file"
+    rm $locfile
+}
+
+chpwd_functions+=("jump_chpwd")
+zshexit_functions+=("jump_zshexit")
+
+alias zcd='cd "$(jump)"'
+alias zcd_watch="watch -n0 \"cat $ZSH_WORKDIR/locations/*\""
