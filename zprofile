@@ -1,12 +1,13 @@
 export M2_HOME=/usr/local/apache-maven/apache-maven-3.0.3/
 export MAVEN_HOME=${M2_HOME}
+export MAVEN_OPTS="-Xmx512m"
 export M2=$M2_HOME/bin
 export JAVA_HOME=/Library/Java/Home
-export MYSQL_HOME=/usr/local/mysql/mysql-5.1.58-osx10.6-x86_64/
+export MYSQL_HOME=/usr/local/mysql
 export TOMCAT_HOME=/usr/local/apache-tomcat/apache-tomcat-6.0.33/
 export CATALINA_HOME=$TOMCAT_HOME
 export CATALINA_BASE=$TOMCAT_HOME
-       PATH=/opt/local/libexec/gnubin:${PATH}:/Users/athorp/.scripts
+       PATH=/opt/local/bin:/opt/local/libexec/gnubin:${PATH}:/Users/athorp/.scripts
 export PATH=${PATH}:${M2}:${JAVA_HOME}/bin:${MYSQL_HOME}/bin:${CATALINA_HOME}/bin
 export MANPATH=/opt/local/share/man:$MANPATH
 export EDITOR=/usr/bin/vim

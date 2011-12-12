@@ -85,7 +85,7 @@ alias    pacman="sudo clyde"
 alias    pwmd="pwd" # I typo this 90% of the time
 alias    top="htop"
 alias    tram="transmission-remote"
-alias    tree='tree -C'
+alias    tree='tree -AC'
 
 # Variables
 HISTFILE=~/.histfile
