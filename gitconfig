@@ -3,15 +3,16 @@
     email = athorp@evernote.com
 
 [color]
-    branch = auto
-    diff = auto
-    status = auto
+    ui = true
 
 [push]
     default = tracking
 
 [alias]
     st = status
+    l = log
+    ci = commit
+    co = checkout
 
 [receive]
     denyCurrentBranch = warn
