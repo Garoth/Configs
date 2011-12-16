@@ -88,12 +88,6 @@ set formatoptions+=t  " Wrap when using textwidth
 set formatoptions+=1  " Break before 1-letter words
 set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 
-" Temporary wiki helper
-function! LinkToDef()
-    :exe "normal ve\"xxi[[Definitions#\<ESC>\"xpli|\<ESC>\"xp"
-endfunction
-nnoremap <Leader>d :call LinkToDef()<CR>
-
 "                           Vala Highlighting
 "                           -----------------
 autocmd BufRead *.vala set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
@@ -101,11 +95,6 @@ autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
 au BufRead,BufNewFile *.vala setfiletype vala
 au BufRead,BufNewFile *.vapi setfiletype vala
 au! Syntax vala source $VIM/syntax/cs.vim
-
-"                               Taglist
-"                               -------
-let TList_Inc_Winwidth = 0
-nnoremap <Leader>b :TlistToggle<CR>
 
 "                      Always On Rainbow Parentheses
 "                      -----------------------------
@@ -200,7 +189,7 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
-"                            Vim-Latex Stuff 
+"                            Vim-Latex Stuff
 "                            ---------------
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " " search in a singe file. This will confuse Latex-Suite. Set your grep
@@ -211,3 +200,13 @@ set grepprg=grep\ -nH\ $*
 " " all the figure labels. Very useful!
 set iskeyword+=:
 let g:tex_flavor="latex"
+
+"                             Pathogen Stuff
+"                             --------------
+call pathogen#infect()
+
+"                            Command-T Stuff
+"                            ---------------
+let g:CommandTAcceptSelectionTabMap='<CR>'
+let g:CommandTAcceptSelectionMap='<C-b>'
+let g:CommandTCancelMap='<Esc>'

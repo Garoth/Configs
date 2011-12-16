@@ -1,3 +1,6 @@
 [submodule "awesome/obvious"]
 	path = awesome/obvious
 	url = git@git.mercenariesguild.net:obvious.git
+[submodule "vim/bundle/command-t"]
+	path = vim/bundle/command-t
+	url = git://git.wincent.com/command-t.git
