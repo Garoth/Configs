@@ -122,5 +122,14 @@ find()
     fi
 }
 
+up()
+{
+    local cdstr=""
+    for x in $(seq $1); do
+        cdstr+="../"
+    done
+    builtin cd ${cdstr}
+}
+
 #Execute these as a terminal opens
 date
