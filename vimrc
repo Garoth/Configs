@@ -68,12 +68,14 @@ set omnifunc=syntaxcomplete#Complete
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 " Make tags magically close themselves!
 autocmd FileType html imap </ </<C-X><C-O><C-[><<
+autocmd FileType jsp imap </ </<C-X><C-O><C-[><<
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType javascript SetOverLength 101
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c set omnifunc=ccomplete#Complete
+autocmd FileType jsp set ts=2 sw=2 sts=2
 
 " graywh -- formatting
 set formatoptions=
