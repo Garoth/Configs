@@ -7,7 +7,7 @@ set smartcase                                      " override ignorecase if a ca
 set expandtab                                      " extpand tabs to spaces
 set tabstop=4                                      " tab size
 set shiftwidth=4                                   " amount to shift by
-set softtabstop=4                                  " allows you to delete 8 spaces when backspacing a   " tab "
+set softtabstop=4                                  " allows you to delete 8 spaces when backspacing a "tab"
 set scrolloff=8                                    " don't touch top/bottom of screen by this many
 set backspace=indent,eol,start                     " allow backspacing over all sorts of stuff
 set nohlsearch                                     " don't highlight previous search matches
@@ -17,7 +17,6 @@ set mouse=                                         " turn off mouse
 set shortmess=a                                    " use abbreviations like [NEW] instead of [NEW FILE]
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_ " visually display whitespace
 set wrap                                           " allow visual wrapping
-set nobackup                                       " don't make backup files
 
 au BufRead *sup.*-mode set ft=mail
 au BufRead *pde set ft=c
@@ -98,13 +97,9 @@ au BufRead,BufNewFile *.vala setfiletype vala
 au BufRead,BufNewFile *.vapi setfiletype vala
 au! Syntax vala source $VIM/syntax/cs.vim
 
-"                      Always On Rainbow Parentheses
-"                      -----------------------------
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-au Syntax * RainbowParenthesesLoadChevrons
+"                               Taglist
+"                               -------
+let TList_Inc_Winwidth = 0
 
 "                              Java Hacks
 "                              ----------
