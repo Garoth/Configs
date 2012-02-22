@@ -51,6 +51,12 @@ set statusline+=%-16(\ %l,%c-%v\ %)             " line number, column number - v
 set statusline+=%P                              " percent through file
 set laststatus=2                                " Always on
 
+" POWERLINE settings
+" Explicitly tell vim that the terminal supports 256 colors
+set t_Co=256
+" Use unicode symbols
+" let g:Powerline_symbols = 'unicode'
+
 imap <BS> <C-H>
 cmap W<cr> up<cr>
 nmap <Space> 1<C-D>
@@ -68,13 +74,15 @@ autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 " Make tags magically close themselves!
 autocmd FileType html imap </ </<C-X><C-O><C-[><<
 autocmd FileType jsp imap </ </<C-X><C-O><C-[><<
+autocmd FileType jsp set ts=2 sw=2 sts=2
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType javascript SetOverLength 101
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType jsp set ts=2 sw=2 sts=2
+autocmd Filetype java set ts=2 sw=2 sts=2
+autocmd Filetype java SetOverLength 81
 
 " graywh -- formatting
 set formatoptions=
