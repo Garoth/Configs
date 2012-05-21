@@ -68,6 +68,7 @@ setopt vi                   # vim mode
 alias -g dra="$HOME/Coding/C/dragoon"
 alias -g kasuko="garoth@mediapc.thruhere.net"
 alias -g mgirc="garoth@irc.o09.us"
+alias -g ugster="aapachin@ugster05.student.cs.uwaterloo.ca"
 alias -g plu="$HOME/Coding/C/plutocracy"
 alias -g slog='log -b $(hg branch)'
 alias -g sto="/home/storage"
