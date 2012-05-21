@@ -5,9 +5,9 @@ filetype indent plugin on                          " turn on plugins
 set ignorecase                                     " ignore case in matching
 set smartcase                                      " override ignorecase if a capital is typed
 set expandtab                                      " extpand tabs to spaces
-set tabstop=4                                      " tab size
-set shiftwidth=4                                   " amount to shift by
-set softtabstop=4                                  " allows you to delete 8 spaces when backspacing a "tab"
+set tabstop=2                                      " tab size
+set shiftwidth=2                                   " amount to shift by
+set softtabstop=2                                  " allows you to delete 8 spaces when backspacing a "tab"
 set scrolloff=8                                    " don't touch top/bottom of screen by this many
 set backspace=indent,eol,start                     " allow backspacing over all sorts of stuff
 set nohlsearch                                     " don't highlight previous search matches
@@ -52,10 +52,10 @@ set statusline+=%P                              " percent through file
 set laststatus=2                                " Always on
 
 " POWERLINE settings
-" Explicitly tell vim that the terminal supports 256 colors
-set t_Co=256
-" Use unicode symbols
-" let g:Powerline_symbols = 'unicode'
+set t_Co=256  "We support 256 colors
+
+" Replace command for visual selection
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 imap <BS> <C-H>
 cmap W<cr> up<cr>
@@ -81,8 +81,9 @@ autocmd FileType javascript SetOverLength 101
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd Filetype java set ts=2 sw=2 sts=2
-autocmd Filetype java SetOverLength 81
+autocmd FileType java set ts=2 sw=2 sts=2
+autocmd FileType java SetOverLength 81
+autocmd FileType go set ts=4 sw=4 sts=4 si
 
 " graywh -- formatting
 set formatoptions=
@@ -97,13 +98,10 @@ set formatoptions+=t  " Wrap when using textwidth
 set formatoptions+=1  " Break before 1-letter words
 set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 
-"                           Vala Highlighting
+"                           Less Highlighting
 "                           -----------------
-autocmd BufRead *.vala set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
-autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
-au BufRead,BufNewFile *.vala setfiletype vala
-au BufRead,BufNewFile *.vapi setfiletype vala
-au! Syntax vala source $VIM/syntax/cs.vim
+au BufRead,BufNewFile *.less setfiletype less
+au! Syntax less source $VIMRUNTIME/syntax/sass.vim
 
 "                               Taglist
 "                               -------
