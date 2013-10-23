@@ -7,7 +7,7 @@
 	<key>AllowClipboardAccess</key>
 	<false/>
 	<key>AnimateDimming</key>
-	<false/>
+	<true/>
 	<key>AppleAntiAliasingThreshold</key>
 	<integer>1</integer>
 	<key>AppleScrollAnimationEnabled</key>
@@ -454,7 +454,7 @@
 	<key>Default Bookmark Guid</key>
 	<string>0F59599E-9B16-417B-AFA4-3CD7110BFF35</string>
 	<key>DimBackgroundWindows</key>
-	<false/>
+	<true/>
 	<key>DimInactiveSplitPanes</key>
 	<true/>
 	<key>DimOnlyText</key>
@@ -658,11 +658,11 @@
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
 	<key>NSWindow Frame Preferences</key>
-	<string>-1763 574 924 485 -2560 -163 2560 1440 </string>
+	<string>-1549 574 924 485 -2560 -163 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>-2560 -163 2560 1440 -2560 -163 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>-1997 113 570 451 -2560 -163 2560 1440 </string>
+	<string>-2462 731 730 476 -2560 -163 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>-854 389 730 476 -2560 -163 2560 1440 </string>
 	<key>NeverWarnAboutShortLivedSessions_0074B5CC-79B2-4F8D-867E-03B84ACEED30</key>
@@ -1938,11 +1938,11 @@
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowPaneTitles</key>
-	<true/>
+	<false/>
 	<key>SmartPlacement</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.40000000596046448</real>
+	<real>0.17158953845500946</real>
 	<key>SwitchTabModifier</key>
 	<integer>4</integer>
 	<key>SwitchWindowModifier</key>
