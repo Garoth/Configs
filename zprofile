@@ -33,3 +33,5 @@ export ZSH_WORKDIR="$HOME/.zsh"
 export HOMEBREW_GITHUB_API_TOKEN=6b7e0277e0511a697cf32f0e0e783df3f702f3fc
 export GOPATH="$HOME/Programs/golang"
 export GOROOT="/usr/local/Cellar/go/1.1.2/"
+export PAGER="vimpager"
+alias less="$PAGER"

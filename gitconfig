@@ -21,4 +21,4 @@
 	reviewer = athorp@evernote.com
 	user = athorp
 [core]
-	pager = "vim -V0 -M -c 'if line2byte(line(\"$\") +1) == 2 | q! | endif' -c 'nmap q :q!<cr>' -c AnsiEsc -"
+	pager = "vimpager"
