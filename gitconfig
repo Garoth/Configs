@@ -1,18 +1,24 @@
 [user]
-    name = Andrei Thorp
-    email = athorp@evernote.com
+	name = Andrei Thorp
+	email = athorp@evernote.com
 
 [color]
-    ui = true
+	ui = true
 
 [push]
-    default = tracking
+	default = tracking
 
 [alias]
-    st = status
-    l = log
-    ci = commit
-    co = checkout
+	st = status
+	l = log
+	ci = commit
+	co = checkout
+	gerrit = push origin HEAD:refs/for/master
 
 [receive]
-    denyCurrentBranch = warn
+	denyCurrentBranch = warn
+[gerrit]
+	reviewer = athorp@evernote.com
+	user = athorp
+[core]
+	pager = "vim -V0 -M -c 'if line2byte(line(\"$\") +1) == 2 | q! | endif' -c 'nmap q :q!<cr>' -c AnsiEsc -"

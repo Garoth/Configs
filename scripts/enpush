@@ -1,0 +1,199 @@
+#!/usr/bin/perl
+
+=head1 NAME
+
+enpush - Review in Gerrit + verify + approve + fetch + rebase multiple local commits in one simple step
+
+=head1 DESCRIPTION
+
+B<enpush> is an utility to automatically push your local commits to the Gerrit server, "review/approve"
+them automatically and do a fetch/rebase after to make sure your local repository stays in sync.
+
+=head1 SYNOPSIS
+
+enpush [change-id-1] [change-id-2] [...] [options]
+
+Use C<--help> option for more information.
+
+Use C<--man> for the full documentation.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-?>, B<--help>
+
+Show help on program usage and options.
+For a more verbose output, use C<--man>
+
+=item B<--man>
+
+Show all available documentation on this program.
+
+=item B<change-id-N>
+
+An optional list of numeric (integer) change-id to review. If none provided,
+will try to push your commits to the Gerrit server first, collect those change-id
+and review each of them one by one.
+
+=item B<-h hostname>, B<--host=hostname>
+
+Gerrit server hostname (optional). Will be taken from GERRIT_HOST environment variable
+or autodetected from `remote.origin.url' Git variable.
+
+=item B<-p port>, B<--port=port>
+
+Gerrit server port (optional). Will be taken from GERRIT_PORT environment variable
+or autodetected from `remote.origin.url' Git variable, or set to 29418 if other
+methods fail.
+
+=item B<-u username>, B<--user=username>
+
+Gerrit username to connect on behalf of (optional). Will be taken from GERRIT_USER
+environment variable or autodetected from `remote.origin.url' or `user.email' Git
+variables.
+
+=item B<-r email-address>, B<--reviewer=email-address>
+
+Email address to use as a reviewer (optional). Will be taken from GERRIT_EMAIL
+environment variable or autodetected from `user.email' Git variables.
+
+One can also set a special `gerrit.reviewer` config option in Git by running
+the following command in Git repository:
+
+git config --add gerrit.reviewer email@address.com
+
+=back
+
+=head1 AUTHOR
+
+Igor Afanasyev E<lt>afan@evernote.comE<gt>
+
+=cut
+
+use strict;
+
+use Getopt::Long;
+use Pod::Usage;
+
+my $VERSION = '1.4';
+
+my ($man, $help);
+my ($host, $port, $user, $email) = ($ENV{'GERRIT_HOST'}, $ENV{'GERRIT_PORT'}, $ENV{'GERRIT_USER'}, $ENV{'GERRIT_REVIEWER'});
+my $result = GetOptions(
+    'help|?'       => \$help,
+    'man'          => \$man,
+    "host|h:s"     => \$host,
+    "port|p:i"     => \$port,
+    "user|u:s"     => \$user,
+    "reviewer|r:s" => \$email,
+);
+
+if (!$result) {
+    pod2usage(
+        -verbose => 0,
+        -exitstatus => 1
+    );
+}
+
+# for --help option, show basic usage info
+pod2usage(-verbose => 1, -exitstatus => 0) if $help;
+
+# for --man option, show the full POD documentation 
+pod2usage(-verbose => 2, -exitstatus => 0, -noperldoc => 1) if $man;
+
+if (!$email) {
+    $email = `git config --get gerrit.reviewer 2>&1`;
+    chomp($email);
+}
+
+if (!$email) {
+    $email = `git config --get user.email 2>&1`;
+    chomp($email);
+}
+
+if (!$user) {
+    $user = `git config --get gerrit.user 2>&1`;
+    chomp($user);
+}
+
+if (!$user) {
+    my $user_email = `git config --get user.email 2>&1`;
+    chomp($user_email);
+    $user = $1 if ($user_email =~ m/^(.+)\@/);
+}
+
+if (!$host or !$user) {
+    my $url = `git config --get remote.origin.url 2>&1`;
+
+    if ($url =~ m|^ssh://((.*?)@)?(.+?)(:(\d+))?/|) {
+        $user = $2 unless $user;
+        $host = $3 unless $host;
+        $port = $5 unless $port;
+    } else {
+        die "Remote 'origin' not set for this repository or not recognized.\nURL: '$url'\n";
+    }
+}
+
+$port = 29418 unless $port;
+
+print "Can't detect remote host.\n" and exit(2) unless $host;
+print "Can't detect username.\n" and exit(2) unless $user;
+print "Can't detect reviewer email.\n" and exit(2) unless $email;
+
+my $branch = `git symbolic-ref -q HEAD 2>&1`;
+chomp($branch);
+
+if ($branch =~ m|^refs/heads/(.+)$|) {
+    $branch = $1;
+} else {
+    $branch = 'master';
+}
+
+my @changes = @ARGV;
+
+if (@changes == 0) {
+    print "Pushing changes to Gerrit into branch '$branch' as user '$user' to reviewer <$email>...\n";
+
+    my $cmd = qq|git push --porcelain --quiet --receive-pack="git receive-pack --reviewer=$email" origin HEAD:refs/for/$branch 2>&1|;
+    my $output = `$cmd`;
+
+    if ($output =~ m/\Q[remote rejected] (no new changes)\E/) {
+        print "Nothing to push.\n";
+        exit;
+    }
+
+    my $ok;
+    while ($output =~ m|https://\S+/(\d+)|g) {
+        push @changes, $1;
+        $ok = 1;
+    }
+
+    if (!$ok) {
+        print "Error: can't parse the server response:\n$output";
+        exit(3);
+    }
+}
+
+$user .= '@' if $user;
+
+my $total = scalar(@changes);
+my $n = 0;
+foreach my $id (@changes) {
+    $n++;
+    print "Automatically reviewing change $id [$n of $total]...\n";
+
+    my $cmd = qq|ssh -p $port $user$host "gerrit review --verified +1 --code-review +2 --submit $id,1" 2>&1|;
+    my $output = `$cmd`;
+
+    if ($output) {
+        warn $output;
+    }
+}
+
+print "Doing fetch/rebase/status...\n";
+`git fetch 2>&1`;
+`git rebase origin/$branch 2>&1`;
+print `git status`;
+
+print "All done.\n";

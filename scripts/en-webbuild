@@ -1,0 +1,186 @@
+#!/bin/bash
+
+usage()
+{
+  cat << EOF
+  usage: $0 options
+  Builds evernote projects using maven
+  author: akhaku <akhaku@evernote.com>
+
+  Options:
+    -c: runs a mvn clean
+    -r: restarts the tomcat server and exits
+    -s: runs gwt super dev mode
+    -d: debug
+    -q: quiet
+    -X: maven stack trace
+    -p PROJ: builds the project PROJ and deploys it
+    -b DEP: builds the dependency DEP
+    -h: shows this documentation and exits
+
+    Examples:
+    ./build.sh -qp web # Runs in quiet mode and builds and deploys web
+    ./build.sh -b webclient -p web # Builds webclient and web, deploys web
+
+    Contact the author with questions, bugs reports or feature requests
+EOF
+}
+
+PROJECT=
+MVN_OPTS=""
+BUILD=
+CLEAN=
+SUPER_DEV=
+if [ -z "$EVERNOTE_PROJ_ROOT" ]; then
+  echo "Set up the EVERNOTE_PROJ_ROOT env variable"
+  exit 1
+fi
+if [ -z "$TOMCAT_HOME" ]; then
+  echo "Set up the TOMCAT_HOME env variable"
+fi
+
+build_push() {
+  BUILD=(${BUILD[@]} "$1")
+}
+
+build_proj() {
+  pushd . &> /dev/null
+  cd "$EVERNOTE_PROJ_ROOT/$1"
+  if [ $CLEAN ]; then
+    echo "Cleaning up $1/target"
+    mvn clean $MVN_OPTS
+    if [ $? -ne 0 ]; then
+      echo "mvn clean failed"
+      exit 1
+    fi
+  fi
+  echo "Building $1"
+  echo ""
+  mvn install -Dmaven.test.skip.exec=true $MVN_OPTS
+  popd &> /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Building $1 failed"
+    exit 1
+  fi
+}
+
+while getopts "hrXcsdqb:p:" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 0
+      ;;
+    d)
+      DEBUG=true
+      ;;
+    q)
+      MVN_OPTS="$MVN_OPTS -q"
+      ;;
+    X)
+      MVN_OPTS="$MVN_OPTS -X"
+      ;;
+    s)
+      SUPER_DEV=true
+      ;;
+    c)
+      CLEAN=true
+      ;;
+    p)
+      PROJECT="$OPTARG"
+      ;;
+    b)
+      build_push "$OPTARG"
+      ;;
+    r)
+      "$TOMCAT_HOME/bin/shutdown.sh"
+      "$TOMCAT_HOME/bin/startup.sh"
+      exit 0
+      ;;
+    ?)
+      usage
+      exit 0
+      ;;
+    *)
+      usage
+      exit 0
+      ;;
+  esac
+done
+
+for proj in ${BUILD[@]}; do
+  if [ ! -d "$EVERNOTE_PROJ_ROOT/$proj" ]; then
+    echo "$proj does not exist"
+    exit 1
+  fi
+  echo "Removing $proj"
+  echo ""
+  rm -rf "$HOME/.m2/repository/com/evernote/$proj"
+  build_proj $proj
+done
+
+if [ $SUPER_DEV ]; then
+  pushd . &> /dev/null
+  if [ ! -d "$EVERNOTE_PROJ_ROOT/webclient/webclient-client" ]; then
+    echo "webclient doesn't exist"
+    exit 1
+  fi
+  cd "$EVERNOTE_PROJ_ROOT/webclient/webclient-client"
+  mvn gwt:run-codeserver -Dgwt.bindAddress=0.0.0.0 -Dgwt.module=com.evernote.web
+  popd
+fi
+
+if [ -z "$PROJECT" ]; then
+  echo "You have to write -p <project>, sigh"
+  exit 0
+fi
+
+WEBSRC="$EVERNOTE_PROJ_ROOT/$PROJECT"
+if [ ! -d "$WEBSRC" ]; then
+  echo "$PROJECT doesn't exist"
+  exit 1
+fi
+
+echo "Stopping catalina"
+echo ""
+"$TOMCAT_HOME/bin/shutdown.sh" &> /dev/null
+
+pushd . &> /dev/null
+OLDPWD_BACK="$OLDPWD"
+cd "$WEBSRC"
+
+if [ $CLEAN ]; then
+  echo "Cleaning up target/"
+  mvn clean $MVN_OPTS
+  if [ $? -ne 0 ]; then
+    echo "mvn clean failed"
+    exit 1
+  fi
+fi
+
+echo "Building $PROJECT"
+echo ""
+mvn install -Dmaven.test.skip.exec=true $MVN_OPTS
+if [ $? -ne 0 ]; then
+  echo "Building $PROJECT failed"
+  exit 1
+fi
+rm -Rf "${TOMCAT_HOME}/webapps/ROOT"
+mkdir "${TOMCAT_HOME}/webapps/ROOT"
+cd "${TOMCAT_HOME}/webapps/ROOT"
+
+echo ""
+echo "Manually installing"
+
+unzip -o "${WEBSRC}/target/web.war" &> /dev/null
+popd &> /dev/null
+OLDPWD="$OLDPWD_BACK"
+if [ -z $DEBUG ]; then
+  echo "Catalina ready to start"
+  # "$TOMCAT_HOME/bin/catalina.sh" start &> /dev/null
+else
+  echo "Setting up in debugging mode on port 8001"
+  export JPDA_ADDRESS=8001
+  export JPDA_TRANSPORT=dt_socket
+  "$TOMCAT_HOME/bin/catalina.sh" jpda start &> /dev/null
+fi

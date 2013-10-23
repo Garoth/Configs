@@ -74,8 +74,7 @@ alias -g slog='log -b $(hg branch)'
 alias -g sto="/home/storage"
 alias -g uwask="aapachin@acesulfame-potassium.csclub.uwaterloo.ca"
 alias -g uwcsc="aapachin@csclub.uwaterloo.ca"
-alias -g uwlin="aapachin@mef-fe10.student.cs.uwaterloo.ca"
-alias -g uwsol="aapachin@cpu10.student.cs.uwaterloo.ca"
+alias -g uw="aapachin@linux028.student.cs.uwaterloo.ca"
 alias    althack='telnet nethack.alt.org'
 alias    caocrawl='ssh joshua@crawl.akrasiac.org'
 alias    cscmusic="ssh aapachin@strombola"
@@ -94,6 +93,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 export PROMPT='$PR_GREEN%m$PR_WHITE.$PR_BLUE%n$PR_WHITE $PR_MAGENTA%c\
 $PR_WHITE${vcs_info_msg_0_}: '
+preexec () { echo -ne "\e[0m" } # removes colour after the prompt input
 
 # ZSH HOOKS
 # Needed for revision control identification
