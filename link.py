@@ -31,6 +31,7 @@ rules = [
         ["signature-default", home + ".signature-default"],
         ["sup/hooks", home + ".sup/hooks"],
         ["vim", home + ".vim"],
+        ["vimpagerrc", home + ".vimpagerrc"],
         ["vimrc", home + ".vimrc"],
         ["xinitrc", home + ".xinitrc"],
         ["zprofile", home + ".zprofile"],

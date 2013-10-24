@@ -107,19 +107,6 @@ set formatoptions+=t  " Wrap when using textwidth
 set formatoptions+=1  " Break before 1-letter words
 set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 
-"                              Pager Mode
-"                              ----------
-function GitPager()
-  if line2byte(line("$") +1) == 2
-    q!
-  endif
-
-  % ! sed 's/\x1b\[[0-9]*m//g'
-  nmap q :q!<cr>
-  set ft=git
-  normal gg
-endf
-
 "                          Paren Autocompletion
 "                          ---------------------
 :inoremap ( ()<ESC>i
