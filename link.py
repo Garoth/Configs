@@ -18,6 +18,7 @@ rules = [
         ["hg", home + ".hg"],
         ["hgrc", home + ".hgrc"],
         ["htoprc", home + ".htoprc"],
+        ["jshintrc", home + ".jshintrc"],
         ["mailcap", home + ".mailcap"],
         ["muttrc", home + ".muttrc"],
         ["ncmpc", home + ".ncmpc"],

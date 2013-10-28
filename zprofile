@@ -21,6 +21,7 @@ export CATALINA=$TOMCAT_HOME
        PATH=${PATH}:${JAVA_HOME}/bin
        PATH=${PATH}:${MYSQL_HOME}/bin
        PATH=${PATH}:${TOMCAT_HOME}/bin
+       PATH=${PATH}:/usr/local/node_modules/jshint/bin
 export PATH
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export VIMRUNTIME="/usr/local/share/vim/vim74"

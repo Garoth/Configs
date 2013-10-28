@@ -126,6 +126,10 @@ endf
 au BufRead,BufNewFile *.less setfiletype less
 au! Syntax less source $VIMRUNTIME/syntax/sass.vim
 
+"                              Syntastic
+"                              ---------
+let g:syntastic_check_on_open=1
+
 "                               Taglist
 "                               -------
 let TList_Inc_Winwidth = 0
