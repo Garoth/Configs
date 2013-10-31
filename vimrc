@@ -35,6 +35,7 @@ nmap <Leader>- :tabmove -1<cr>
 nmap <Leader>+ :tabmove +1<cr>
 nmap <Leader>n :lnext<cr>
 nmap <Leader>p :lprev<cr>
+nmap <Leader>= :%s/<[^>]*>/\r&\r/g<cr>:%g/^$/d<cr>:normal ggVG=<cr>
 helptags ~/.vim/doc
 colorscheme distinguished
 set background=dark
@@ -85,9 +86,10 @@ autocmd FileType html imap </ </<C-X><C-O><C-[><<
 autocmd FileType jsp imap </ </<C-X><C-O><C-[><<
 autocmd FileType jsp set ts=2 sw=2 sts=2
 autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType javascript set colorcolumn=81
-autocmd FileType javascript set ts=4 sw=4 sts=4
+autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setl colorcolumn=81
+autocmd FileType javascript setl ts=4 sw=4 sts=4
+autocmd FileType javascript setl foldmethod=indent foldlevel=1 foldnestmax=2
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c set omnifunc=ccomplete#Complete
