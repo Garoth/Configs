@@ -20,5 +20,3 @@
 [gerrit]
 	reviewer = athorp@evernote.com
 	user = athorp
-[core]
-	pager = "vimpager"

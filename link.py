@@ -41,6 +41,7 @@ rules = [
     ["ncmpc", home + ".ncmpc"],
     ["ncmpcpp", home + ".ncmpcpp"],
     ["nethackrc", home + ".nethackrc"],
+    ["pentagon", home + ".pentagon"],
     ["plutocracy", home + ".plutocracy"],
     ["procmailrc", home + ".procmailrc"],
     ["profile", home + ".profile"],

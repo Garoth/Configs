@@ -454,7 +454,7 @@
 	<key>Default Bookmark Guid</key>
 	<string>0F59599E-9B16-417B-AFA4-3CD7110BFF35</string>
 	<key>DimBackgroundWindows</key>
-	<true/>
+	<false/>
 	<key>DimInactiveSplitPanes</key>
 	<true/>
 	<key>DimOnlyText</key>
@@ -658,14 +658,16 @@
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
 	<key>NSWindow Frame Preferences</key>
-	<string>319 303 924 485 0 0 1440 878 </string>
+	<string>1011 736 924 485 0 0 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-1942 452 570 451 -2560 -163 2560 1440 </string>
+	<string>0 0 2560 1440 0 0 2560 1418 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>-2462 731 730 476 -2560 -163 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>-854 389 730 476 -2560 -163 2560 1440 </string>
 	<key>NeverWarnAboutShortLivedSessions_0074B5CC-79B2-4F8D-867E-03B84ACEED30</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_0F59599E-9B16-417B-AFA4-3CD7110BFF35</key>
 	<true/>
 	<key>New Bookmarks</key>
 	<array>
@@ -2134,6 +2136,8 @@
 			<string>/Users/athorp</string>
 		</dict>
 	</array>
+	<key>NoSyncNeverRemindPrefsChangesCopy</key>
+	<true/>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -2198,7 +2202,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2013-10-31T17:55:46Z</date>
+	<date>2013-11-08T17:42:05Z</date>
 	<key>SUSkippedVersion</key>
 	<string>1.0.0.20130624</string>
 	<key>SavePasteHistory</key>
@@ -2241,6 +2245,10 @@
 	<integer>0</integer>
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
+	<key>findIgnoreCase_iTerm</key>
+	<true/>
+	<key>findRegex_iTerm</key>
+	<false/>
 	<key>iTerm Version</key>
 	<string>1.0.0.20130811</string>
 </dict>

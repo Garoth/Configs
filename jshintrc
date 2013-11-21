@@ -84,10 +84,17 @@
     "globals"       : {
         "MAC": false,
         "DEBUG": false,
+        "CONFIG": false,
+        "test": false,
+        "module": false,
+        "QUnit": false,
+        "ok": false,
         "goog": false,
         "Evernote": false,
         "EV": false,
         "en": false,
+        "html_sanitize": false,
+        "Spinner": false,
         "_": false
     }                           // additional predefined global variables
 }

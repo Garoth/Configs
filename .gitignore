@@ -2,6 +2,7 @@
 *.swp
 *.class
 .todo
+pentagon/pentagondb
 plutocracy/autogen.cfg
 ncmpcpp/error.log
 ncmpcpp/artists
