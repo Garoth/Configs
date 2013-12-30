@@ -26,7 +26,7 @@ set undofile
 set hlsearch                                       " highlight searches
 hi Search guibg=DarkBlue
 hi Search ctermbg=DarkBlue
-hi Search ctermfg=Black
+hi Search ctermfg=White
 nmap <silent> <Leader>h :nohlsearch<cr>
 "set colorcolumn=81
 nnoremap j gj
