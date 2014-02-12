@@ -87,6 +87,7 @@
         "IOS": false,
         "DEBUG": false,
         "CONFIG": false,
+        "COMPILED": false,
         "test": false,
         "module": false,
         "QUnit": false,
