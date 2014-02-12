@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+run() {
+  ./Build/Debug/Evernote.app/Contents/MacOS/Evernote
+}
+
+buildHomeBrew() {
+  xctool -project "EverNote.xcodeproj" -scheme "Evernote-Homebrew"
+}
+
+if [[ "$1" == "build" ]]; then
+  buildHomeBrew
+  run
+elif [[ "$1" == "run" ]]; then
+  run
+fi
