@@ -202,9 +202,14 @@ function! CommonEditor()
     return foldtext . repeat(' ', spaceamount) . linecount . repeat(' ', 100)
   endfunction
 
+  " Set the foldmethod to the custom one above
   setlocal foldmethod=expr
   setlocal foldexpr=CEFolds()
   setlocal foldtext=CEFoldText()
+
+  " Automatic opening and closing of folds based on cursor location
+  " setlocal foldopen=all
+  " setlocal foldclose=all
 endfunction
 autocmd BufNewFile,BufRead $HOME/Programs/common-editor/*.js call CommonEditor()
 
