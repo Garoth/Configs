@@ -1,3 +1,7 @@
+"                            Pathogen Stuff
+"                            --------------
+call pathogen#infect()
+
 "                           General Settings
 "                           ---------------
 set runtimepath+=$GOROOT/misc/vim                  " add golang syntax highlight
@@ -145,10 +149,6 @@ let g:gundo_preview_height = 25
 let g:gundo_preview_bottom = 1
 nnoremap <silent> <Leader>g :GundoToggle<cr>
 
-"                               Taglist
-"                               -------
-let TList_Inc_Winwidth = 0
-
 "                           Auto Add Modeline
 "                           -----------------
 " Append modeline after last line in buffer.
@@ -161,18 +161,6 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
-"                            Vim-Latex Stuff
-"                            ---------------
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to alway generate a file-name.
-set grepprg=grep\ -nH\ $*
-" TIP: if you write your \label's as \label{fig:something}, then if you
-" type in \ref{fig: and press <C-n> you will automatically cycle through
-" all the figure labels. Very useful!
-set iskeyword+=:
-let g:tex_flavor="latex"
-
 "                            Control-P Stuff
 "                            ---------------
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -182,11 +170,6 @@ nmap <Leader>c :CtrlPClearCache<Cr>
 let g:ctrlp_max_depth=40
 let g:ctrlp_max_files=0
 let g:ctrlp_working_path_mode=0
-" Makes new tab the default
-" let g:ctrlp_prompt_mappings = {
-"     \ 'AcceptSelection("e")': ['<c-t>'],
-"     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-"     \ }
 
 "                            UltiSnips Stuff
 "                            ---------------
@@ -196,98 +179,8 @@ let g:UltiSnipsListSnippets="<F6>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-
-"                           Delimitmate Stuff
-"                           -----------------
-" let delimitMate_expand_cr = 1
-
-"                            Pathogen Stuff
-"                            --------------
-call pathogen#infect()
-
-"                         Common-Editor Settings
-"                         ----------------------
-function! CommonEditor()
-  " General setting changes
-  syntax match Ignore /.*editor-fold.*/
-
-  " Returns 1 if in an <editor-fold>, otherwise 0
-  function! CEInEditorFold(currentLineNum)
-    let numlines = line('$')
-    let current = a:currentLineNum
-
-    while current >= 0
-      if match(getline(current), '<editor-fold') >= 0
-        return 1
-      elseif match(getline(current), '<\/editor-fold') >= 0
-        return 0
-      endif
-
-      let current -= 1
-    endwhile
-
-    return 0
-  endfunction
-
-  " Returns the next line that has a function declaration (only = syntax)
-  function! CEFindNextFunction(currentLineNum)
-    let numlines = line('$')
-    let current = a:currentLineNum
-
-    while current <= numlines
-      if match(getline(current), '= function(') >= 0
-        return getline(current)
-      endif
-
-      let current += 1
-    endwhile
-
-    return "UNKNOWN FUNCTION"
-  endfunction
-
-  " Fold function for common-editor
-  function! CEFolds()
-    let thisline = getline(v:lnum)
-    let prevline = getline(v:lnum - 1)
-
-    if match(thisline, '<editor-fold') >= 0
-      return ">1"
-    elseif match(thisline, '^    \/\*\*$') >= 0
-      return CEInEditorFold(v:lnum) ? ">2" : ">1"
-    elseif match(thisline, '= function(') >= 0 && match(prevline, '^\s*\*\/$') < 0
-      return CEInEditorFold(v:lnum) ? ">2" : ">1"
-    else
-      return "="
-    endif
-  endfunction
-
-  " Fold text function for common-editor
-  function! CEFoldText()
-    let foldsize = v:foldend - v:foldstart
-    let foldtext = getline(v:foldstart)
-
-    if match(foldtext, '<editor-fold') >= 0
-      let foldtext = '  Section: ' . substitute(foldtext, '^.*desc="\(.*\)".*', '\1', '')
-    elseif match(foldtext, '^    \/\*\*') >= 0
-      let nextfn = CEFindNextFunction(v:foldstart)
-      let foldtext = '    Function: ' . substitute(nextfn, '^\s*\([^=]*\).*', '\1', '')
-    elseif match(foldtext, '= function(') >= 0
-      let foldtext = '    Function: ' . substitute(foldtext, '^\s*\([^=]*\).*', '\1', '')
-    endif
-
-    let linecount = ' (' . foldsize .' lines)'
-    let spaceamount = 80 - strlen(foldtext) - strlen(linecount)
-
-    return foldtext . repeat(' ', spaceamount) . linecount . repeat(' ', 100)
-  endfunction
-
-  " Set the foldmethod to the custom one above
-  setlocal foldmethod=expr
-  setlocal foldexpr=CEFolds()
-  setlocal foldtext=CEFoldText()
-
-  " Automatic opening and closing of folds based on cursor location
-  " setlocal foldopen=all
-  " setlocal foldclose=all
-endfunction
-autocmd BufNewFile,BufRead $HOME/Programs/common-editor/*.js call CommonEditor()
+"                        Load Official matchit.vim
+"                        -------------------------
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
