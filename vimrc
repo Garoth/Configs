@@ -1,6 +1,6 @@
 "                           General Settings
 "                           ---------------
-set runtimepath+=$GOROOT/misc/vim                " add golang syntax highlight
+set runtimepath+=$GOROOT/misc/vim                  " add golang syntax highlight
 filetype indent plugin on                          " turn on plugins
 syn on                                             " syntax highlighting on
 set t_Co=256                                       " terminal supports colours
@@ -24,11 +24,6 @@ set wrap                                           " allow visual wrapping
 set relativenumber                                 " relative numbering sidebar
 set undodir=~/.vim/undo,.
 set undofile
-set hlsearch                                       " highlight searches
-hi Search guibg=DarkBlue
-hi Search ctermbg=DarkBlue
-hi Search ctermfg=White
-nmap <silent> <Leader>h :nohlsearch<cr>
 "set colorcolumn=81
 nnoremap j gj
 nnoremap k gk
@@ -40,12 +35,18 @@ nmap <Leader>= :%s/<[^>]*>/\r&\r/g<cr>:%g/^$/d<cr>:normal ggVG=<cr>
 helptags ~/.vim/doc
 colorscheme distinguished
 set background=dark
+set hlsearch                                       " highlight searches
 
-au BufRead *sup.*-mode set ft=mail
-au BufRead *pde set ft=c
+" Set highlight colour to blue, and keybind to clear highlights
+nmap <silent> <Leader>h :nohlsearch<cr>
+hi Search guibg=DarkBlue
+hi Search ctermbg=DarkBlue
+hi Search ctermfg=White
+
 " Next two commands make vim use X11 clipboard
 set clipboard=unnamed
 nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
+
 " Make integration stuff
 map <F2> :make<cr>
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
@@ -68,16 +69,21 @@ set laststatus=2                                " Always on
 " Replace command for visual selection
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
+" Some important top-level remaps
 imap <BS> <C-H>
 cmap W<cr> up<cr>
 nmap <Space> 1<C-D>
 nmap ; 1<C-U>
+
 " Y to copy until end of line, like D
 map Y y$
+
 " File suffixes that get lower priority in completion
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.ld,.pdf,.ps
+
 " Jump to where you were last time in the file on open
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
 " Set up omnicompletion functions
 set omnifunc=syntaxcomplete#Complete
 
@@ -115,7 +121,7 @@ set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 :inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap [ []<ESC>i
 :inoremap ] <c-r>=ClosePair(']')<CR>
-function ClosePair(char)
+function! ClosePair(char)
   if getline('.')[col('.') - 1] == a:char
     return "\<Right>"
   else
@@ -128,9 +134,82 @@ endf
 au BufRead,BufNewFile *.less setfiletype less
 au! Syntax less source $VIMRUNTIME/syntax/sass.vim
 
+"                              Syntastic
+"                              ---------
+let g:syntastic_check_on_open=1
+
+"                                Gundo
+"                                -----
+let g:gundo_width = 30
+let g:gundo_preview_height = 25
+let g:gundo_preview_bottom = 1
+nnoremap <silent> <Leader>g :GundoToggle<cr>
+
+"                               Taglist
+"                               -------
+let TList_Inc_Winwidth = 0
+
+"                           Auto Add Modeline
+"                           -----------------
+" Append modeline after last line in buffer.
+" Use substitute() (not printf()) to handle '%%s' modeline in LaTeX files.
+function! AppendModeline()
+  let save_cursor = getpos('.')
+  let append = ' vim: set ts='.&tabstop.' sw='.&shiftwidth.' tw='.&textwidth.': '
+  $put =substitute(&commentstring, '%s', append, '')
+  call setpos('.', save_cursor)
+endfunction
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+"                            Vim-Latex Stuff
+"                            ---------------
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to alway generate a file-name.
+set grepprg=grep\ -nH\ $*
+" TIP: if you write your \label's as \label{fig:something}, then if you
+" type in \ref{fig: and press <C-n> you will automatically cycle through
+" all the figure labels. Very useful!
+set iskeyword+=:
+let g:tex_flavor="latex"
+
+"                            Control-P Stuff
+"                            ---------------
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+nmap <Leader>t :CtrlP<Cr>
+nmap <Leader>r :CtrlPMRU<Cr>
+nmap <Leader>c :CtrlPClearCache<Cr>
+let g:ctrlp_max_depth=40
+let g:ctrlp_max_files=0
+let g:ctrlp_working_path_mode=0
+" Makes new tab the default
+" let g:ctrlp_prompt_mappings = {
+"     \ 'AcceptSelection("e")': ['<c-t>'],
+"     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+"     \ }
+
+"                            UltiSnips Stuff
+"                            ---------------
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
+let g:UltiSnipsExpandTrigger="<F5>"
+let g:UltiSnipsListSnippets="<F6>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+
+"                           Delimitmate Stuff
+"                           -----------------
+" let delimitMate_expand_cr = 1
+
+"                            Pathogen Stuff
+"                            --------------
+call pathogen#infect()
+
 "                         Common-Editor Settings
 "                         ----------------------
 function! CommonEditor()
+  " General setting changes
+  syntax match Ignore /.*editor-fold.*/
 
   " Returns 1 if in an <editor-fold>, otherwise 0
   function! CEInEditorFold(currentLineNum)
@@ -212,67 +291,3 @@ function! CommonEditor()
   " setlocal foldclose=all
 endfunction
 autocmd BufNewFile,BufRead $HOME/Programs/common-editor/*.js call CommonEditor()
-
-"                              Syntastic
-"                              ---------
-let g:syntastic_check_on_open=1
-
-"                               Taglist
-"                               -------
-let TList_Inc_Winwidth = 0
-
-"                           Auto Add Modeline
-"                           -----------------
-" Append modeline after last line in buffer.
-" Use substitute() (not printf()) to handle '%%s' modeline in LaTeX files.
-function! AppendModeline()
-  let save_cursor = getpos('.')
-  let append = ' vim: set ts='.&tabstop.' sw='.&shiftwidth.' tw='.&textwidth.': '
-  $put =substitute(&commentstring, '%s', append, '')
-  call setpos('.', save_cursor)
-endfunction
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-
-"                            Vim-Latex Stuff
-"                            ---------------
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to alway generate a file-name.
-set grepprg=grep\ -nH\ $*
-" TIP: if you write your \label's as \label{fig:something}, then if you
-" type in \ref{fig: and press <C-n> you will automatically cycle through
-" all the figure labels. Very useful!
-set iskeyword+=:
-let g:tex_flavor="latex"
-
-"                            Control-P Stuff
-"                            ---------------
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-nmap <Leader>t :CtrlP<Cr>
-nmap <Leader>r :CtrlPMRU<Cr>
-nmap <Leader>c :CtrlPClearCache<Cr>
-let g:ctrlp_max_depth=40
-let g:ctrlp_max_files=0
-let g:ctrlp_working_path_mode=0
-" Makes new tab the default
-" let g:ctrlp_prompt_mappings = {
-"     \ 'AcceptSelection("e")': ['<c-t>'],
-"     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-"     \ }
-
-"                            UltiSnips Stuff
-"                            ---------------
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
-let g:UltiSnipsExpandTrigger="<F5>"
-let g:UltiSnipsListSnippets="<F6>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-
-"                           Delimitmate Stuff
-"                           -----------------
-" let delimitMate_expand_cr = 1
-
-"                            Pathogen Stuff
-"                            --------------
-call pathogen#infect()
