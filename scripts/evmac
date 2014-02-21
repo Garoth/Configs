@@ -2,15 +2,19 @@
 
 run() {
   ./Build/Debug/Evernote.app/Contents/MacOS/Evernote
+  return $?
 }
 
 buildHomeBrew() {
   xctool -project "EverNote.xcodeproj" -scheme "Evernote-Homebrew"
+  return $?
 }
 
 if [[ "$1" == "build" ]]; then
-  buildHomeBrew
+  buildHomeBrew &&
   run
 elif [[ "$1" == "run" ]]; then
   run
+elif [[ "$1" == "onlybuild" ]]; then
+  buildHomeBrew
 fi
