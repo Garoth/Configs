@@ -2,7 +2,7 @@
 "                         ----------------------
 function! CommonEditor()
   " General setting changes
-  syntax match Ignore /.*editor-fold.*/
+  " syntax match Ignore /.*editor-fold.*/     " Makes line nearly invisible
 
   " Returns 1 if in an <editor-fold>, otherwise 0
   function! CEInEditorFold(currentLineNum)
