@@ -3,23 +3,14 @@
 function! CommonEditor()
   " General setting changes
   " syntax match Ignore /.*editor-fold.*/     " Makes line nearly invisible
+  " Adds a semicolon after the current line; moves cursor back
+  nnoremap a; mxA;<Esc>`x;
+
+  let s:inEditorFold = 0
 
   " Returns 1 if in an <editor-fold>, otherwise 0
   function! CEInEditorFold(currentLineNum)
-    let numlines = line('$')
-    let current = a:currentLineNum
-
-    while current >= 0
-      if match(getline(current), '<editor-fold') >= 0
-        return 1
-      elseif match(getline(current), '<\/editor-fold') >= 0
-        return 0
-      endif
-
-      let current -= 1
-    endwhile
-
-    return 0
+    return s:inEditorFold
   endfunction
 
   " Returns the next line that has a function declaration (only = syntax)
@@ -43,11 +34,18 @@ function! CommonEditor()
     let thisline = getline(v:lnum)
     let prevline = getline(v:lnum - 1)
 
+    if match(thisline, '<\/editor-fold') >= 0
+      let s:inEditorFold = 0
+    endif
+
     if match(thisline, '<editor-fold') >= 0
+      let s:inEditorFold = 1
       return ">1"
     elseif match(thisline, '^    \/\*\*$') >= 0
       return CEInEditorFold(v:lnum) ? ">2" : ">1"
     elseif match(thisline, '= function(') >= 0 && match(prevline, '^\s*\*\/$') < 0
+      return CEInEditorFold(v:lnum) ? ">2" : ">1"
+    elseif match(thisline, 'commands\[[''"].* =') >= 0
       return CEInEditorFold(v:lnum) ? ">2" : ">1"
     else
       return "="
@@ -66,6 +64,8 @@ function! CommonEditor()
       let foldtext = '    Function: ' . substitute(nextfn, '^\s*\([^=]*\).*', '\1', '')
     elseif match(foldtext, '= function(') >= 0
       let foldtext = '    Function: ' . substitute(foldtext, '^\s*\([^=]*\).*', '\1', '')
+    elseif match(foldtext, 'commands\[[''"].* =') >= 0
+      let foldtext = '    Command: ' . substitute(foldtext, '^\s*commands\[[''"]\(.*\)[''"]\] =.*', '\1', '')
     endif
 
     let linecount = ' (' . foldsize .' lines)'

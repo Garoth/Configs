@@ -11,9 +11,9 @@ set t_Co=256                                       " terminal supports colours
 set ignorecase                                     " ignore case in matching
 set smartcase                                      " match capitals in search
 set expandtab                                      " extpand tabs to spaces
-set tabstop=2                                      " tab size
-set shiftwidth=2                                   " amount to shift by
-set softtabstop=2                                  " delete x spaces on backsp.
+set tabstop=4                                      " tab size
+set shiftwidth=4                                   " amount to shift by
+set softtabstop=4                                  " delete x spaces on backsp.
 set scrolloff=8                                    " avoid top/bot of screen
 set backspace=indent,eol,start                     " backspace over stuffs
 set confirm                                        " do ask for confirmation
@@ -33,8 +33,6 @@ nnoremap j gj
 nnoremap k gk
 nmap <Leader>- :tabmove -1<cr>
 nmap <Leader>+ :tabmove +1<cr>
-nmap <Leader>n :lnext<cr>
-nmap <Leader>p :lprev<cr>
 nmap <Leader>= :%s/<[^>]*>/\r&\r/g<cr>:%g/^$/d<cr>:normal ggVG=<cr>
 helptags ~/.vim/doc
 colorscheme distinguished
@@ -78,6 +76,9 @@ imap <BS> <C-H>
 cmap W<cr> up<cr>
 nmap <Space> 1<C-D>
 nmap ; 1<C-U>
+
+" Close all folds except the current line
+nnoremap zp zMzv
 
 " Y to copy until end of line, like D
 map Y y$
@@ -133,14 +134,31 @@ function! ClosePair(char)
   endif
 endf
 
-"                           Less Highlighting
-"                           -----------------
-au BufRead,BufNewFile *.less setfiletype less
-au! Syntax less source $VIMRUNTIME/syntax/sass.vim
+"                       Location list loop function
+"                       ---------------------------
+function! WrapCommand(direction)
+  if a:direction == "up"
+    try
+      lprevious
+    catch /^Vim\%((\a\+)\)\=:E553/
+      llast
+    endtry
+  elseif a:direction == "down"
+    try
+      lnext
+    catch /^Vim\%((\a\+)\)\=:E553/
+      lfirst
+    endtry
+  endif
+endfunction
+
+nmap <Leader>p :call WrapCommand("up")<CR>
+nmap <Leader>n :call WrapCommand("down")<CR>
 
 "                              Syntastic
 "                              ---------
 let g:syntastic_check_on_open=1
+let g:syntastic_always_populate_loc_list=1
 
 "                                Gundo
 "                                -----
@@ -170,6 +188,10 @@ nmap <Leader>c :CtrlPClearCache<Cr>
 let g:ctrlp_max_depth=40
 let g:ctrlp_max_files=0
 let g:ctrlp_working_path_mode=0
+" Speed up vim in git directories
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard',
+      \ 'find %s -type f']
+let g:ctrlp_use_caching = 0
 
 "                            UltiSnips Stuff
 "                            ---------------
@@ -183,4 +205,18 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "                        -------------------------
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
+endif
+
+"                              Hardtime
+"                              --------
+let g:hardtime_default_on = 0              " always on
+
+"                           Equal Programs
+"                           --------------
+if executable('xmllint') == 1
+  autocmd FileType xml let &l:equalprg='xmllint --format --recover -'
+endif
+
+if executable('tidy') == 1
+  autocmd FileType html let &l:equalprg='tidy -quiet --indent yes --show-errors 0'
 endif
