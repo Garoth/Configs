@@ -195,7 +195,6 @@ let g:ctrlp_use_caching = 0
 
 "                            UltiSnips Stuff
 "                            ---------------
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
 let g:UltiSnipsExpandTrigger="<F5>"
 let g:UltiSnipsListSnippets="<F6>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"

@@ -58,3 +58,6 @@
 [submodule "vim/bundle/gitignore"]
 	path = vim/bundle/gitignore
 	url = git@github.com:vim-scripts/gitignore.git
+[submodule "vim/bundle/vim-snippets"]
+	path = vim/bundle/vim-snippets
+	url = git@github.com:honza/vim-snippets.git
