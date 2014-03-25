@@ -5,7 +5,7 @@
     "maxerr"        : 1000,     // {int} Maximum error before stopping
 
     // Enforcing
-    "bitwise"       : true,     // true: Prohibit bitwise operators (&, |, ^, etc.)
+    "bitwise"       : false,     // true: Prohibit bitwise operators (&, |, ^, etc.)
     "camelcase"     : false,    // true: Identifiers must be in camelCase
     "curly"         : true,     // true: Require {} for every new block or scope
     "eqeqeq"        : true,     // true: Require triple equals (===) for comparison
@@ -92,9 +92,14 @@
         "module": false,
         "QUnit": false,
         "ok": false,
+        "expect": false,
+        "start": false,
+        "stop": false,
         "throws": false,
         "goog": false,
         "Evernote": false,
+        "EN": false,
+        "Range": false,
         "METRO": false,
         "DocumentFragment": false,
         "EV": false,
