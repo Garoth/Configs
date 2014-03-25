@@ -36,19 +36,42 @@ export HOMEBREW_GITHUB_API_TOKEN=6b7e0277e0511a697cf32f0e0e783df3f702f3fc
 export GOPATH="$HOME/Programs/golang"
 export PAGER="vimpager"
 alias less="$PAGER"
+export MAC_PROJECT_DIR="$HOME/Programs/mac"
 
 # Lets you read Common Editor from the filesystem directly
 alias cedebugoff='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorPath'
 alias cedebugon='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "/Users/athorp/Programs/common-editor/"'
 # Lets you use uncompiled Common Editor files
-alias cerawoff='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorUncompiled'
-alias cerawon='defaults write com.evernote.Evernote ENDebugLocalCommonEditorUncompiled -bool true'
+alias ceuncompiledoff='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorUncompiled'
+alias ceuncompiledon='defaults write com.evernote.Evernote ENDebugLocalCommonEditorUncompiled -bool true'
 # Lets you use new Common Editor undo system
-alias ceundooff='defaults delete com.evernote.Evernote ENDebugCommonEditorRichText'
-alias ceundoon='defaults write com.evernote.Evernote ENDebugCommonEditorRichText -bool true'
+alias certeoff='defaults delete com.evernote.Evernote ENDebugCommonEditorRichText'
+alias certeon='defaults write com.evernote.Evernote ENDebugCommonEditorRichText -bool true'
 # Lets you use stage
 alias enstageon='defaults write com.evernote.Evernote stage YES'
 alias enstageoff='defaults write com.evernote.Evernote stage NO'
 # Lets you use the debug menus in webviews
 alias endevtoolson='defaults write com.evernote.Evernote ENAppsShowDevTools -bool YES'
 alias endebugmenuon='defaults write com.evernote.Evernote IncludeDebugMenu -bool YES'
+
+# Turns on uncompiled debug mode on or off, for true or false
+cedebugmode() {
+  if [[ "$1" == "on" ]]; then
+    echo 'CE Debug                 [\e[32;1mON\e[0m]'
+    cedebugon &> /dev/null
+    echo 'CE Uncompiled            [\e[32;1mON\e[0m]'
+    ceuncompiledon &> /dev/null
+  else
+    echo 'CE Debug                 [\e[31;1mOFF\e[0m]'
+    cedebugoff &> /dev/null
+    echo 'CE Uncompiled            [\e[31;1mOFF\e[0m]'
+    ceuncompiledoff &> /dev/null
+  fi
+
+  echo 'CE RTE                   [\e[32;1mON\e[0m]'
+  certeon &> /dev/null
+  echo 'EN Dev Tools             [\e[32;1mON\e[0m]'
+  endevtoolson &> /dev/null
+  echo 'EN Debug Menu            [\e[32;1mON\e[0m]'
+  endebugmenuon &> /dev/null
+}
