@@ -1,0 +1,25 @@
+
+snippet for "for (...) {...} (counting up)" b
+for (var ${1:i} = 0; $1 < ${2:foo.length}; $1++) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet todo "inserts a todo comment for the current date" b
+// TODO:athorp:`/bin/date +"%Y-%m-%d"` $1
+endsnippet
+
+snippet cefold "inserts a webstorm fold comment" b
+//<editor-fold desc="$1">
+//</editor-fold>
+endsnippet
+
+snippet fun "variable function"
+${1:var foo} = function(${3:arguments}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet cl "console.log" b
+console.log('${1:value}');
+endsnippet

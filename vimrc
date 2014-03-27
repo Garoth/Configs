@@ -197,8 +197,8 @@ let g:ctrlp_use_caching = 0
 "                            ---------------
 let g:UltiSnipsExpandTrigger="<F5>"
 let g:UltiSnipsListSnippets="<F6>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 
 "                        Load Official matchit.vim
 "                        -------------------------
