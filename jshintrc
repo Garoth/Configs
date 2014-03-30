@@ -96,6 +96,7 @@
         "start": false,
         "stop": false,
         "throws": false,
+        "URI": false,
         "goog": false,
         "Evernote": false,
         "EN": false,
