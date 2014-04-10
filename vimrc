@@ -31,6 +31,8 @@ set undofile
 "set colorcolumn=81
 nnoremap j gj
 nnoremap k gk
+"select last pasted (changed) text
+nnoremap gp `[v`]
 nmap <Leader>- :tabmove -1<cr>
 nmap <Leader>+ :tabmove +1<cr>
 nmap <Leader>= :%s/<[^>]*>/\r&\r/g<cr>:%g/^$/d<cr>:normal ggVG=<cr>

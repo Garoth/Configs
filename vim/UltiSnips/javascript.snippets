@@ -1,3 +1,4 @@
+# Custom Javascript / Common Editor Snippets
 
 snippet for "for (...) {...} (counting up)" b
 for (var ${1:i} = 0; $1 < ${2:foo.length}; $1++) {
@@ -15,11 +16,20 @@ snippet cefold "inserts a webstorm fold comment" b
 endsnippet
 
 snippet fun "variable function"
-${1:var foo} = function(${3:arguments}) {
+/**
+ * ${1:Function description}
+ */
+${2:var ${3:foo}} = function(${4:arguments}) {
 	${VISUAL}$0
-}
+};
 endsnippet
 
 snippet cl "console.log" b
-console.log('${1:value}');
+console.log('${1:value});
+endsnippet
+
+snippet if "if statement" b
+if (${1:condition}) {
+	${VISUAL}$0
+}
 endsnippet
