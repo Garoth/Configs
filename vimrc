@@ -4,7 +4,6 @@ call pathogen#infect()
 
 "                           General Settings
 "                           ---------------
-set runtimepath+=$GOROOT/misc/vim                  " add golang syntax highlight
 filetype indent plugin on                          " turn on plugins
 syn on                                             " syntax highlighting on
 set t_Co=256                                       " terminal supports colours
@@ -107,7 +106,8 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd FileType java set ts=2 sw=2 sts=2
-autocmd FileType go set ts=4 sw=4 sts=4 si
+autocmd FileType go set list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
+autocmd FileType go set colorcolumn=81 noexpandtab
 
 " graywh -- formatting
 set formatoptions=
@@ -221,3 +221,7 @@ endif
 if executable('tidy') == 1
   autocmd FileType html let &l:equalprg='tidy -quiet --indent yes --show-errors 0'
 endif
+
+"                              vim-go
+"                              ------
+let g:go_fmt_fail_silently = 1
