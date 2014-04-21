@@ -5,6 +5,15 @@ function! CommonEditor()
   " syntax match Ignore /.*editor-fold.*/     " Makes line nearly invisible
   " Adds a semicolon after the current line; moves cursor back
   nnoremap a; mxA;<Esc>`x;
+  " Changes which files ctrlp will find; use git for high speed
+  let s:git_ls_files_command = 'git ls-files "css/*.less" js tests "*.md" "*.py" "*.sh"'
+  let g:ctrlp_user_command = {
+      \ 'types': {
+          \ 1: ['.git', 'cd %s && ' . s:git_ls_files_command],
+          \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+          \ },
+      \ 'fallback': 'find %s -type f'
+      \ }
 
   let s:inEditorFold = 0
 

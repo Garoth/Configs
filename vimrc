@@ -39,6 +39,8 @@ helptags ~/.vim/doc
 colorscheme distinguished
 set background=dark
 set hlsearch                                       " highlight searches
+nmap <F1> :echo "Stop pressing esc in normal mode"<CR>
+imap <F1> <Esc>
 
 " Set highlight colour to blue, and keybind to clear highlights
 nmap <silent> <Leader>h :nohlsearch<cr>
@@ -85,7 +87,7 @@ nnoremap zp zMzv
 map Y y$
 
 " File suffixes that get lower priority in completion
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.ld,.pdf,.ps
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.ld,.pdf,.ps,.min.js,.min.js.map,.min.css
 
 " Jump to where you were last time in the file on open
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -191,13 +193,24 @@ let g:ctrlp_max_depth=40
 let g:ctrlp_max_files=0
 let g:ctrlp_working_path_mode=0
 " Speed up vim in git directories
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard',
-      \ 'find %s -type f']
+let g:ctrlp_user_command = {
+    \ 'types': {
+        \ 1: ['.git', 'cd %s && git ls-files'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+        \ },
+    \ 'fallback': 'find %s -type f'
+    \ }
 let g:ctrlp_use_caching = 0
+
+let g:ctrlp_extensions = ['funky']
+let g:ctrlp_funky_syntax_highlight = 1
+nnoremap <Leader>f :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
 "                            UltiSnips Stuff
 "                            ---------------
-let g:UltiSnipsExpandTrigger="<F5>"
+let g:UltiSnipsExpandTrigger="<F3>"
 let g:UltiSnipsListSnippets="<F6>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<c-j>"
