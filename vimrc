@@ -238,3 +238,7 @@ endif
 "                              vim-go
 "                              ------
 let g:go_fmt_fail_silently = 1
+
+"                          You Complete Me
+"                          ---------------
+let g:ycm_min_num_of_chars_for_completion = 3
