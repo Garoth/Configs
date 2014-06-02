@@ -93,3 +93,23 @@ function! CommonEditor()
   " setlocal foldclose=all
 endfunction
 autocmd BufNewFile,BufRead $HOME/Programs/common-editor/*.js call CommonEditor()
+
+" Takes the result of 'copy html' of the <head> in rte-test-creator and makes
+" an exports list suitable for the mac project
+function! MakeExportsList()
+  " Delete all of the stuff that isn't script tags
+  norm 17ddGV22kxgg2dt<
+  " Replace ending script tags with newlines
+  %s;</script>;\r;g
+  " Strip out everything except for the script paths
+  %s;<script.*"file\(.*\)">;\1;g
+  " Fix up the script paths to be what we expect
+  %norm df.xi@"A",
+  " Final cleanup of whitespace and stuff
+  norm ddddggddG$x
+  " Add in a couple more that are always on top
+  norm ggO@"/goog/base.js",
+  norm o@"/base.js",
+endfunction
+
+" vim: set ts=2 sw=2 tw=78:
