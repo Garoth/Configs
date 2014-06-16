@@ -53,6 +53,9 @@ alias enstageoff='defaults write com.evernote.Evernote stage NO'
 # Lets you use the debug menus in webviews
 alias endevtoolson='defaults write com.evernote.Evernote ENAppsShowDevTools -bool YES'
 alias endebugmenuon='defaults write com.evernote.Evernote IncludeDebugMenu -bool YES'
+# Disables updates to an externals repo
+alias enupdateoff='echo off > externals_update_disabled'
+alias enupdateon='rm externals_update_disabled'
 
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {

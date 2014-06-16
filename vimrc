@@ -22,8 +22,8 @@ set shortmess=aT                                   " shorten messages in prompt
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_ " visually display whitespace
 hi NonText ctermfg=darkgray  guifg=darkgray
 hi SpecialKey ctermfg=darkgray guifg=darkgray
-set wrap                                           " allow visual wrapping
-"set number                                         " number column
+set nowrap                                         " allow visual wrapping
+"set number                                        " number column
 set relativenumber                                 " relative numbering sidebar
 set undodir=~/.vim/undo,.
 set undofile
@@ -31,7 +31,7 @@ set undofile
 nnoremap j gj
 nnoremap k gk
 "select last pasted (changed) text
-nnoremap gp `[v`]
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 nmap <Leader>- :tabmove -1<cr>
 nmap <Leader>+ :tabmove +1<cr>
 nmap <Leader>= :%s/<[^>]*>/\r&\r/g<cr>:%g/^$/d<cr>:normal ggVG=<cr>
@@ -79,6 +79,8 @@ imap <BS> <C-H>
 cmap W<cr> up<cr>
 nmap <Space> 1<C-D>
 nmap ; 1<C-U>
+nmap <C-L> zl
+nmap <C-H> zh
 
 " Close all folds except the current line
 nnoremap zp zMzv
@@ -241,4 +243,4 @@ let g:go_fmt_fail_silently = 1
 
 "                          You Complete Me
 "                          ---------------
-let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_min_num_of_chars_for_completion = 2
