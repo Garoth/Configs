@@ -64,6 +64,6 @@
 [submodule "vim/bundle/ctrlp-funky"]
 	path = vim/bundle/ctrlp-funky
 	url = git://github.com/tacahiroy/ctrlp-funky.git
-[submodule "vim/bundle/youcompleteme"]
-	path = vim/bundle/youcompleteme
-	url = git@github.com:Valloric/YouCompleteMe.git
+[submodule "vim/bundle/neocomplete"]
+	path = vim/bundle/neocomplete
+	url = git@github.com:Shougo/neocomplete.vim.git

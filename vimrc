@@ -97,21 +97,22 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " Set up omnicompletion functions
 set omnifunc=syntaxcomplete#Complete
 
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 " Make tags magically close themselves!
 autocmd FileType html imap </ </<C-X><C-O><C-[><<
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType jsp imap </ </<C-X><C-O><C-[><<
-autocmd FileType jsp set ts=2 sw=2 sts=2
-autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType jsp setl ts=2 sw=2 sts=2
 autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType javascript setl colorcolumn=81
 autocmd FileType javascript setl ts=4 sw=4 sts=4
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType java set ts=2 sw=2 sts=2
-autocmd FileType go set list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
-autocmd FileType go set colorcolumn=81 noexpandtab
+autocmd FileType c setl omnifunc=ccomplete#Complete
+autocmd FileType java setl ts=2 sw=2 sts=2
+autocmd FileType go setl list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
+autocmd FileType go setl colorcolumn=81 noexpandtab
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " graywh -- formatting
 set formatoptions=
@@ -244,3 +245,26 @@ let g:go_fmt_fail_silently = 1
 "                          You Complete Me
 "                          ---------------
 let g:ycm_min_num_of_chars_for_completion = 2
+
+"                           Neocomplete
+"                           -----------
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
