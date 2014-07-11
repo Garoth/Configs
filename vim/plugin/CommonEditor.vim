@@ -110,6 +110,12 @@ function! MakeExportsList()
   " Add in a couple more that are always on top
   norm ggO@"/goog/base.js",
   norm o@"/base.js",
+  " Format like in the obj-c source code
+  1del n
+  0put ='        id filesToImport = @[' . @n
+  let @n = repeat(' ', 29)
+  2,$norm 0"nP
+  $norm $A];
 endfunction
 
 " vim: set ts=2 sw=2 tw=78:
