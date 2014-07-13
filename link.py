@@ -1,11 +1,14 @@
 #!/usr/bin/python
+import sys
 import commands
 import os
 import errno
 
+# Locations
 home = "/Users/athorp/"
 here = home + "Configs/"
 
+# Some colour code helpers
 class ansicolor:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -22,41 +25,66 @@ class ansicolor:
         self.FAIL = ''
         self.ENDC = ''
 
+# List of things to symlink
 rules = [
-    ["Terminal", home + ".config/Terminal"],
-    ["awesome", home + ".config/awesome"],
-    ["bashrc", home + ".bashrc"],
-    ["fetchmailrc", home + ".fetchmailrc"],
-    ["fonts", home + ".fonts"],
-    ["forward", home + ".forward"],
-    ["gcextras", home + ".gcextras"],
-    ["gitconfig", home + ".gitconfig"],
-    ["gvimrc", home + ".gvimrc"],
-    ["hg", home + ".hg"],
-    ["hgrc", home + ".hgrc"],
-    ["htoprc", home + ".htoprc"],
-    ["jshintrc", home + ".jshintrc"],
-    ["mailcap", home + ".mailcap"],
-    ["muttrc", home + ".muttrc"],
-    ["ncmpc", home + ".ncmpc"],
-    ["ncmpcpp", home + ".ncmpcpp"],
-    ["nethackrc", home + ".nethackrc"],
-    ["pentagon", home + ".pentagon"],
-    ["plutocracy", home + ".plutocracy"],
-    ["procmailrc", home + ".procmailrc"],
-    ["profile", home + ".profile"],
-    ["screenrc", home + ".screenrc"],
-    ["scripts", home + ".scripts"],
-    ["signature-default", home + ".signature-default"],
-    ["sup/hooks", home + ".sup/hooks"],
-    ["vim", home + ".vim"],
-    ["vimpagerrc", home + ".vimpagerrc"],
-    ["vimrc", home + ".vimrc"],
-    ["xinitrc", home + ".xinitrc"],
-    ["zprofile", home + ".zprofile"],
-    ["zshrc", home + ".zshrc"]
+    ["Terminal",           home + ".config/Terminal"   ] ,
+    ["awesome",            home + ".config/awesome"    ] ,
+    ["bashrc",             home + ".bashrc"            ] ,
+    ["fetchmailrc",        home + ".fetchmailrc"       ] ,
+    ["fonts",              home + ".fonts"             ] ,
+    ["forward",            home + ".forward"           ] ,
+    ["gcextras",           home + ".gcextras"          ] ,
+    ["gitconfig",          home + ".gitconfig"         ] ,
+    ["gvimrc",             home + ".gvimrc"            ] ,
+    ["hg",                 home + ".hg"                ] ,
+    ["hgrc",               home + ".hgrc"              ] ,
+    ["htoprc",             home + ".htoprc"            ] ,
+    ["jshintrc",           home + ".jshintrc"          ] ,
+    ["mailcap",            home + ".mailcap"           ] ,
+    ["muttrc",             home + ".muttrc"            ] ,
+    ["ncmpc",              home + ".ncmpc"             ] ,
+    ["ncmpcpp",            home + ".ncmpcpp"           ] ,
+    ["nethackrc",          home + ".nethackrc"         ] ,
+    ["pentagon",           home + ".pentagon"          ] ,
+    ["plutocracy",         home + ".plutocracy"        ] ,
+    ["procmailrc",         home + ".procmailrc"        ] ,
+    ["profile",            home + ".profile"           ] ,
+    ["screenrc",           home + ".screenrc"          ] ,
+    ["scripts",            home + ".scripts"           ] ,
+    ["signature-default",  home + ".signature-default" ] ,
+    ["sup/hooks",          home + ".sup/hooks"         ] ,
+    ["vim",                home + ".vim"               ] ,
+    ["vimpagerrc",         home + ".vimpagerrc"        ] ,
+    ["vimrc",              home + ".vimrc"             ] ,
+    ["xinitrc",            home + ".xinitrc"           ] ,
+    ["zprofile",           home + ".zprofile"          ] ,
+    ["zshrc",              home + ".zshrc"             ]
 ]
 
+# Build go scripts & append them to the rules list
+for dir in os.listdir(here + "scripts_go/src"):
+    if dir != "github.com":
+
+        os.putenv("GOPATH", here + "scripts_go")
+        os.chdir(here + "scripts_go")
+
+        print("Getting dependencies for " + dir)
+        result = commands.getstatusoutput("go get " + dir)
+        if result[0] != 0:
+            print("Could not get deps for go script: " + dir)
+            print(result[1])
+            sys.exit(1)
+
+        print("Building go script: " + dir)
+        result = commands.getstatusoutput("go build -o bin/" + dir + " " + dir)
+        if result[0] != 0:
+            print("Could not build go script: " + dir)
+            print(result[1])
+            sys.exit(1)
+
+        rules.append(["scripts_go/bin/" + dir, home + ".scripts/" + dir])
+
+# Actually does the symlinking & pretty printing
 everyOther = 0
 for rule in rules:
     colour = ansicolor.WARNING if everyOther == 0 else ""

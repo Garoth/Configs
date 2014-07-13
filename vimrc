@@ -167,6 +167,10 @@ nmap <Leader>n :call WrapCommand("down")<CR>
 let g:syntastic_check_on_open=1
 let g:syntastic_always_populate_loc_list=1
 
+"                             Tabularize
+"                             ----------
+nmap <Leader>a, :Tabularize /,\zs<CR>
+
 "                                Gundo
 "                                -----
 let g:gundo_width = 30
@@ -250,6 +254,7 @@ let g:ycm_min_num_of_chars_for_completion = 2
 "                           -----------
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
+set completeopt-=preview
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>

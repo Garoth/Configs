@@ -20,3 +20,6 @@ vim/spell/en.utf-8.add.spl
 scripts/thrift
 vim-powerline/*.cache
 .DS_Store
+scripts_go/bin
+scripts_go/scr/github.com
+scripts/bump-mac-subrepo
