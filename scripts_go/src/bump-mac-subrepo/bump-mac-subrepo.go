@@ -12,15 +12,15 @@ import (
 
 /** Command line variables **/
 var macPathPtr = flag.String("macpath",
-	os.Getenv("MAC_PROJECT_DIR")+"/",
-	"Path to the mac project")
+	os.Getenv("MAC_PROJECT_DIR"),
+	"Path to the mac project\n\t(use $MAC_PROJECT_DIR)")
 var relativePathToRefsFilePtr = flag.String("refsfilepath",
 	"external-git/external-refs.txt",
 	"Relative path to refs file")
 
-// Returns the latest git commit in the current directory
-func parseLatestCommit() (string, error) {
-	cmd := exec.Command("git", "rev-parse", "HEAD")
+// Runs the given git rev through git rev-parse to get the hash
+func gitRevParse(rev string) (string, error) {
+	cmd := exec.Command("git", "rev-parse", rev)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
@@ -31,20 +31,65 @@ func parseLatestCommit() (string, error) {
 	return result, nil
 }
 
+// Runs git diff on the given path and returns the result.
+func gitDiff(projectPath string) (string, error) {
+	cmd := exec.Command("git", "diff")
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Dir = *macPathPtr
+	if err := cmd.Run(); err != nil {
+		return "", errors.New("Couldn't run git diff. Check repos!")
+	}
+	return out.String(), nil
+}
+
+// Updates the given refs file for the specified project to the new hash.
+func updateRefsFile(project, newHash, refsFilePath string) error {
+	refsFile, err := ioutil.ReadFile(refsFilePath)
+	if err != nil {
+		return err
+	}
+
+	projectIndex := bytes.Index(refsFile, append([]byte{'\n'}, []byte(project)...))
+	if projectIndex == -1 {
+		return errors.New("Project " + project + " not found in refs file")
+	}
+
+	// index of the project name + len of project name + 1 space + matched \n
+	hashIndex := projectIndex + len(project) + 2
+	hashLen := len(newHash)
+	updatedRefsFile := append(refsFile[0:hashIndex],
+		append([]byte(newHash), refsFile[hashIndex+hashLen:]...)...)
+
+	if err = ioutil.WriteFile(refsFilePath, updatedRefsFile, 0644); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func fatal(err error) {
+	fmt.Println(err)
+	os.Exit(1)
+}
+
 func main() {
 	flag.Parse()
+	var err error
 	var project, commit string
+	*macPathPtr = *macPathPtr + "/"
+	refsFilePath := *macPathPtr + *relativePathToRefsFilePtr
 
 	if len(flag.Args()) == 1 {
 		project = flag.Args()[0]
-		var err error
-		commit, err = parseLatestCommit()
-		if err != nil {
-			panic(err)
+		if commit, err = gitRevParse("HEAD"); err != nil {
+			fatal(err)
 		}
 	} else if len(flag.Args()) == 2 {
 		project = flag.Args()[0]
-		commit = flag.Args()[1]
+		if commit, err = gitRevParse(flag.Args()[1]); err != nil {
+			fatal(err)
+		}
 	} else {
 		fmt.Println("Positional Arguments: <project> [commit]")
 		flag.PrintDefaults()
@@ -56,35 +101,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	refsFile, err := ioutil.ReadFile(*macPathPtr + *relativePathToRefsFilePtr)
-	if err != nil {
-		panic(err)
+	if err := updateRefsFile(project, commit, refsFilePath); err != nil {
+		fatal(err)
 	}
 
-	projectIndex := bytes.Index(refsFile, append([]byte{'\n'}, []byte(project)...))
-	if projectIndex == -1 {
-		panic("Project " + project + " not found in refs file")
+	var diff string
+	if diff, err = gitDiff(*macPathPtr); err != nil {
+		fatal(err)
 	}
 
-	// index of the project name + len of project name + 1 space + matched \n
-	hashIndex := projectIndex + len(project) + 2
-	hashLen := len(commit)
-	updatedRefsFile := append(refsFile[0:hashIndex],
-		append([]byte(commit), refsFile[hashIndex+hashLen:]...)...)
-
-	if err = ioutil.WriteFile(*macPathPtr+*relativePathToRefsFilePtr,
-		updatedRefsFile, 0644); err != nil {
-		panic(err)
+	if diff == "" {
+		fmt.Println("Successfully updated file, but nothing changed.")
+	} else {
+		fmt.Println("Successfully updated file. Here's the diff:")
+		fmt.Println(diff)
 	}
 
-	fmt.Println("Success. Here's the diff:")
-
-	cmd := exec.Command("git", "diff")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Dir = *macPathPtr
-	if err = cmd.Run(); err != nil {
-		panic("Couldn't run diff on resulting command")
-	}
-	fmt.Println(out.String())
+	os.Exit(0)
 }
