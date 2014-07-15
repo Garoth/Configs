@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+
+	"github.com/aybabtme/rgbterm"
 )
 
 /** Command line variables **/
@@ -69,7 +71,7 @@ func updateRefsFile(project, newHash, refsFilePath string) error {
 }
 
 func fatal(err error) {
-	fmt.Println(err)
+	fmt.Println(rgbterm.String(err.Error(), 255, 0, 0))
 	os.Exit(1)
 }
 
@@ -97,8 +99,7 @@ func main() {
 	}
 
 	if info, err := os.Stat(*macPathPtr); err != nil || info.IsDir() == false {
-		fmt.Println("Not the mac project dir:", *macPathPtr)
-		os.Exit(1)
+		fatal(errors.New("Not a mac project dir: " + *macPathPtr))
 	}
 
 	if err := updateRefsFile(project, commit, refsFilePath); err != nil {
@@ -111,9 +112,11 @@ func main() {
 	}
 
 	if diff == "" {
-		fmt.Println("Successfully updated file, but nothing changed.")
+		msg := "Successfully updated file, but nothing changed."
+		fmt.Println(rgbterm.String(msg, 0, 0, 230))
 	} else {
-		fmt.Println("Successfully updated file. Here's the diff:")
+		msg := "Successfully updated file. Here's the diff:"
+		fmt.Println(rgbterm.String(msg, 0, 0, 230))
 		fmt.Println(diff)
 	}
 
