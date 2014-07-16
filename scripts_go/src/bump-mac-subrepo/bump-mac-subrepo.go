@@ -101,10 +101,10 @@ func main() {
 
 	if diff == "" {
 		msg := "Successfully updated file, but nothing changed."
-		fmt.Println(rgbterm.String(msg, 0, 0, 230))
+		fmt.Println(rgbterm.String(msg, 114, 138, 4))
 	} else {
 		msg := "Successfully updated file. Here's the diff:"
-		fmt.Println(rgbterm.String(msg, 0, 0, 230))
+		fmt.Println(rgbterm.String(msg, 114, 138, 4))
 		fmt.Println(diff)
 	}
 
