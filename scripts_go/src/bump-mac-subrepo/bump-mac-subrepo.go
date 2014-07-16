@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"os/exec"
 
 	"github.com/aybabtme/rgbterm"
+	"github.com/codeskyblue/go-sh"
 )
 
 /** Command line variables **/
@@ -22,27 +22,21 @@ var relativePathToRefsFilePtr = flag.String("refsfilepath",
 
 // Runs the given git rev through git rev-parse to get the hash
 func gitRevParse(rev string) (string, error) {
-	cmd := exec.Command("git", "rev-parse", rev)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
+	out, err := sh.Command("git", "rev-parse", rev).Output()
 	if err != nil {
 		return "", errors.New("Couldn't parse latest git commit")
 	}
-	result := out.String()
-	return result, nil
+	return string(out), nil
 }
 
 // Runs git diff on the given path and returns the result.
 func gitDiff(projectPath string) (string, error) {
-	cmd := exec.Command("git", "diff")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Dir = *macPathPtr
-	if err := cmd.Run(); err != nil {
+	out, err := sh.Command("git", "diff",
+		"--color=always", sh.Dir(projectPath)).Output()
+	if err != nil {
 		return "", errors.New("Couldn't run git diff. Check repos!")
 	}
-	return out.String(), nil
+	return string(out), nil
 }
 
 // Updates the given refs file for the specified project to the new hash.
