@@ -23,20 +23,14 @@ var relativePathToRefsFilePtr = flag.String("refsfilepath",
 // Runs the given git rev through git rev-parse to get the hash
 func gitRevParse(rev string) (string, error) {
 	out, err := sh.Command("git", "rev-parse", rev).Output()
-	if err != nil {
-		return "", errors.New("Couldn't parse latest git commit")
-	}
-	return string(out), nil
+	return string(out), err
 }
 
 // Runs git diff on the given path and returns the result.
 func gitDiff(projectPath string) (string, error) {
 	out, err := sh.Command("git", "diff",
 		"--color=always", sh.Dir(projectPath)).Output()
-	if err != nil {
-		return "", errors.New("Couldn't run git diff. Check repos!")
-	}
-	return string(out), nil
+	return string(out), err
 }
 
 // Updates the given refs file for the specified project to the new hash.
