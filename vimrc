@@ -99,7 +99,7 @@ set omnifunc=syntaxcomplete#Complete
 
 " Make tags magically close themselves!
 autocmd FileType html imap </ </<C-X><C-O><C-[><<
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType jsp imap </ </<C-X><C-O><C-[><<
 autocmd FileType jsp setl ts=2 sw=2 sts=2
@@ -110,9 +110,10 @@ autocmd FileType c setl omnifunc=ccomplete#Complete
 autocmd FileType java setl ts=2 sw=2 sts=2
 autocmd FileType go setl list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
 autocmd FileType go setl colorcolumn=81 noexpandtab
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
+autocmd FileType python setl omnifunc=pythoncomplete#Complete
+autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
+autocmd FileType typescript setl colorcolumn=81
 
 " graywh -- formatting
 set formatoptions=
@@ -166,6 +167,7 @@ nmap <Leader>n :call WrapCommand("down")<CR>
 "                              ---------
 let g:syntastic_check_on_open=1
 let g:syntastic_always_populate_loc_list=1
+let g:syntastic_typescript_tsc_args = "--module amd"
 
 "                             Tabularize
 "                             ----------
