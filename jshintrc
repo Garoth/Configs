@@ -109,6 +109,8 @@
         "DocumentFragment": false,
         "EV": false,
         "en": false,
+        "st": false,
+        "STABBEY": false,
         "html_sanitize": false,
         "Spinner": false,
         "arguments": false,
