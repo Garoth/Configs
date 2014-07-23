@@ -38,6 +38,8 @@ export PAGER="vimpager"
 alias less="$PAGER"
 export MAC_PROJECT_DIR="$HOME/Programs/mac"
 
+# Copies to the clipboard a "fixed in <id>" for the mac project
+alias enfixedin='echo "Fixed in nightly build $((`./build-scripts/build-number.sh | tail -n 1` + 1))" | pbcopy'
 # Lets you read Common Editor from the filesystem directly
 alias cedebugoff='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorPath'
 alias cedebugon='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "/Users/athorp/Programs/common-editor/"'
