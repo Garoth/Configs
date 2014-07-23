@@ -1,0 +1,52 @@
+{
+    "Instructions": [
+        {
+            "LineRegex": "[Cc]ommon[Ee]ditor",
+            "Replacements": [
+                { "Match": "(\\|\\** *.* \\| )", "Replace": "$1[CE] "}
+            ]
+        },
+        {
+            "LineRegex": ".*",
+            "Replacements": [
+                { "Match": "\\d\\d\\d\\d/\\d\\d/\\d\\d ", "Replace": "" },
+                { "Match": "(\\d\\d:\\d\\d:\\d\\d):\\d* ", "Replace": "$1 "},
+                { "Match": "(\\|\\** *).* \\| ", "Replace": "$1 "},
+                { "Match": "^\\d\\d\\d\\d-\\d\\d-\\d\\d ", "Replace": ""},
+                { "Match": "^(\\d\\d:\\d\\d:\\d\\d)\\.\\d+ ", "Replace": "$1        "},
+                { "Match": "^([^\\d])", "Replace": "                $1"}
+            ],
+            "ClipLine": 95
+        },
+        {
+            "LineRegex": ".*",
+            "ColorTargetRegex": "^\\d\\d:\\d\\d:\\d\\d       ",
+            "Color": {"R": 200, "G": 128, "B": 128}
+        },
+        {
+            "LineRegex": ".*",
+            "ColorTargetRegex": "\\[CE\\].*",
+            "Color": {"R": 255, "G": 128, "B": 1}
+        },
+        {
+            "LineRegex": ".*",
+            "ColorTargetRegex": ".*D\\|\\** ",
+            "Color": {"R": 245, "G": 92, "B": 92}
+        },
+        {
+            "LineRegex": ".*",
+            "ColorTargetRegex": ".*I\\|\\** ",
+            "Color": {"R": 92, "G": 245, "B": 92}
+        },
+        {
+            "LineRegex": ".*",
+            "ColorTargetRegex": ".*W\\|\\** ",
+            "Color": {"R": 245, "G": 194, "B": 92}
+        },
+        {
+            "LineRegex": ".*",
+            "ColorTargetRegex": ".*E\\|\\** ",
+            "Color": {"R": 92, "G": 194, "B": 245}
+        }
+    ]
+}

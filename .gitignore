@@ -23,4 +23,6 @@ vim-powerline/*.cache
 scripts_go/bin
 scripts_go/src/github.com
 scripts_go/pkg
+
 scripts/bump-mac-subrepo
+scripts/golorize

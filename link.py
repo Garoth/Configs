@@ -35,6 +35,7 @@ rules = [
     ["forward",            home + ".forward"           ] ,
     ["gcextras",           home + ".gcextras"          ] ,
     ["gitconfig",          home + ".gitconfig"         ] ,
+    ["golorize",           home + ".golorize"          ] ,
     ["gvimrc",             home + ".gvimrc"            ] ,
     ["hg",                 home + ".hg"                ] ,
     ["hgrc",               home + ".hgrc"              ] ,

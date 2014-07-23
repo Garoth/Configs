@@ -1,7 +1,8 @@
 #!/bin/zsh
 
 run() {
-  ./Build/Debug/Evernote.app/Contents/MacOS/Evernote
+  ./Build/Debug/Evernote.app/Contents/MacOS/Evernote 2>&1 | golorize \
+      -conf ~/.golorize/en-mac-log.json
   return $?
 }
 
