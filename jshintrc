@@ -91,6 +91,7 @@
         "test": false,
         "module": false,
         "QUnit": false,
+        "strictEqual": false,
         "ok": false,
         "expect": false,
         "start": false,

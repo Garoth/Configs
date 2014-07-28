@@ -10,9 +10,11 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/aybabtme/rgbterm"
+	"github.com/codeskyblue/go-sh"
 )
 
 var configFilePath = flag.String("conf", "colorconf.json",
@@ -39,10 +41,46 @@ type Configuration struct {
 	Instructions []Instruction
 }
 
+// Reads the result of 'tput' to return the column and line size of the terminal
+func TermInfo() (cols, lines int, err error) {
+	colsBytes, err := sh.Command("tput", "cols").Output()
+	if err != nil {
+		return 0, 0, err
+	}
+
+	linesBytes, err := sh.Command("tput", "lines").Output()
+	if err != nil {
+		return 0, 0, err
+	}
+
+	cols, err = strconv.Atoi(string(colsBytes[:len(colsBytes)-1]))
+	if err != nil {
+		return 0, 0, err
+	}
+
+	lines, err = strconv.Atoi(string(linesBytes[:len(linesBytes)-1]))
+	if err != nil {
+		return 0, 0, err
+	}
+
+	return cols, lines, nil
+}
+
 func ApplyRules(input string) string {
 	for _, instruction := range configuration.Instructions {
 		lineRegex := regexp.MustCompile(instruction.LineRegex)
 
+		// Handling the special case of -1 for column clip, meaning use width
+		// of the current terminal. Reads this from the $COLUMNS env variable.
+		if instruction.ClipLine == -1 {
+			cols, _, err := TermInfo()
+			if err != nil {
+				log.Fatalln("Couldn't use tput command", err)
+			}
+			instruction.ClipLine = cols - 2
+		}
+
+		// The main set of code for applying rules
 		if lineRegex.MatchString(input) {
 
 			for _, replacement := range instruction.Replacements {

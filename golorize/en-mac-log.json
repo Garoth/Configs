@@ -16,7 +16,7 @@
                 { "Match": "^(\\d\\d:\\d\\d:\\d\\d)\\.\\d+ ", "Replace": "$1        "},
                 { "Match": "^([^\\d])", "Replace": "                $1"}
             ],
-            "ClipLine": 95
+            "ClipLine": -1
         },
         {
             "LineRegex": ".*",
