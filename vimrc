@@ -252,6 +252,10 @@ let g:go_fmt_fail_silently = 1
 "                          ---------------
 let g:ycm_min_num_of_chars_for_completion = 2
 
+"                             Signify
+"                            --------
+let g:signify_vcs_list = [ 'git' ]
+
 "                           Neocomplete
 "                           -----------
 let g:neocomplete#enable_at_startup = 1
