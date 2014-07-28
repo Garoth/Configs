@@ -253,8 +253,64 @@ let g:go_fmt_fail_silently = 1
 let g:ycm_min_num_of_chars_for_completion = 2
 
 "                             Signify
-"                            --------
+"                             -------
 let g:signify_vcs_list = [ 'git' ]
+
+"                             Airline
+"                             -------
+
+" Simplify the number area to just be line number, col number
+let g:airline_section_z = "%2l, %2c"
+" Simplify vcs integration to just show branch name
+let g:airline_section_b = "%{airline#util#wrap(airline#extensions#branch#get_head(),0)}"
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = ''
+let g:airline_right_sep = '«'
+let g:airline_right_sep = ''
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+" let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+let g:airline_mode_map = {
+  \ '__' : '-',
+  \ 'n'  : 'N',
+  \ 'i'  : 'I',
+  \ 'R'  : 'R',
+  \ 'c'  : 'C',
+  \ 'v'  : 'v',
+  \ 'V'  : 'V',
+  \ '' : '^V',
+  \ 's'  : 's',
+  \ 'S'  : 'S',
+  \ '' : '^S',
+  \ }
+
+let g:airline_theme = 'solarized'
+
+let g:airline#extensions#syntastic#enabled = 0
+
+let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#show_buffers = 0
+" let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = '·'
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
 
 "                           Neocomplete
 "                           -----------
