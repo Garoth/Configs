@@ -14,7 +14,8 @@
                 { "Match": "(\\|\\** *).* \\| ", "Replace": "$1 "},
                 { "Match": "^\\d\\d\\d\\d-\\d\\d-\\d\\d ", "Replace": ""},
                 { "Match": "^(\\d\\d:\\d\\d:\\d\\d)\\.\\d+ ", "Replace": "$1        "},
-                { "Match": "^([^\\d])", "Replace": "                $1"}
+                { "Match": "^([^\\d])", "Replace": "                $1"},
+                { "Match": "<ENMacNoteMO.*title:", "Replace": "[Note] "}
             ],
             "ClipLine": -1
         },
@@ -31,7 +32,7 @@
         {
             "LineRegex": ".*",
             "ColorTargetRegex": ".*D\\|\\** ",
-            "Color": {"R": 245, "G": 92, "B": 92}
+            "Color": {"R": 92, "G": 194, "B": 245}
         },
         {
             "LineRegex": ".*",
@@ -46,7 +47,7 @@
         {
             "LineRegex": ".*",
             "ColorTargetRegex": ".*E\\|\\** ",
-            "Color": {"R": 92, "G": 194, "B": 245}
+            "Color": {"R": 245, "G": 92, "B": 92}
         }
     ]
 }
