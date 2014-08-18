@@ -37,6 +37,7 @@ export GOPATH="$HOME/Programs/golang"
 export PAGER="vimpager"
 alias less="$PAGER"
 export MAC_PROJECT_DIR="$HOME/Programs/mac"
+export CLOSURE_JAR_PATH="$HOME/Programs/common-editor/tools/closure/compiler.jar"
 
 # Copies to the clipboard a "fixed in <id>" for the mac project
 alias enfixedin='echo "Fixed in nightly build $((`./build-scripts/build-number.sh | tail -n 1` + 1))" | pbcopy'

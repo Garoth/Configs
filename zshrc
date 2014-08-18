@@ -65,19 +65,12 @@ setopt auto_cd              # you can cd by just typing a folder name
 setopt vi                   # vim mode
 
 #Aliases
-alias -g dra="$HOME/Coding/C/dragoon"
-alias -g kasuko="garoth@mediapc.thruhere.net"
-alias -g mgirc="garoth@irc.o09.us"
 alias -g ugster="aapachin@ugster05.student.cs.uwaterloo.ca"
-alias -g plu="$HOME/Coding/C/plutocracy"
-alias -g slog='log -b $(hg branch)'
-alias -g sto="/home/storage"
 alias -g uwask="aapachin@acesulfame-potassium.csclub.uwaterloo.ca"
 alias -g uwcsc="aapachin@csclub.uwaterloo.ca"
 alias -g uw="aapachin@linux028.student.cs.uwaterloo.ca"
 alias    althack='telnet nethack.alt.org'
 alias    caocrawl='ssh joshua@crawl.akrasiac.org'
-alias    cscmusic="ssh aapachin@strombola"
 alias    date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 alias    ftp="gftp-text"
 alias    music="ncmpcpp"

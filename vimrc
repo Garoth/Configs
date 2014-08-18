@@ -98,7 +98,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 set omnifunc=syntaxcomplete#Complete
 
 " Make tags magically close themselves!
-autocmd FileType html imap </ </<C-X><C-O><C-[><<
+" autocmd FileType html imap </ </<C-X><C-O><C-[><<
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType jsp imap </ </<C-X><C-O><C-[><<
@@ -128,19 +128,16 @@ set formatoptions+=t  " Wrap when using textwidth
 set formatoptions+=1  " Break before 1-letter words
 set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 
-"                          Paren Autocompletion
-"                          ---------------------
-:inoremap ( ()<ESC>i
-:inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap [ []<ESC>i
-:inoremap ] <c-r>=ClosePair(']')<CR>
-function! ClosePair(char)
-  if getline('.')[col('.') - 1] == a:char
-    return "\<Right>"
-  else
-    return a:char
-  endif
-endf
+"                        Smart Indentation For i
+"                        -----------------------
+function! IndentWithI()
+    if len(getline('.')) == 0
+        return "\"_ddO"
+    else
+        return "i"
+    endif
+endfunction
+nnoremap <expr> i IndentWithI()
 
 "                       Location list loop function
 "                       ---------------------------
