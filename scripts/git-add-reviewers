@@ -1,14 +1,16 @@
 #!/bin/zsh
 
-SERVER="gerrit.corp.etonreve.com"
+SERVER="gerrit.ba1.etonreve.com"
 PORT="29418"
 CHANGEID=$(git log | grep "Change-Id" | cut -d: -f2 | head -n1)
 [[ -z "$1" ]] || CHANGEID="$1"
 
-echo "- Adding CPW reviewers for $CHANGEID"
+echo "- Adding reviewers for $CHANGEID"
 ssh -p $PORT $SERVER gerrit set-reviewers \
-  --add zlosvik@evernote.com "$CHANGEID"
-ssh -p $PORT $SERVER gerrit set-reviewers \
-  --add isorokopud@evernote.com "$CHANGEID"
-ssh -p $PORT $SERVER gerrit set-reviewers \
-  --add rbakker@evernote.com "$CHANGEID"
+  --add dholtwick@evernote.com "$CHANGEID"
+# ssh -p $PORT $SERVER gerrit set-reviewers \
+#   --add zlosvik@evernote.com "$CHANGEID"
+# ssh -p $PORT $SERVER gerrit set-reviewers \
+#   --add isorokopud@evernote.com "$CHANGEID"
+# ssh -p $PORT $SERVER gerrit set-reviewers \
+#   --add rbakker@evernote.com "$CHANGEID"
