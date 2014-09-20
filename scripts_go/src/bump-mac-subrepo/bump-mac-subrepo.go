@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/aybabtme/rgbterm"
 	"github.com/codeskyblue/go-sh"
@@ -23,6 +24,12 @@ var relativePathToRefsFilePtr = flag.String("refsfilepath",
 // Runs the given git rev through git rev-parse to get the hash
 func gitRevParse(rev string) (string, error) {
 	out, err := sh.Command("git", "rev-parse", rev).Output()
+	return string(out[0 : len(out)-1]), err
+}
+
+func gitCommitsSince(oldHash, newHash string) (string, error) {
+	out, err := sh.Command("git", "log", "--pretty=%h %s",
+		oldHash+".."+newHash).Output()
 	return string(out), err
 }
 
@@ -33,29 +40,40 @@ func gitDiff(projectPath string) (string, error) {
 	return string(out), err
 }
 
+// Commits all the local changes in the given repo with the given message
+func gitCommit(projectPath, message string) error {
+	_, err := sh.Command("git", "commit", "-a", "-s", "-m"+message,
+		sh.Dir(projectPath)).Output()
+	return err
+}
+
 // Updates the given refs file for the specified project to the new hash.
-func updateRefsFile(project, newHash, refsFilePath string) error {
+// Returns the old hash that was replaced.
+func updateRefsFile(project, newHash, refsFilePath string) (string, error) {
 	refsFile, err := ioutil.ReadFile(refsFilePath)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	projectIndex := bytes.Index(refsFile, append([]byte{'\n'}, []byte(project)...))
+	projectIndex := bytes.Index(refsFile,
+		append([]byte{'\n'}, []byte(project)...))
+
 	if projectIndex == -1 {
-		return errors.New("Project " + project + " not found in refs file")
+		return "", errors.New("Project " + project + " not found in refs file")
 	}
 
 	// index of the project name + len of project name + 1 space + matched \n
 	hashIndex := projectIndex + len(project) + 2
 	hashLen := len(newHash)
+	oldHash := string(refsFile[hashIndex : hashIndex+hashLen-1])
 	updatedRefsFile := append(refsFile[0:hashIndex],
 		append([]byte(newHash), refsFile[hashIndex+hashLen:]...)...)
 
 	if err = ioutil.WriteFile(refsFilePath, updatedRefsFile, 0644); err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return string(oldHash), nil
 }
 
 func fatal(err error) {
@@ -90,7 +108,8 @@ func main() {
 		fatal(errors.New("Not a mac project dir: " + *macPathPtr))
 	}
 
-	if err := updateRefsFile(project, commit, refsFilePath); err != nil {
+	oldCommit, err := updateRefsFile(project, commit, refsFilePath)
+	if err != nil {
 		fatal(err)
 	}
 
@@ -100,12 +119,42 @@ func main() {
 	}
 
 	if diff == "" {
-		msg := "Successfully updated file, but nothing changed."
+		msg := "--- Successfully updated file, but nothing changed ---"
 		fmt.Println(rgbterm.String(msg, 114, 138, 4))
-	} else {
-		msg := "Successfully updated file. Here's the diff:"
+		os.Exit(0)
+	}
+
+	msg := "--- Successfully updated file. Here's the diff ---\n"
+	fmt.Println(rgbterm.String(msg, 114, 138, 4))
+	fmt.Println("    " + strings.Replace(diff, "\n", "\n    ", -1))
+
+	commits, err := gitCommitsSince(oldCommit, commit)
+	if err == nil {
+		msg = "--- And here are the commits that were added ---\n"
 		fmt.Println(rgbterm.String(msg, 114, 138, 4))
-		fmt.Println(diff)
+		fmt.Println("    " + strings.Replace(commits, "\n", "\n    ", -1))
+	}
+
+	msg = "--- Lets get this show on the road. Make commit? (y/n) ---\n"
+	fmt.Println(rgbterm.String(msg, 114, 138, 4))
+	commitMessage := "Bump for the " + project + " subrepository\n\n" +
+		"Changes since the last version:\n" + "    " +
+		strings.Replace(commits, "\n", "\n    ", -1)
+	fmt.Println(commitMessage)
+
+	fmt.Printf("> ")
+	var input string
+	_, err = fmt.Scanf("%s", &input)
+	if err != nil || (input != "y" && input != "n") {
+		fmt.Println("Invalid input; good luck with that. Bye.")
+		os.Exit(1)
+	}
+
+	if input == "y" {
+		gitCommit(*macPathPtr, commitMessage)
+	} else if input == "n" {
+		fmt.Println("Bye.")
+		os.Exit(0)
 	}
 
 	os.Exit(0)
