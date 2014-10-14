@@ -71,8 +71,8 @@ set statusline+=%-16(\ %l,%c-%v\ %)             " line number, column number - v
 set statusline+=%P                              " percent through file
 set laststatus=2                                " Always on
 
-" Replace command for visual selection
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+" Keybind to replace visual selection with something
+vnoremap <C-r> "hy:%s;<C-r>h;;gc<left><left><left>
 
 " Some important top-level remaps
 imap <BS> <C-H>
@@ -138,6 +138,16 @@ function! IndentWithI()
     endif
 endfunction
 nnoremap <expr> i IndentWithI()
+
+"                       Copy all matched strings
+"                       ------------------------
+function! CopyMatches(reg)
+  let hits = []
+  %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/ge
+  let reg = empty(a:reg) ? '+' : a:reg
+  execute 'let @'.reg.' = join(hits, "\n") . "\n"'
+endfunction
+command! -register CopyMatches call CopyMatches(<q-reg>)
 
 "                       Location list loop function
 "                       ---------------------------

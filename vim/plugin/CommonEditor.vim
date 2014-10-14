@@ -97,25 +97,25 @@ autocmd BufNewFile,BufRead $HOME/Programs/common-editor/*.js call CommonEditor()
 " Takes the result of 'copy html' of the <head> in rte-test-creator and makes
 " an exports list suitable for the mac project
 function! MakeExportsList()
-  " Delete all of the stuff that isn't script tags
-  norm 17ddGV22kxgg2dt<
-  " Replace ending script tags with newlines
-  %s;</script>;\r;g
-  " Strip out everything except for the script paths
-  %s;<script.*"file\(.*\)">;\1;g
-  " Fix up the script paths to be what we expect
-  %norm df.xi@"A",
-  " Final cleanup of whitespace and stuff
-  norm ddddggddG$x
-  " Add in a couple more that are always on top
-  norm ggO@"/goog/base.js",
-  norm o@"/base.js",
-  " Format like in the obj-c source code
-  1del n
-  0put ='        id filesToImport = @[' . @n
-  let @n = repeat(' ', 29)
-  2,$norm 0"nP
-  $norm $A];
+  " Delete all lines except the one we care about
+  normal ggV16jxjVGx
+  " Just sets up the search pattern (CopyMatches uses last used search)
+  %s;js/goog/\.\./[a-z/\-][a-z/\-]*\.js;\0;g
+  " Clear a register and have CopyMatches put results into that
+  let @a = ''
+  CopyMatches a
+  " Replace contents of screen with the stuff in the a register
+  normal ggVGx"apggdd
+  " Gets rid of the common prefix on the matches
+  %s;js/goog/\.\./;;g
+  " Adds proper indentation formatting to all lines
+  %s;.*;                             @"\0",;
+  " Inserts header
+  normal ggO        id filesToImport = @[@"goog/base.js",
+  normal $x
+  " Inserts footer
+  normal Go                             ];
 endfunction
+command! MakeExportsList silent! call MakeExportsList()
 
 " vim: set ts=2 sw=2 tw=78:
