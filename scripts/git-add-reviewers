@@ -1,16 +1,26 @@
 #!/bin/zsh
+#
+# Usage: git-add-reviewers [amount of latest commits to add reviewers to]
+#    Ex: git-add-reviewers 4
 
 SERVER="gerrit.ba1.etonreve.com"
 PORT="29418"
-CHANGEID=$(git log | grep "Change-Id" | cut -d: -f2 | head -n1)
-[[ -z "$1" ]] || CHANGEID="$1"
+REVIEWERS=("dholtwick")
+NUMCHANGES=1
 
-echo "- Adding reviewers for $CHANGEID"
-ssh -p $PORT $SERVER gerrit set-reviewers \
-  --add dholtwick@evernote.com "$CHANGEID"
-# ssh -p $PORT $SERVER gerrit set-reviewers \
-#   --add zlosvik@evernote.com "$CHANGEID"
-# ssh -p $PORT $SERVER gerrit set-reviewers \
-#   --add isorokopud@evernote.com "$CHANGEID"
-# ssh -p $PORT $SERVER gerrit set-reviewers \
-#   --add rbakker@evernote.com "$CHANGEID"
+if [[ -n "$1" ]]; then
+    NUMCHANGES=$1
+fi
+
+CHANGEIDS=$(git log | grep "Change-Id" | cut -d: -f2 | head -n $NUMCHANGES )
+
+echo $CHANGEIDS | while read changeid; do
+    echo "Adding reviewers to changeID $changeid"
+
+    for reviewer in ${REVIEWERS[*]}; do
+        ( ( ssh -p $PORT $SERVER gerrit set-reviewers --add "$reviewer@evernote.com" "$changeid" )& )
+        echo " - Added $reviewer"
+    done
+
+    echo ""
+done
