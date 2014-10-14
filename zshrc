@@ -79,6 +79,7 @@ alias    pwmd="pwd" # I typo this 90% of the time
 alias    top="htop"
 alias    tram="transmission-remote"
 alias    tree='tree -AC'
+alias    govim='GOPATH=$PWD vim'
 
 # Variables
 HISTFILE=~/.histfile
