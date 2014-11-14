@@ -26,3 +26,4 @@ scripts_go/pkg
 
 scripts/bump-mac-subrepo
 scripts/golorize
+scripts/git-gerrit-urls
