@@ -98,7 +98,7 @@ autocmd BufNewFile,BufRead $HOME/Programs/common-editor/*.js call CommonEditor()
 " an exports list suitable for the mac project
 function! MakeExportsList()
   " Delete all lines except the one we care about
-  normal ggV16jxjVGx
+  normal ggV25jxjVGx
   " Just sets up the search pattern (CopyMatches uses last used search)
   %s;js/goog/\.\./[a-z/\-][a-z/\-]*\.js;\0;g
   " Clear a register and have CopyMatches put results into that
@@ -115,6 +115,8 @@ function! MakeExportsList()
   normal $x
   " Inserts footer
   normal Go                             ];
+  " Replaces public/web.js with public/mac.js (Test Creator uses web target)
+  %s;public/web.js;public/mac.js;
 endfunction
 command! MakeExportsList silent! call MakeExportsList()
 

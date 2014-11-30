@@ -16,15 +16,6 @@ ${VISUAL}
 //</editor-fold>
 endsnippet
 
-snippet fun "variable function"
-/**
- * ${1:Function description}
- */
-${2:var ${3:foo}} = function(${4:arguments}) {
-	${VISUAL}$0
-};
-endsnippet
-
 snippet cl "console.log" b
 console.log('${1:value});
 endsnippet
@@ -67,4 +58,27 @@ endsnippet
 
 snippet "(\w*)\?style" "foo?style -> en.node.getStyleValue(foo" r
 en.node.getStyleValue(`!p snip.rv = match.group(1)`, '$1');
+endsnippet
+
+snippet fun "function with dynamic docblock" b
+`!p
+# Currently Ultisnips does not support dynamic tabstops, so we cannot add
+# tabstops to the datatype for these param tags until that feature is added.
+arguments = t[2].split(',')
+arguments = [argument.strip() for argument in arguments if argument]
+ 
+if t[1] != "":
+	snip.rv = "/**"
+	snip += " * " + t[1] + " description here"
+	snip += " * "
+	for argument in arguments:
+		snip += " * @param {} " + argument
+	snip += ' */'
+	snip += ''
+else:
+	snip.rv = ''
+
+`${1} = function(${2}) {
+	${0:${VISUAL}}
+};
 endsnippet
