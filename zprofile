@@ -4,13 +4,15 @@ export MAVEN_OPTS="-Xmx512m"
 export M2=$M2_HOME/bin
 # the root folder for web, notestore and whatever other projects
 export EVERNOTE_PROJ_ROOT=$HOME/Programs
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home"
+export STUDIO_JDK="/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk"
 export JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=512m -XX:MaxPermSize=2048m"
 export MYSQL_HOME=/usr/local/mysql
 export TOMCAT_HOME=/usr/local/Cellar/tomcat6/6.0.37/libexec
 export CATALINA_HOME=$TOMCAT_HOME
 export CATALINA_BASE=$TOMCAT_HOME
 export CATALINA=$TOMCAT_HOME
+
        PATH=/Users/athorp/Programs/golang/bin:$PATH
        PATH=/Users/athorp/.scripts:${PATH}
        PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH

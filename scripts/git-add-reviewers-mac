@@ -20,6 +20,7 @@ echo $CHANGEIDS | while read changeid; do
     for reviewer in ${REVIEWERS[*]}; do
         ( ( ssh -p $PORT $SERVER gerrit set-reviewers --add "$reviewer@evernote.com" "$changeid" )& )
         echo " - Added $reviewer"
+        sleep 1
     done
 
     echo ""

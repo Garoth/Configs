@@ -1,0 +1,8 @@
+{
+    "Instructions": [
+        {
+            "LineRegex": ".*",
+            "ClipLine": -1
+        }
+    ]
+}
