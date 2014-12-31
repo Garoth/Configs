@@ -82,3 +82,36 @@
 [submodule "vim/bundle/delimitMate"]
 	path = vim/bundle/delimitMate
 	url = https://github.com/Raimondi/delimitMate
+[submodule "vim/bundle/vim-gtfo"]
+	path = vim/bundle/vim-gtfo
+	url = git://github.com/justinmk/vim-gtfo.git
+[submodule "vim/bundle/vim-exchange"]
+	path = vim/bundle/vim-exchange
+	url = git://github.com/tommcdo/vim-exchange.git
+[submodule "vim/bundle/vim-eunuch"]
+	path = vim/bundle/vim-eunuch
+	url = git://github.com/tpope/vim-eunuch.git
+[submodule "vim/bundle/vim-jdaddy"]
+	path = vim/bundle/vim-jdaddy
+	url = git://github.com/tpope/vim-jdaddy.git
+[submodule "vim/bundle/vim-textobj-user"]
+	path = vim/bundle/vim-textobj-user
+	url = git://github.com/kana/vim-textobj-user.git
+[submodule "vim/bundle/vim-textobj-uri"]
+	path = vim/bundle/vim-textobj-uri
+	url = git://github.com/jceb/vim-textobj-uri.git
+[submodule "vim/bundle/vim-textobj-xmlattr"]
+	path = vim/bundle/vim-textobj-xmlattr
+	url = git://github.com/whatyouhide/vim-textobj-xmlattr.git
+[submodule "vim/bundle/MatchTagAlways"]
+	path = vim/bundle/MatchTagAlways
+	url = git://github.com/Valloric/MatchTagAlways.git
+[submodule "vim/bundle/vim-javascript"]
+	path = vim/bundle/vim-javascript
+	url = git://github.com/pangloss/vim-javascript.git
+[submodule "vim/bundle/Colorizer"]
+	path = vim/bundle/Colorizer
+	url = git://github.com/chrisbra/Colorizer.git
+[submodule "vim/bundle/vim-search-pulse"]
+	path = vim/bundle/vim-search-pulse
+	url = git://github.com/inside/vim-search-pulse.git

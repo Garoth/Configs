@@ -17,17 +17,20 @@ set scrolloff=8                                    " avoid top/bot of screen
 set backspace=indent,eol,start                     " backspace over stuffs
 set confirm                                        " do ask for confirmation
 set vb t_vb=                                       " turn off visual bell
+set lazyredraw                                     " no redraw in macros
+set synmaxcol=300                                  " no syn after 300 col
 set mouse=                                         " turn off mouse
 set shortmess=aT                                   " shorten messages in prompt
 set list listchars=tab:»·,trail:·,extends:>,nbsp:_ " visually display whitespace
 hi NonText ctermfg=darkgray  guifg=darkgray
 hi SpecialKey ctermfg=darkgray guifg=darkgray
 set nowrap                                         " allow visual wrapping
-"set number                                        " number column
 set relativenumber                                 " relative numbering sidebar
+set showcmd                                        " shows current cmd combo
+set noerrorbells                                   " disables error bell
+set virtualedit=all                                " allows arbitrary cursor pos
 set undodir=~/.vim/undo,.
 set undofile
-"set colorcolumn=81
 nnoremap j gj
 nnoremap k gk
 "select last pasted (changed) text
@@ -128,8 +131,20 @@ set formatoptions+=t  " Wrap when using textwidth
 set formatoptions+=1  " Break before 1-letter words
 set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 
-"                        Smart Indentation For i
-"                        -----------------------
+" Trims trailing whitespace (justinmk)
+" ------------------------------------
+func! s:trim_whitespace()
+  let s=@/
+  let w=winsaveview()
+  s/\s\+$//ge
+  call histdel("/", histnr("/"))
+  call winrestview(w)
+  let @/=s
+endfunc
+command! -range=% Trim <line1>,<line2>call s:trim_whitespace()
+
+" Smart Indentation For i
+" -----------------------
 function! IndentWithI()
     if len(getline('.')) == 0
         return "\"_ddO"
@@ -139,8 +154,8 @@ function! IndentWithI()
 endfunction
 nnoremap <expr> i IndentWithI()
 
-"                       Copy all matched strings
-"                       ------------------------
+" Copy all matched strings
+" ------------------------
 function! CopyMatches(reg)
   let hits = []
   %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/ge
@@ -347,3 +362,44 @@ inoremap <expr><C-e>  neocomplete#cancel_popup()
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
+
+"                      vim-textobj-user
+"                      ----------------
+call textobj#user#plugin('line', {
+\   '-': {
+\     'select-a-function': 'CurrentLineA',
+\     'select-a': 'al',
+\     'select-i-function': 'CurrentLineI',
+\     'select-i': 'il',
+\   },
+\ })
+
+function! CurrentLineA()
+  normal! 0
+  let head_pos = getpos('.')
+  normal! $
+  let tail_pos = getpos('.')
+  return ['v', head_pos, tail_pos]
+endfunction
+
+function! CurrentLineI()
+  normal! ^
+  let head_pos = getpos('.')
+  normal! g_
+  let tail_pos = getpos('.')
+  let non_blank_char_exists_p = getline('.')[head_pos[2] - 1] !~# '\s'
+  return
+  \ non_blank_char_exists_p
+  \ ? ['v', head_pos, tail_pos]
+  \ : 0
+endfunction
+
+"                   vim-javascript
+"                   --------------
+let g:javascript_conceal_function   = "ƒ"
+let g:javascript_conceal_null       = "ø"
+let g:javascript_conceal_this       = "@"
+let g:javascript_conceal_return     = "⇚"
+let g:javascript_conceal_undefined  = "¿"
+let g:javascript_conceal_NaN        = "ℕ"
+let g:javascript_conceal_prototype  = "¶"
