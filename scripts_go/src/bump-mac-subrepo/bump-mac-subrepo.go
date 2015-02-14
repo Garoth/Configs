@@ -27,8 +27,10 @@ func gitRevParse(rev string) (string, error) {
 	return string(out[0 : len(out)-1]), err
 }
 
+// Produces list of git commits from old hash to new hash. Filters out
+// merge commits.
 func gitCommitsSince(oldHash, newHash string) (string, error) {
-	out, err := sh.Command("git", "log", "--pretty=%h %s",
+	out, err := sh.Command("git", "log", "--no-merges", "--pretty=%h %s",
 		oldHash+".."+newHash).Output()
 	return string(out), err
 }
