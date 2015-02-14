@@ -120,4 +120,37 @@ function! MakeExportsList()
 endfunction
 command! MakeExportsList silent! call MakeExportsList()
 
+" Is this hacky? Can we be sure textobj loaded first?
+if exists('*textobj#user#plugin')
+  " FIXME: don't use the a action for both a and i
+  call textobj#user#plugin('ceunittest', {
+  \   '-': {
+  \     'select-a-function': 'UnitTestA',
+  \     'select-a': 'an',
+  \     'select-i-function': 'UnitTestA',
+  \     'select-i': 'in',
+  \   },
+  \ })
+
+  function! UnitTestA()
+    let testStartString = 'en.test.testWithRTE'
+
+    let linenum = line('.')
+    while matchstr(getline(linenum), testStartString) == ''
+      let linenum -= 1
+      if (linenum <= 1)
+        break
+      endif
+    endwhile
+
+    let startline = linenum
+    call setpos('.', [0, startline, 1, 0])
+    normal! t(%
+    let endline = line('.')
+    let endlinelen = strlen(getline(endline))
+
+    return ['V', [0, startline, 1, 0], [0, endline, endlinelen, 0]]
+  endfunction
+endif
+
 " vim: set ts=2 sw=2 tw=78:
