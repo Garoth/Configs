@@ -120,15 +120,16 @@ autocmd FileType typescript setl colorcolumn=81
 
 " graywh -- formatting
 set formatoptions=
-set formatoptions+=c  " Format comments
 set formatoptions+=r  " Continue comments by default
 set formatoptions+=o  " Make comment when using o or O from comment line
 set formatoptions+=q  " Format comments with gq
 set formatoptions+=n  " Recognize numbered lists
 set formatoptions+=2  " Use indent from 2nd line of a paragraph
 set formatoptions+=l  " Don't break lines that are already long
+set formatoptions+=c  " Format comments
 set formatoptions+=t  " Wrap when using textwidth
 set formatoptions+=1  " Break before 1-letter words
+set formatoptions+=j  " Remove comment characters when joining lines
 set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 
 " Trims trailing whitespace (justinmk)
