@@ -38,9 +38,10 @@ export HOMEBREW_GITHUB_API_TOKEN=6b7e0277e0511a697cf32f0e0e783df3f702f3fc
 export GOPATH="$HOME/Programs/golang"
 export PAGER="vimpager"
 alias less="$PAGER"
+alias restartAudio="sudo kextunload /System/Library/Extensions/AppleHDA.kext; sudo kextload /System/Library/Extensions/AppleHDA.kext"
+
 export MAC_PROJECT_DIR="$HOME/Programs/mac"
 export CLOSURE_JAR_PATH="$HOME/Programs/common-editor/tools/closure/compiler.jar"
-alias restartAudio="sudo kextunload /System/Library/Extensions/AppleHDA.kext; sudo kextload /System/Library/Extensions/AppleHDA.kext"
 
 # Copies to the clipboard a "fixed in <id>" for the mac project
 alias enfixedin='echo "Fixed in nightly build $((`./build-scripts/build-number.sh | tail -n 1` + 1))" | pbcopy'
