@@ -5,7 +5,7 @@
 
 SERVER="gerrit.ba1.etonreve.com"
 PORT="29418"
-REVIEWERS=("dholtwick")
+REVIEWERS=("dholtwick" "tholloway")
 NUMCHANGES=1
 
 if [[ -n "$1" ]]; then
@@ -20,6 +20,7 @@ echo $CHANGEIDS | while read changeid; do
     for reviewer in ${REVIEWERS[*]}; do
         ( ( ssh -p $PORT $SERVER gerrit set-reviewers --add "$reviewer@evernote.com" "$changeid" )& )
         echo " - Added $reviewer"
+        sleep 0.5 # necessary to not confuse gerrit... ... ...
     done
 
     echo ""
