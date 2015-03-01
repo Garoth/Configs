@@ -33,7 +33,7 @@ set undodir=~/.vim/undo,.
 set undofile
 nnoremap j gj
 nnoremap k gk
-"select last pasted (changed) text
+" select last pasted (changed) text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 nmap <Leader>- :tabmove -1<cr>
 nmap <Leader>+ :tabmove +1<cr>
