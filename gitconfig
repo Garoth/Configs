@@ -1,26 +1,26 @@
 [user]
-	name = Andrei Thorp
-	email = athorp@evernote.com
+    name = Andrei Thorp
+    email = athorp@evernote.com
 
 [color]
-	ui = true
+    ui = true
 
 [push]
-	default = tracking
+    default = tracking
 
 [alias]
-	st = status
-	l = log
-	ci = commit
-	co = checkout
-	gerrit = push origin HEAD:refs/for/master
+    st = status
+    l = log
+    ci = commit
+    co = checkout
+    ce-merge = merge --no-ff --log=99999 --stat
 
 [receive]
-	denyCurrentBranch = warn
+    denyCurrentBranch = warn
 [gerrit]
-	reviewer = athorp@evernote.com
-	user = athorp
+    reviewer = athorp@evernote.com
+    user = athorp
 [help]
-	autocorrect = 5
+    autocorrect = 5
 [pull]
-	rebase = true
+    rebase = true
