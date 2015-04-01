@@ -13,7 +13,6 @@
     l = log
     ci = commit
     co = checkout
-    ce-merge = merge --no-ff --log=99999 --stat
 
 [receive]
     denyCurrentBranch = warn
