@@ -85,3 +85,7 @@ cedebugmode() {
   echo 'EN Debug Menu            [\e[32;1mON\e[0m]'
   endebugmenuon &> /dev/null
 }
+
+if [[ -d "$HOME/Programs/common-editor" ]]; then
+    source $HOME/Programs/common-editor/source.sh
+fi

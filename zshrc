@@ -1,6 +1,18 @@
 . ~/.zprofile
 . ~/.scripts/zsh-jump
 
+# Plugins
+ZSH_COMPLETIONS_PATH="/usr/local/share/zsh-completions"
+if [ -d $ZSH_COMPLETIONS_PATH ]; then
+    fpath=($ZSH_COMPLETIONS_PATH $fpath)
+else
+    echo "Warning: Couldn't load ${ZSH_COMPLETIONS_PATH}."
+    echo "Do you need to run 'brew install zsh-completions'?"
+fi
+
+# ZSH Move
+autoload -Uz zmv
+
 # Completion
 autoload -Uz compinit
 zstyle ':completion:*' completer _complete _ignored

@@ -85,6 +85,8 @@
         "MAC": false,
         "WIN": false,
         "IOS": false,
+        "IOS7": false,
+        "ANDROID": false,
         "DEBUG": false,
         "CONFIG": false,
         "COMPILED": false,

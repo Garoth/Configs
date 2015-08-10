@@ -12,7 +12,7 @@
     st = status
     l = log
     ci = commit
-    co = checkout
+	co = checkout
 
 [receive]
     denyCurrentBranch = warn
