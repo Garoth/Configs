@@ -140,3 +140,5 @@ up()
 
 #Execute these as a terminal opens
 date
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

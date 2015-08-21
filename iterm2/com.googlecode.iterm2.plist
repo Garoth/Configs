@@ -876,9 +876,9 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>893 74 619 258 0 0 2560 1418 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>977 540 924 485 0 0 2560 1417 </string>
+	<string>595 345 605 485 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1440 900 0 0 1440 877 </string>
+	<string>0 0 2560 1440 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>38 394 650 451 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -2329,7 +2329,7 @@
 			<key>Tags</key>
 			<array/>
 			<key>Terminal Type</key>
-			<string>xterm</string>
+			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.16277967393398285</real>
 			<key>Triggers</key>
@@ -3156,7 +3156,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2015-02-23T00:45:42Z</date>
+	<date>2015-08-21T21:46:24Z</date>
 	<key>SUSkippedVersion</key>
 	<string>2.9.20140911-nightly</string>
 	<key>SavePasteHistory</key>

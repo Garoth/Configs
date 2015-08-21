@@ -27,7 +27,6 @@ export CATALINA=$TOMCAT_HOME
        PATH=${PATH}:/usr/local/node_modules/jshint/bin
 export PATH
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-export VIMRUNTIME="/usr/local/share/vim/vim74"
 export EDITOR="/usr/local/bin/vim"
 export CRAWL_NAME="Garoth"
 export CRAWL_PIZZA="Jalapeno"

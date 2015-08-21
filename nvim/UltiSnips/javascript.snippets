@@ -1,0 +1,84 @@
+# Custom Javascript / Common Editor Snippets
+
+snippet for "for (...) {...} (counting up)" b
+for (var ${1:i} = 0; $1 < ${2:foo.length}; $1++) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet todo "inserts a todo comment for the current date" b
+// TODO:athorp:`/bin/date +"%Y-%m-%d"` $1
+endsnippet
+
+snippet cefold "inserts a webstorm fold comment" b
+//<editor-fold desc="$1">
+${VISUAL}
+//</editor-fold>
+endsnippet
+
+snippet cl "console.log" b
+console.log('${1:value});
+endsnippet
+
+snippet if "if statement" b
+if (${1:condition}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet const "One line constant declaration" b
+/** @const */ var $1 = $2;
+endsnippet
+
+snippet each "en.each" b
+en.each($1, function($2) {
+	${VISUAL}$0
+});
+endsnippet
+
+snippet "(\w*)\+class" "foo+class -> en.node.addClass(foo" r
+en.node.addClass(`!p snip.rv = match.group(1)`, $0);
+endsnippet
+
+snippet "(\w*)\-class" "foo-class -> en.node.removeClass(foo" r
+en.node.removeClass(`!p snip.rv = match.group(1)`, $0);
+endsnippet
+
+snippet "(\w*)\?class" "foo?class -> en.node.hasClass(foo" r
+en.node.hasClass(`!p snip.rv = match.group(1)`, $0);
+endsnippet
+
+snippet "(\w*)\+style" "foo+style -> en.node.setStyleValue(foo" r
+en.node.setStyleValue(`!p snip.rv = match.group(1)`, '$1', '$2');
+endsnippet
+
+snippet "(\w*)\-style" "foo-style -> en.node.removeStyleValue(foo" r
+en.node.removeStyleValue(`!p snip.rv = match.group(1)`, '$1');
+endsnippet
+
+snippet "(\w*)\?style" "foo?style -> en.node.getStyleValue(foo" r
+en.node.getStyleValue(`!p snip.rv = match.group(1)`, '$1');
+endsnippet
+
+snippet fun "function with dynamic docblock" b
+`!p
+# Currently Ultisnips does not support dynamic tabstops, so we cannot add
+# tabstops to the datatype for these param tags until that feature is added.
+arguments = t[2].split(',')
+arguments = [argument.strip() for argument in arguments if argument]
+ 
+if t[1] != "":
+	snip.rv = "/**"
+	snip += " * " + t[1] + " description here"
+	snip += " * "
+	for argument in arguments:
+		snip += " * @param {} " + argument
+	snip += ' */'
+	snip += ''
+else:
+	snip.rv = ''
+
+`${1} = function(${2}) {
+	${0:${VISUAL}}
+};
+endsnippet

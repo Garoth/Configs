@@ -1,6 +1,7 @@
 *.pyc
 *.swp
 *.class
+*.un~
 .todo
 pentagon/pentagondb
 plutocracy/autogen.cfg
@@ -17,13 +18,13 @@ vim/undo
 vim/doc/tags
 vim/spell/en.utf-8.add
 vim/spell/en.utf-8.add.spl
+nvim/plugged
 scripts/thrift
 vim-powerline/*.cache
 .DS_Store
 scripts_go/bin
 scripts_go/src/github.com
 scripts_go/pkg
-
 scripts/bump-mac-subrepo
 scripts/golorize
 scripts/git-gerrit-urls
