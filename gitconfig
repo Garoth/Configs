@@ -23,3 +23,5 @@
     autocorrect = 5
 [pull]
     rebase = true
+[rebase]
+    autostash = true

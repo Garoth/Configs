@@ -18,9 +18,12 @@ function! VimrcLoadPlugins()
 
   " Misc
   Plug 'Raimondi/delimitmate'
-  Plug 'Shougo/neocomplete.vim'
+  " Plug 'Shougo/neocomplete.vim'
+  Plug 'Valloric/MatchTagAlways'
+  " Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
   Plug 'chrisbra/Colorizer'
   Plug 'groenewege/vim-less'
+  Plug 'guns/xterm-color-table.vim'
   Plug 'honza/vim-snippets'
   Plug 'jakar/vim-AnsiEsc'
   Plug 'jceb/vim-textobj-uri'
@@ -29,22 +32,18 @@ function! VimrcLoadPlugins()
   Plug 'kana/vim-textobj-user'
   Plug 'leafgarland/typescript-vim'
   Plug 'mkitt/tabline.vim'
+  Plug 'moll/vim-bbye'
   Plug 'mxw/vim-jsx'
   Plug 'othree/javascript-libraries-syntax.vim'
-  Plug 'pangloss/vim-javascript'
   Plug 'tommcdo/vim-exchange'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-jdaddy'
   Plug 'tpope/vim-markdown'
   Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-surround'
-  Plug 'whatyouhide/vim-textobj-xmlattr'
-  Plug 'Valloric/MatchTagAlways'
   Plug 'unblevable/quick-scope'
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+  Plug 'whatyouhide/vim-textobj-xmlattr'
   " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   " Plug 'inside/vim-search-pulse'
   " Plug 'takac/vim-hardtime'
@@ -57,11 +56,21 @@ function! VimrcLoadPlugins()
   " Plug 'rking/ag.vim'
   " Plug 'danro/rename.vim'
   " Plug 'kchmck/vim-coffee-script'
-  " Plug 'pangloss/vim-javascript'
   " Plug 'jimmyhchan/dustjs.vim'
   " Plug 'leafgarland/typescript-vim'
   " Plug 'digitaltoad/vim-jade'
   " Plug 'nicklasos/vim-jsx-riot'
+
+  " vim-javascript
+  " --------------
+  Plug 'pangloss/vim-javascript'
+  let g:javascript_conceal_function   = "ƒ"
+  let g:javascript_conceal_null       = "ø"
+  let g:javascript_conceal_this       = "@"
+  let g:javascript_conceal_return     = "⇚"
+  let g:javascript_conceal_undefined  = "¿"
+  let g:javascript_conceal_NaN        = "ℕ"
+  let g:javascript_conceal_prototype  = "¶"
 
   " Syntastic
   Plug 'scrooloose/syntastic'
@@ -99,6 +108,7 @@ function! VimrcLoadPlugins()
   let g:ctrlp_max_depth=40
   let g:ctrlp_max_files=0
   let g:ctrlp_working_path_mode=0
+  let g:ctrlp_switch_buffer=0
   " Speed up vim in git directories
   let g:ctrlp_user_command = {
       \ 'types': {
@@ -113,6 +123,7 @@ function! VimrcLoadPlugins()
   nmap <Leader>t :CtrlP<Cr>
   nmap <Leader>r :CtrlPMRU<Cr>
   nmap <Leader>c :CtrlPClearCache<Cr>
+  nmap <Leader>b :CtrlPBuffer<Cr>
   nnoremap <Leader>f :CtrlPFunky<Cr>
   " narrow the list down with a word under cursor
   nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
@@ -120,6 +131,7 @@ function! VimrcLoadPlugins()
   " Color Schemes
   Plug 'Lokaltog/vim-distinguished'
   Plug 'altercation/vim-colors-solarized'
+  Plug 'https://github.com/gilgigilgil/anderson.vim'
   " Plug 'mhartington/oceanic-next'
   " Plug 'freeo/vim-kalisi'
 
@@ -277,8 +289,12 @@ let &t_AB="\e[48;5;%dm"
 let &t_AF="\e[38;5;%dm"
 colorscheme distinguished
 set background=dark
-hi NonText ctermfg=darkgray  guifg=darkgray
-hi SpecialKey ctermfg=darkgray guifg=darkgray
+highlight NonText ctermfg=darkgray  guifg=darkgray
+highlight SpecialKey ctermfg=darkgray guifg=darkgray
+highlight TermCursor ctermfg=red guifg=red
+highlight VertSplit ctermfg=3 ctermbg=0
+highlight NonText ctermfg=0
+set fillchars+=vert:│
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
@@ -328,8 +344,41 @@ imap <BS> <C-H>
 cmap W<cr> up<cr>
 nmap <Space> 1<C-D>
 nmap ; 1<C-U>
-nmap <C-L> zl
-nmap <C-H> zh
+noremap <ScrollWheelUp> 1<C-D>
+noremap <ScrollWheelDown> 1<C-U>
+inoremap <ScrollWheelUp> 1<C-D>
+inoremap <ScrollWheelDown> 1<C-U>
+" nmap <C-L> zl
+" nmap <C-H> zh
+
+" Window split settings
+set splitbelow
+set splitright
+
+" Terminal settings
+tnoremap <Leader><ESC> <C-\><C-n>
+
+" Window navigation function
+" Make ctrl-h/j/k/l move between windows and auto-insert in terminals
+func! s:mapMoveToWindowInDirection(direction)
+    func! s:maybeInsertMode(direction)
+        stopinsert
+        execute "wincmd" a:direction
+
+        if &buftype == 'terminal'
+            startinsert!
+        endif
+    endfunc
+
+    execute "tnoremap" "<silent>" "<C-" . a:direction . ">"
+                \ "<C-\\><C-n>"
+                \ ":call <SID>maybeInsertMode(\"" . a:direction . "\")<CR>"
+    execute "nnoremap" "<silent>" "<C-" . a:direction . ">"
+                \ ":call <SID>maybeInsertMode(\"" . a:direction . "\")<CR>"
+endfunc
+for dir in ["h", "j", "l", "k"]
+    call s:mapMoveToWindowInDirection(dir)
+endfor
 
 " Close all folds except the current line
 nnoremap zp zMzv
@@ -369,6 +418,31 @@ function! IndentWithI()
 endfunction
 nnoremap <expr> i IndentWithI()
 
+" Workspace Setup
+" ----------------
+function! DefaultWorkspace()
+    " Rough num columns to decide between laptop and big monitor screens
+    let numcol = 2
+    if winwidth(0) >= 220
+        let numcol = 3
+    endif
+
+    if numcol == 3
+        e term://zsh
+        file Shell\ Two
+        vnew
+    endif
+
+    vsp term://~/Programs/golang/context
+    file Context
+    sp term://zsh
+    file Shell\ One
+    wincmd k
+    resize 4
+    wincmd h
+endfunction
+command! -register DefaultWorkspace call DefaultWorkspace()
+
 " Copy all matched strings
 " ------------------------
 function! CopyMatches(reg)
@@ -379,8 +453,8 @@ function! CopyMatches(reg)
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
 
-"                       Location list loop function
-"                       ---------------------------
+" Location list loop function
+" ---------------------------
 function! WrapCommand(direction)
   if a:direction == "up"
     try
@@ -400,8 +474,8 @@ endfunction
 nmap <Leader>p :call WrapCommand("up")<CR>
 nmap <Leader>n :call WrapCommand("down")<CR>
 
-"                           Auto Add Modeline
-"                           -----------------
+" Auto Add Modeline
+" -----------------
 " Append modeline after last line in buffer.
 " Use substitute() (not printf()) to handle '%%s' modeline in LaTeX files.
 function! AppendModeline()
@@ -412,14 +486,14 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
-"                        Load Official matchit.vim
-"                        -------------------------
+" Load Official matchit.vim
+" -------------------------
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
 endif
 
-"                           Equal Programs
-"                           --------------
+" Equal Programs
+" --------------
 if executable('xmllint') == 1
   autocmd FileType xml let &l:equalprg='xmllint --format --recover -'
 endif
@@ -428,9 +502,7 @@ if executable('tidy') == 1
   autocmd FileType html let &l:equalprg='tidy -quiet --indent yes --show-errors 0'
 endif
 
-
-"                      vim-textobj-user
-"                      ----------------
+" vim-textobj-user
 call textobj#user#plugin('line', {
 \   '-': {
 \     'select-a-function': 'CurrentLineA',
@@ -460,18 +532,9 @@ function! CurrentLineI()
   \ : 0
 endfunction
 
-"                   vim-javascript
-"                   --------------
-let g:javascript_conceal_function   = "ƒ"
-let g:javascript_conceal_null       = "ø"
-let g:javascript_conceal_this       = "@"
-let g:javascript_conceal_return     = "⇚"
-let g:javascript_conceal_undefined  = "¿"
-let g:javascript_conceal_NaN        = "ℕ"
-let g:javascript_conceal_prototype  = "¶"
 
-"                     quick-scope
-"                     -----------
+" quick-scope
+" -----------
 " Insert into your .vimrc after quick-scope is loaded.
 " Obviously depends on <https://github.com/unblevable/quick-scope> being installed.
 function! Quick_scope_selective(movement)

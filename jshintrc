@@ -119,6 +119,7 @@
         "html_sanitize": false,
         "Spinner": false,
         "arguments": false,
+        "Event": false,
         "_": false
     }                           // additional predefined global variables
 }
