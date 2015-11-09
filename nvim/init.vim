@@ -44,7 +44,6 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
-  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   " Plug 'inside/vim-search-pulse'
   " Plug 'takac/vim-hardtime'
 
@@ -73,10 +72,14 @@ function! VimrcLoadPlugins()
   let g:javascript_conceal_prototype  = "¶"
 
   " Syntastic
-  Plug 'scrooloose/syntastic'
-  let g:syntastic_check_on_open=1
-  let g:syntastic_always_populate_loc_list=1
-  let g:syntastic_typescript_tsc_args = "--module amd"
+  " Plug 'scrooloose/syntastic'
+  " let g:syntastic_check_on_open=1
+  " let g:syntastic_always_populate_loc_list=1
+  " let g:syntastic_typescript_tsc_args = "--module amd"
+
+  " Neomake
+  Plug 'benekastah/neomake'
+  autocmd! BufWritePost * Neomake
 
   " Tabular
   Plug 'godlygeek/tabular'
@@ -120,8 +123,7 @@ function! VimrcLoadPlugins()
   let g:ctrlp_use_caching = 0
   let g:ctrlp_extensions = ['funky']
   let g:ctrlp_funky_syntax_highlight = 1
-  nmap <Leader>t :CtrlP<Cr>
-  nmap <Leader>r :CtrlPMRU<Cr>
+  " nmap <Leader>r :CtrlPMRU<Cr>
   nmap <Leader>c :CtrlPClearCache<Cr>
   nmap <Leader>b :CtrlPBuffer<Cr>
   nnoremap <Leader>f :CtrlPFunky<Cr>
@@ -158,7 +160,7 @@ function! VimrcLoadPlugins()
   " let g:airline_symbols.paste = 'Þ'
   " let g:airline_symbols.paste = '∥'
   let g:airline_symbols.whitespace = 'Ξ'
-  
+
   let g:airline_mode_map = {
     \ '__' : '-',
     \ 'n'  : 'N',
@@ -183,23 +185,93 @@ function! VimrcLoadPlugins()
   let g:airline#extensions#tabline#right_alt_sep = ''
   let g:airline#extensions#tabline#close_symbol = '╳'
 
+  " Supertab
+  Plug 'ervandew/supertab'
+
   " FZF
-  " let fzf_command = '((git ls-files && git ls-files --exclude-standard --cached --others 2> /dev/null)'  " git
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  let fzf_command = '((git ls-files && git ls-files --exclude-standard --cached --others 2> /dev/null)'  " git
   " let fzf_command .= ' || (hg manifest --all 2> /dev/null)'  " mercurial
   " let fzf_command .= ' || (bzr ls --versioned --recursive 2> /dev/null)'  " bzr
   " let fzf_command .= ' || (find -type d -name ".svn" -prune -o \( -type f -o -type l \) -print | cut -c3-)) | sort | uniq'  " svn and normal directories
   " let $FZF_DEFAULT_COMMAND=fzf_command
-  let $FZF_DEFAULT_COMMAND='ag -l -g ""'
-  nnoremap <silent> <c-p> :FZF<cr>
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  " let $FZF_DEFAULT_COMMAND='ag -l -g ""'
 
-  " Neomake
-  " Plug 'benekastah/neomake'
-  " let g:neomake_verbose = 0
-  " augroup Neomake
-  "   au!
-  "   au! BufWritePost * Neomake
-  " augroup END
+  function! s:fzfSetup()
+    let g:fzf_win_size = '25%'
+
+    " {{{ Tags configuration
+    function! s:tags_sink(line)
+      let parts = split(a:line, '\t\zs')
+      let excmd = matchstr(parts[2:], '^.*\ze;"\t')
+      execute 'silent e' parts[1][:-2]
+      let [magic, &magic] = [&magic, 0]
+      execute excmd
+      let &magic = magic
+    endfunction
+
+    function! s:tags()
+      if empty(tagfiles())
+        echohl WarningMsg
+        echom 'Preparing tags'
+        echohl None
+        call system('ctags --extra=+f -R --exclude=.git --exclude=node_modules')
+
+        if &filetype == 'javascript'
+            " TODO may not want to hard-code 'js' here
+            call system('ctags --extra=+f -R --exclude=.git --exclude=node_modules js')
+        else
+            call system('ctags -R')
+        endif
+      endif
+
+      call fzf#run({
+      \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+      \            '| grep -v ^!',
+      \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+      \ 'down':    g:fzf_win_size,
+      \ 'sink':    function('s:tags_sink')})
+    endfunction
+
+    command! Tags call s:tags()
+    " }}}
+
+    " {{{ Recent Files configuration
+    command! FZFMru call fzf#run({
+    \  'source':  v:oldfiles,
+    \  'sink':    'e',
+    \  'options': '-m -x +s',
+    \  'down':    g:fzf_win_size})
+    "
+    " }}}
+
+    " {{{ Buffers configuration
+    function! s:buflist()
+      redir => ls
+      silent ls
+      redir END
+      return split(ls, '\n')
+    endfunction
+
+    function! s:bufopen(e)
+      execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+    endfunction
+
+    command! FZFBuffer call fzf#run({
+    \   'source':  reverse(<sid>buflist()),
+    \   'sink':    function('<sid>bufopen'),
+    \   'options': '+m',
+    \   'down':    len(<sid>buflist()) + 2
+    \ })
+    " }}}
+
+    " {{{ Bindings
+    nnoremap <silent> <Leader>f :FZF<Cr>
+    nnoremap <silent> <Leader>r :FZFMru<Cr>
+    nnoremap <silent> <Leader>b :FZFBuffer<Cr>
+    " }}}
+  endfunction
+  call s:fzfSetup()
 
   " UltiSnips
   Plug 'SirVer/ultisnips'
@@ -503,6 +575,7 @@ if executable('tidy') == 1
 endif
 
 " vim-textobj-user
+" ----------------
 call textobj#user#plugin('line', {
 \   '-': {
 \     'select-a-function': 'CurrentLineA',

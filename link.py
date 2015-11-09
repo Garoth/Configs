@@ -58,7 +58,6 @@ rules = [
     ["vimpagerrc",         home + ".vimpagerrc"        ] ,
     ["vimrc",              home + ".vimrc"             ] ,
     ["nvim",               home + ".nvim"              ] ,
-    ["nvimrc",             home + ".nvimrc"            ] ,
     ["xinitrc",            home + ".xinitrc"           ] ,
     ["zprofile",           home + ".zprofile"          ] ,
     ["zshrc",              home + ".zshrc"             ]

@@ -10,6 +10,10 @@ else
     echo "Do you need to run 'brew install zsh-completions'?"
 fi
 
+if which brew &>/dev/null && which z &>/dev/null; then
+    . `brew --prefix`/etc/profile.d/z.sh
+fi
+
 # ZSH Move
 autoload -Uz zmv
 
