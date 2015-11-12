@@ -1,5 +1,0 @@
-source ~/.vimrc
-set nolist listchars=
-
-hi DiffAdd ctermfg=149 ctermbg=None
-hi DiffDelete ctermfg=209 ctermbg=None

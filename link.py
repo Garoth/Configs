@@ -55,7 +55,6 @@ rules = [
     ["signature-default",  home + ".signature-default" ] ,
     ["sup/hooks",          home + ".sup/hooks"         ] ,
     ["vim",                home + ".vim"               ] ,
-    ["vimpagerrc",         home + ".vimpagerrc"        ] ,
     ["vimrc",              home + ".vimrc"             ] ,
     ["nvim",               home + ".nvim"              ] ,
     ["xinitrc",            home + ".xinitrc"           ] ,
