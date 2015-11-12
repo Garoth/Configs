@@ -54,9 +54,6 @@ function! VimrcLoadPlugins()
   " Plug 'vim-scripts/DrawIt'
   " Plug 'rking/ag.vim'
   " Plug 'danro/rename.vim'
-  " Plug 'kchmck/vim-coffee-script'
-  " Plug 'jimmyhchan/dustjs.vim'
-  " Plug 'leafgarland/typescript-vim'
   " Plug 'digitaltoad/vim-jade'
   " Plug 'nicklasos/vim-jsx-riot'
 
@@ -70,6 +67,21 @@ function! VimrcLoadPlugins()
   let g:javascript_conceal_undefined  = "¿"
   let g:javascript_conceal_NaN        = "ℕ"
   let g:javascript_conceal_prototype  = "¶"
+
+
+  " NERDtree
+  " --------
+  Plug 'scrooloose/nerdtree'
+  let g:NERDTreeChDirMode=2
+  let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+  let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+  let g:NERDTreeShowBookmarks=1
+  let g:nerdtree_tabs_focus_on_files=1
+  let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+  let g:NERDTreeWinSize = 50
+  set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+  nnoremap <silent> <F2> :NERDTreeFind<CR>
+  noremap <F3> :NERDTreeToggle<CR>
 
   " Syntastic
   " Plug 'scrooloose/syntastic'
@@ -125,7 +137,7 @@ function! VimrcLoadPlugins()
   let g:ctrlp_funky_syntax_highlight = 1
   " nmap <Leader>r :CtrlPMRU<Cr>
   nmap <Leader>c :CtrlPClearCache<Cr>
-  nmap <Leader>b :CtrlPBuffer<Cr>
+  " nmap <Leader>b :CtrlPBuffer<Cr>
   nnoremap <Leader>f :CtrlPFunky<Cr>
   " narrow the list down with a word under cursor
   nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
@@ -134,6 +146,7 @@ function! VimrcLoadPlugins()
   Plug 'Lokaltog/vim-distinguished'
   Plug 'altercation/vim-colors-solarized'
   Plug 'https://github.com/gilgigilgil/anderson.vim'
+  Plug 'tomasr/molokai'
   " Plug 'mhartington/oceanic-next'
   " Plug 'freeo/vim-kalisi'
 
