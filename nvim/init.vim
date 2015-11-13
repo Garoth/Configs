@@ -18,16 +18,13 @@ function! VimrcLoadPlugins()
 
   " Misc
   Plug 'Raimondi/delimitmate'
-  " Plug 'Shougo/neocomplete.vim'
   Plug 'Valloric/MatchTagAlways'
-  " Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
   Plug 'chrisbra/Colorizer'
   Plug 'groenewege/vim-less'
   Plug 'guns/xterm-color-table.vim'
   Plug 'honza/vim-snippets'
   Plug 'jakar/vim-AnsiEsc'
   Plug 'jceb/vim-textobj-uri'
-  Plug 'jelera/vim-javascript-syntax'
   Plug 'justinmk/vim-gtfo'
   Plug 'kana/vim-textobj-user'
   Plug 'leafgarland/typescript-vim'
@@ -44,30 +41,25 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
-  " Plug 'inside/vim-search-pulse'
-  " Plug 'takac/vim-hardtime'
 
   " Stuff to look into
   " Plug 'tpope/vim-repeat'
   " Plug 'Shougo/vinarise.vim'
   " Plug 'Valloric/python-indent'
-  " Plug 'vim-scripts/DrawIt'
   " Plug 'rking/ag.vim'
-  " Plug 'danro/rename.vim'
-  " Plug 'digitaltoad/vim-jade'
   " Plug 'nicklasos/vim-jsx-riot'
 
   " vim-javascript
   " --------------
   Plug 'pangloss/vim-javascript'
-  let g:javascript_conceal_function   = "ƒ"
-  let g:javascript_conceal_null       = "ø"
+  let g:javascript_conceal_function   = "Γ"
+  let g:javascript_conceal_null       = "Π"
   let g:javascript_conceal_this       = "@"
   let g:javascript_conceal_return     = "⇚"
   let g:javascript_conceal_undefined  = "¿"
   let g:javascript_conceal_NaN        = "ℕ"
   let g:javascript_conceal_prototype  = "¶"
-
+  set conceallevel=1
 
   " NERDtree
   " --------
@@ -82,12 +74,6 @@ function! VimrcLoadPlugins()
   set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
   nnoremap <silent> <F2> :NERDTreeFind<CR>
   noremap <F3> :NERDTreeToggle<CR>
-
-  " Syntastic
-  " Plug 'scrooloose/syntastic'
-  " let g:syntastic_check_on_open=1
-  " let g:syntastic_always_populate_loc_list=1
-  " let g:syntastic_typescript_tsc_args = "--module amd"
 
   " Neomake
   Plug 'benekastah/neomake'
@@ -164,7 +150,7 @@ function! VimrcLoadPlugins()
   let g:airline_left_sep = ''
   let g:airline_right_sep = '«'
   let g:airline_right_sep = ''
-  let g:airline_theme = 'solarized'
+  let g:airline_theme = 'murmur'
   " let g:airline_symbols.linenr = '␊'
   " let g:airline_symbols.linenr = '␤'
   " let g:airline_symbols.linenr = '¶'
@@ -298,17 +284,19 @@ set formatlistpat=^\\s*\\(\\d\\+\\\|\\*\\\|-\\\|•\\)[\\]:.)}\\t\ ]\\s*
 
 " Colorscheme
 set t_Co=256
-" in case t_Co alone doesn't work, add this as well:
+" In case t_Co alone doesn't work, add this as well:
 let &t_AB="\e[48;5;%dm"
 let &t_AF="\e[38;5;%dm"
 colorscheme distinguished
 set background=dark
+set fillchars+=vert:│
+" Highlight color customizations
 highlight NonText ctermfg=darkgray  guifg=darkgray
 highlight SpecialKey ctermfg=darkgray guifg=darkgray
 highlight TermCursor ctermfg=red guifg=red
 highlight VertSplit ctermfg=3 ctermbg=0
 highlight NonText ctermfg=0
-set fillchars+=vert:│
+highlight Conceal ctermbg=none ctermfg=163 cterm=bold
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
