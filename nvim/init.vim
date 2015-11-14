@@ -124,9 +124,9 @@ function! VimrcLoadPlugins()
   " nmap <Leader>r :CtrlPMRU<Cr>
   nmap <Leader>c :CtrlPClearCache<Cr>
   " nmap <Leader>b :CtrlPBuffer<Cr>
-  nnoremap <Leader>f :CtrlPFunky<Cr>
+  nnoremap <Leader>d :CtrlPFunky<Cr>
   " narrow the list down with a word under cursor
-  nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+  nnoremap <Leader>D :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
   " Color Schemes
   Plug 'Lokaltog/vim-distinguished'
