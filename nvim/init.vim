@@ -116,11 +116,24 @@ function! VimrcLoadPlugins()
   " Completion
   " Plug 'ervandew/supertab'
   Plug 'Shougo/deoplete.nvim'
-  let g:deoplete#enable_at_startup = 1
   Plug 'zchee/deoplete-go', { 'do': 'make'}
+  set previewheight=1
+  let g:deoplete#enable_at_startup = 1
   let g:deoplete#sources#go#align_class = 1
+  let g:deoplete#enable_ignore_case = 'ignorecase'
   let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+  " let g:deoplete#sources = {}
+  " let g:deoplete#sources_ = ['buffer','tag']
   " let g:deoplete#sources#go#gocode_binary = '/path/to/gocode'
+  inoremap <silent><expr> <Tab>
+              \ pumvisible() ? "\<C-n>" :
+              \ deoplete#mappings#manual_complete()
+  inoremap <expr><C-h>
+              \ deoplete#mappings#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS>
+              \ deoplete#mappings#smart_close_popup()."\<C-h>"
+  set completeopt+=noinsert
+  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
   " CtrlP
   Plug 'kien/ctrlp.vim'
