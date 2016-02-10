@@ -20,6 +20,7 @@ vim/spell/en.utf-8.add
 vim/spell/en.utf-8.add.spl
 nvim/plugged
 nvim/autoload
+nvim/.init.vim-rplugin~
 */.netrwhist
 scripts/thrift
 vim-powerline/*.cache

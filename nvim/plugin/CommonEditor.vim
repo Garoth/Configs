@@ -5,15 +5,6 @@ function! CommonEditor()
   " syntax match Ignore /.*editor-fold.*/     " Makes line nearly invisible
   " Adds a semicolon after the current line; moves cursor back
   nnoremap a; mxA;<Esc>`x;
-  " Changes which files ctrlp will find; use git for high speed
-  let s:git_ls_files_command = 'git ls-files "css/*.less" js tests "*.md" "*.py" "*.sh"'
-  let g:ctrlp_user_command = {
-      \ 'types': {
-          \ 1: ['.git', 'cd %s && ' . s:git_ls_files_command],
-          \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-          \ },
-      \ 'fallback': 'find %s -type f'
-      \ }
 
   let s:inEditorFold = 0
 
@@ -88,37 +79,8 @@ function! CommonEditor()
   setlocal foldexpr=CEFolds()
   setlocal foldtext=CEFoldText()
 
-  " Automatic opening and closing of folds based on cursor location
-  " setlocal foldopen=all
-  " setlocal foldclose=all
 endfunction
 autocmd BufNewFile,BufRead $HOME/Programs/common-editor/*.js call CommonEditor()
-
-" Takes the result of 'copy html' of the <head> in rte-test-creator and makes
-" an exports list suitable for the mac project
-function! MakeExportsList()
-  " Delete all lines except the one we care about
-  normal ggV25jxjVGx
-  " Just sets up the search pattern (CopyMatches uses last used search)
-  %s;js/goog/\.\./[a-z/\-][a-z/\-]*\.js;\0;g
-  " Clear a register and have CopyMatches put results into that
-  let @a = ''
-  CopyMatches a
-  " Replace contents of screen with the stuff in the a register
-  normal ggVGx"apggdd
-  " Gets rid of the common prefix on the matches
-  %s;js/goog/\.\./;;g
-  " Adds proper indentation formatting to all lines
-  %s;.*;                             @"\0",;
-  " Inserts header
-  normal ggO        id filesToImport = @[@"goog/base.js",
-  normal $x
-  " Inserts footer
-  normal Go                             ];
-  " Replaces public/web.js with public/mac.js (Test Creator uses web target)
-  %s;public/web.js;public/mac.js;
-endfunction
-command! MakeExportsList silent! call MakeExportsList()
 
 " Is this hacky? Can we be sure textobj loaded first?
 if exists('*textobj#user#plugin')

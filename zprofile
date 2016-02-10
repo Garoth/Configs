@@ -33,7 +33,6 @@ export CRAWL_PIZZA="Jalapeno"
 export CRAWL_DIR="$HOME/.crawl/"
 export CRAWL_RC="$HOME/.crawl/crawlrc"
 export ZSH_WORKDIR="$HOME/.zsh"
-export HOMEBREW_GITHUB_API_TOKEN=6b7e0277e0511a697cf32f0e0e783df3f702f3fc
 export GOPATH="$HOME/Programs/golang"
 alias restartAudio="sudo kextunload /System/Library/Extensions/AppleHDA.kext; sudo kextload /System/Library/Extensions/AppleHDA.kext"
 

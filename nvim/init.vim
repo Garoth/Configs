@@ -30,7 +30,6 @@ function! VimrcLoadPlugins()
   Plug 'leafgarland/typescript-vim'
   Plug 'mkitt/tabline.vim'
   Plug 'moll/vim-bbye'
-  Plug 'mxw/vim-jsx'
   Plug 'othree/javascript-libraries-syntax.vim'
   Plug 'tommcdo/vim-exchange'
   Plug 'tpope/vim-commentary'
@@ -41,6 +40,7 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
+  Plug 'romainl/vim-qf'
 
   " Stuff to look into
   " Plug 'tpope/vim-repeat'
@@ -52,7 +52,7 @@ function! VimrcLoadPlugins()
   " vim-javascript
   " --------------
   Plug 'pangloss/vim-javascript'
-  let g:javascript_conceal_function   = "Γ"
+  let g:javascript_conceal_function   = "f"
   let g:javascript_conceal_null       = "Π"
   let g:javascript_conceal_this       = "@"
   let g:javascript_conceal_return     = "⇚"
@@ -60,6 +60,10 @@ function! VimrcLoadPlugins()
   let g:javascript_conceal_NaN        = "ℕ"
   let g:javascript_conceal_prototype  = "¶"
   set conceallevel=1
+
+  " vim-jsx
+  " Plug 'mxw/vim-jsx'
+  " let g:jsx_ext_required = 0
 
   " NERDtree
   " --------
@@ -74,6 +78,12 @@ function! VimrcLoadPlugins()
   set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
   nnoremap <silent> <F2> :NERDTreeFind<CR>
   noremap <F3> :NERDTreeToggle<CR>
+
+  " Syntastic
+  Plug 'scrooloose/syntastic'
+  let g:syntastic_check_on_open=1
+  let g:syntastic_always_populate_loc_list=1
+  let g:syntastic_typescript_tsc_args = "--module amd"
 
   " Neomake
   Plug 'benekastah/neomake'
@@ -101,6 +111,16 @@ function! VimrcLoadPlugins()
   " vim-go
   Plug 'fatih/vim-go'
   let g:go_fmt_fail_silently = 1
+  let g:go_fmt_command = "goimports"
+
+  " Completion
+  " Plug 'ervandew/supertab'
+  Plug 'Shougo/deoplete.nvim'
+  let g:deoplete#enable_at_startup = 1
+  Plug 'zchee/deoplete-go', { 'do': 'make'}
+  let g:deoplete#sources#go#align_class = 1
+  let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+  " let g:deoplete#sources#go#gocode_binary = '/path/to/gocode'
 
   " CtrlP
   Plug 'kien/ctrlp.vim'
@@ -133,6 +153,7 @@ function! VimrcLoadPlugins()
   Plug 'altercation/vim-colors-solarized'
   Plug 'https://github.com/gilgigilgil/anderson.vim'
   Plug 'tomasr/molokai'
+  Plug 'AlessandroYorba/Alduin'
   " Plug 'mhartington/oceanic-next'
   " Plug 'freeo/vim-kalisi'
 
@@ -184,9 +205,6 @@ function! VimrcLoadPlugins()
   let g:airline#extensions#tabline#right_alt_sep = ''
   let g:airline#extensions#tabline#close_symbol = '╳'
 
-  " Supertab
-  Plug 'ervandew/supertab'
-
   " FZF
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   Plug 'junegunn/fzf.vim'
@@ -196,7 +214,12 @@ function! VimrcLoadPlugins()
   " let fzf_command .= ' || (bzr ls --versioned --recursive 2> /dev/null)'  " bzr
   " let fzf_command .= ' || (find -type d -name ".svn" -prune -o \( -type f -o -type l \) -print | cut -c3-)) | sort | uniq'  " svn and normal directories
   " let $FZF_DEFAULT_COMMAND=fzf_command
-  " let $FZF_DEFAULT_COMMAND='ag -l -g ""'
+  if executable('ag')
+      let $FZF_DEFAULT_COMMAND='ag -l -g ""'
+      nnoremap <silent> <Leader>a :Ag<Cr>
+  else
+      nnoremap <silent> <Leader>a :echo "'ag' is not installed."<Cr>
+  endif
   nnoremap <silent> <Leader>f :Files<Cr>
   nnoremap <silent> <Leader>r :History<Cr>
   nnoremap <silent> <Leader>b :Buffers<Cr>
@@ -229,9 +252,9 @@ function! VimrcLoadPlugins()
   call plug#end()
 endfunction
 
-
 call VimrcLoadPlugins()
 
+" Global Settings
 filetype indent plugin on                          " turn on plugins
 syntax enable                                      " syntax highlighting on
 set ignorecase                                     " ignore case in matching
@@ -306,10 +329,11 @@ autocmd FileType jsp setl ts=2 sw=2 sts=2
 autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType javascript setl colorcolumn=81
 autocmd FileType javascript setl ts=4 sw=4 sts=4
+autocmd FileType javascript.jsx setl ts=2 sw=2 sts=2
 autocmd FileType c setl omnifunc=ccomplete#Complete
 autocmd FileType java setl ts=2 sw=2 sts=2
 " autocmd FileType go setl list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
-autocmd FileType go setl colorcolumn=81 noexpandtab
+autocmd FileType go setl colorcolumn=81 foldmethod=syntax foldnestmax=1 noexpandtab
 autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
 autocmd FileType python setl omnifunc=pythoncomplete#Complete
 autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
@@ -337,6 +361,14 @@ set statusline+=%=                              " right/left separator
 set statusline+=%-16(\ %l,%c-%v\ %)             " line number, column number - visual column number
 set statusline+=%P                              " percent through file
 set laststatus=2                                " Always on
+
+" Grep / Ag Integration
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+" Grep for word under cursor
+nnoremap <Leader>t :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Keybind to replace visual selection with something
 vnoremap <C-r> "hy:%s;<C-r>h;;gc<left><left><left>
@@ -441,9 +473,35 @@ function! DefaultWorkspace()
     file Shell\ One
     wincmd k
     resize 4
+    set wfh
     wincmd h
 endfunction
 command! -register DefaultWorkspace call DefaultWorkspace()
+
+function! ElephantronWorkspace()
+  call DefaultWorkspace()
+
+  for i in [1, 2, 3, 4]
+    wincmd l
+    wincmd j
+  endfor
+
+  above sp term://zsh
+  file Shell\ Alpha
+  resize 8
+  set wfh
+
+  for i in [1, 2, 3, 4]
+    wincmd l
+    wincmd j
+  endfor
+
+  above sp term://zsh
+  file Shell\ Beta
+  resize 8
+  set wfh
+endfunction
+command! -register ElephantronWorkspace call ElephantronWorkspace()
 
 " Copy all matched strings
 " ------------------------
