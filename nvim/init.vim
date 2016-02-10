@@ -80,10 +80,10 @@ function! VimrcLoadPlugins()
   noremap <F3> :NERDTreeToggle<CR>
 
   " Syntastic
-  Plug 'scrooloose/syntastic'
-  let g:syntastic_check_on_open=1
-  let g:syntastic_always_populate_loc_list=1
-  let g:syntastic_typescript_tsc_args = "--module amd"
+  " Plug 'scrooloose/syntastic'
+  " let g:syntastic_check_on_open=1
+  " let g:syntastic_always_populate_loc_list=1
+  " let g:syntastic_typescript_tsc_args = "--module amd"
 
   " Neomake
   Plug 'benekastah/neomake'
@@ -158,7 +158,8 @@ function! VimrcLoadPlugins()
   " Plug 'freeo/vim-kalisi'
 
   " Airline
-  Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
   " Simplify the number area to just be line number, col number
   let g:airline_section_z = "%2l, %2c"
   " Simplify vcs integration to just show branch name
