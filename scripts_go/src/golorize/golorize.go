@@ -90,7 +90,7 @@ func ApplyRules(input string) string {
 
 			if instruction.ClipLine > 0 && len(input) > instruction.ClipLine {
 				input = input[0:instruction.ClipLine]
-				input = input + rgbterm.String("»", 150, 150, 150)
+				input = input + rgbterm.String("»", 150, 150, 150, 0, 0, 0)
 			}
 
 			if instruction.ColorTargetRegex != "" {
@@ -101,7 +101,8 @@ func ApplyRules(input string) string {
 					rgbterm.String("$1",
 						instruction.Color.R,
 						instruction.Color.G,
-						instruction.Color.B))
+						instruction.Color.B,
+						0, 0, 0))
 			}
 		}
 	}

@@ -79,7 +79,7 @@ func updateRefsFile(project, newHash, refsFilePath string) (string, error) {
 }
 
 func fatal(err error) {
-	fmt.Println(rgbterm.String(err.Error(), 255, 0, 0))
+	fmt.Println(rgbterm.String(err.Error(), 255, 0, 0, 0, 0, 0))
 	os.Exit(1)
 }
 
@@ -122,23 +122,23 @@ func main() {
 
 	if diff == "" {
 		msg := "--- Successfully updated file, but nothing changed ---"
-		fmt.Println(rgbterm.String(msg, 114, 138, 4))
+		fmt.Println(rgbterm.String(msg, 114, 138, 4, 0, 0, 0))
 		os.Exit(0)
 	}
 
 	msg := "--- Successfully updated file. Here's the diff ---\n"
-	fmt.Println(rgbterm.String(msg, 114, 138, 4))
+	fmt.Println(rgbterm.String(msg, 114, 138, 4, 0, 0, 0))
 	fmt.Println("    " + strings.Replace(diff, "\n", "\n    ", -1))
 
 	commits, err := gitCommitsSince(oldCommit, commit)
 	if err == nil {
 		msg = "--- And here are the commits that were added ---\n"
-		fmt.Println(rgbterm.String(msg, 114, 138, 4))
+		fmt.Println(rgbterm.String(msg, 114, 138, 4, 0, 0, 0))
 		fmt.Println("    " + strings.Replace(commits, "\n", "\n    ", -1))
 	}
 
 	msg = "--- Lets get this show on the road. Make commit? (y/n) ---\n"
-	fmt.Println(rgbterm.String(msg, 114, 138, 4))
+	fmt.Println(rgbterm.String(msg, 114, 138, 4, 0, 0, 0))
 	commitMessage := "Bump for the " + project + " subrepository\n\n" +
 		"Changes since the last version:\n" + "    " +
 		strings.Replace(commits, "\n", "\n    ", -1)
