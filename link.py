@@ -56,7 +56,7 @@ rules = [
     ["sup/hooks",          home + ".sup/hooks"         ] ,
     ["vim",                home + ".vim"               ] ,
     ["vimrc",              home + ".vimrc"             ] ,
-    ["nvim",               home + ".nvim"              ] ,
+    ["nvim",               home + ".config/nvim"       ] ,
     ["xinitrc",            home + ".xinitrc"           ] ,
     ["zprofile",           home + ".zprofile"          ] ,
     ["zshrc",              home + ".zshrc"             ]
