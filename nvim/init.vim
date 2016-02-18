@@ -20,6 +20,7 @@ function! VimrcLoadPlugins()
   Plug 'Raimondi/delimitmate'
   Plug 'Valloric/MatchTagAlways'
   Plug 'chrisbra/Colorizer'
+  Plug 'ap/vim-css-color'
   Plug 'groenewege/vim-less'
   Plug 'guns/xterm-color-table.vim'
   Plug 'honza/vim-snippets'
@@ -31,6 +32,7 @@ function! VimrcLoadPlugins()
   Plug 'mkitt/tabline.vim'
   Plug 'moll/vim-bbye'
   Plug 'othree/javascript-libraries-syntax.vim'
+  Plug 'romainl/vim-qf'
   Plug 'tommcdo/vim-exchange'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-eunuch'
@@ -40,7 +42,6 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
-  Plug 'romainl/vim-qf'
 
   " Stuff to look into
   " Plug 'tpope/vim-repeat'
