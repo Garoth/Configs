@@ -470,18 +470,25 @@ nnoremap <expr> i IndentWithI()
 " Workspace Setup
 " ----------------
 function! DefaultWorkspace()
-    " Rough num columns to decide between laptop and big monitor screens
-    let numcol = 2
+    " Default Variables
+    let numcol = 2 " Number of columns to use
+    let mainwin = 0 " Reference to the 'middle' window where my main editor is
+
+    " If the screen is big enough right now, use three columns
     if winwidth(0) >= 220
         let numcol = 3
     endif
 
+    " Custom stuff to add an extra left column if there are 3
     if numcol == 3
         e term://zsh
         file Shell\ Two
         vnew
+        let mainwin = winnr()
     endif
 
+    " Setting up the right side, with context and terminal
+    let mainwin = winnr()
     vsp term://~/Programs/golang/context
     file Context
     sp term://zsh
@@ -489,7 +496,14 @@ function! DefaultWorkspace()
     wincmd k
     resize 4
     set wfh
-    wincmd h
+
+    " Return to main editor window and ensure it's big enough
+    exe mainwin . "wincmd w"
+    if winwidth(mainwin) < 90
+        vertical resize 90
+        set wfw
+        wincmd =
+    endif
 endfunction
 command! -register DefaultWorkspace call DefaultWorkspace()
 

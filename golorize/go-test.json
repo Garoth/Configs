@@ -1,0 +1,25 @@
+{
+    "Instructions": [
+        {
+            "LineRegex": ".*gowrapgit_test.*",
+            "Replacements": [
+                { "Match": "gowrapgit_test.go:", "Replace": "gwg_test|"}
+            ]
+        },
+        {
+            "LineRegex": "^=== RUN.*",
+            "ColorTargetRegex": ".*",
+            "Color": {"R": 180, "G": 180, "B": 200}
+        },
+        {
+            "LineRegex": "PASS",
+            "ColorTargetRegex": ".*",
+            "Color": {"R": 50, "G": 180, "B": 50}
+        },
+        {
+            "LineRegex": "FAIL",
+            "ColorTargetRegex": ".*",
+            "Color": {"R": 180, "G": 50, "B": 20}
+        }
+    ]
+}

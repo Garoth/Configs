@@ -33,8 +33,11 @@ export CRAWL_PIZZA="Jalapeno"
 export CRAWL_DIR="$HOME/.crawl/"
 export CRAWL_RC="$HOME/.crawl/crawlrc"
 export ZSH_WORKDIR="$HOME/.zsh"
-export GOPATH="$HOME/Programs/golang"
 alias restartAudio="sudo kextunload /System/Library/Extensions/AppleHDA.kext; sudo kextload /System/Library/Extensions/AppleHDA.kext"
+
+# Go settings
+export GOPATH="$HOME/Programs/golang"
+alias go-test="go test -v 2>&1 | golorize -conf=$HOME/.golorize/go-test.json"
 
 export MAC_PROJECT_DIR="$HOME/Programs/mac"
 export CLOSURE_JAR_PATH="$HOME/Programs/common-editor/tools/closure/compiler.jar"
