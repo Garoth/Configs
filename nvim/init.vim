@@ -113,6 +113,7 @@ function! VimrcLoadPlugins()
   Plug 'fatih/vim-go'
   let g:go_fmt_fail_silently = 1
   let g:go_fmt_command = "goimports"
+  let g:go_fmt_experimental = 1
 
   " Completion
   " Plug 'ervandew/supertab'
@@ -210,7 +211,7 @@ function! VimrcLoadPlugins()
     \ '' : '^S',
     \ }
   let g:airline#extensions#syntastic#enabled = 0
-  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#enabled = 0
   let g:airline#extensions#tabline#show_tab_type = 0
   let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
   let g:airline#extensions#tabline#fnamemod = ':t'
@@ -291,6 +292,7 @@ set nowrap                                         " allow visual wrapping
 set relativenumber                                 " relative numbering sidebar
 set showcmd                                        " shows current cmd combo
 set noerrorbells                                   " disables error bell
+set nojoinspaces                                   " don't do spacing special cases
 set virtualedit=all                                " allows arbitrary cursor pos
 set undodir=~/.vim/undo,.
 set undofile
@@ -506,31 +508,6 @@ function! DefaultWorkspace()
     endif
 endfunction
 command! -register DefaultWorkspace call DefaultWorkspace()
-
-function! ElephantronWorkspace()
-  call DefaultWorkspace()
-
-  for i in [1, 2, 3, 4]
-    wincmd l
-    wincmd j
-  endfor
-
-  above sp term://zsh
-  file Shell\ Alpha
-  resize 8
-  set wfh
-
-  for i in [1, 2, 3, 4]
-    wincmd l
-    wincmd j
-  endfor
-
-  above sp term://zsh
-  file Shell\ Beta
-  resize 8
-  set wfh
-endfunction
-command! -register ElephantronWorkspace call ElephantronWorkspace()
 
 " Copy all matched strings
 " ------------------------

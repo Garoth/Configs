@@ -39,12 +39,13 @@ alias restartAudio="sudo kextunload /System/Library/Extensions/AppleHDA.kext; su
 export GOPATH="$HOME/Programs/golang"
 alias go-test="go test -v 2>&1 | golorize -conf=$HOME/.golorize/go-test.json"
 
-export MAC_PROJECT_DIR="$HOME/Programs/mac"
-export CLOSURE_JAR_PATH="$HOME/Programs/common-editor/tools/closure/compiler.jar"
+export PROJECT_DIR="$HOME/Programs"
+export MAC_PROJECT_DIR="$PROJECT_DIR/mac"
+export CLOSURE_JAR_PATH="$PROJECT_DIR/common-editor/tools/closure/compiler.jar"
 
 # Lets you read Common Editor from the filesystem directly
 alias cedebugoff='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorPath'
-alias cedebugon='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "/Users/athorp/Programs/common-editor/"'
+alias cedebugon='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/common-editor/"'
 # Lets you use uncompiled Common Editor files
 alias ceuncompiledoff='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorUncompiled'
 alias ceuncompiledon='defaults write com.evernote.Evernote ENDebugLocalCommonEditorUncompiled -bool true'
@@ -60,6 +61,11 @@ alias endebugmenuon='defaults write com.evernote.Evernote IncludeDebugMenu -bool
 # Disables updates to an externals repo
 alias enupdateoff='echo off > externals_update_disabled'
 alias enupdateon='rm externals_update_disabled'
+
+# Switches between Uno and whatever was in Mac
+alias use-stock='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorPath'
+# Use Uno
+alias use-uno='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/mac-dev.html"'
 
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {
