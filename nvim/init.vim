@@ -224,7 +224,8 @@ function! VimrcLoadPlugins()
   " FZF
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   Plug 'junegunn/fzf.vim'
-  " let g:fzf_layout = { 'window': 'enew' }
+  let g:fzf_layout = { 'window': 'enew' }
+  let g:fzf_nvim_statusline = 0
   " let fzf_command = '((git ls-files && git ls-files --exclude-standard --cached --others 2> /dev/null)'  " git
   " let fzf_command .= ' || (hg manifest --all 2> /dev/null)'  " mercurial
   " let fzf_command .= ' || (bzr ls --versioned --recursive 2> /dev/null)'  " bzr
@@ -471,10 +472,22 @@ nnoremap <expr> i IndentWithI()
 
 " Workspace Setup
 " ----------------
+let g:workspace = "default"
+function! NoWorkspace()
+    let g:workspace = "none"
+endfunction
+command! -register NoWorkspace call NoWorkspace()
+
 function! DefaultWorkspace()
     " Default Variables
     let numcol = 2 " Number of columns to use
     let mainwin = 0 " Reference to the 'middle' window where my main editor is
+
+    " If the screen is too narrow, just give up. Probably in a split
+    if winwidth(0) <= 160
+        call NoWorkspace()
+        return
+    endif
 
     " If the screen is big enough right now, use three columns
     if winwidth(0) >= 220
@@ -603,7 +616,6 @@ endfunction
 " quick-scope
 " -----------
 " Insert into your .vimrc after quick-scope is loaded.
-" Obviously depends on <https://github.com/unblevable/quick-scope> being installed.
 function! Quick_scope_selective(movement)
     let needs_disabling = 0
     if !g:qs_enable
@@ -622,7 +634,6 @@ function! Quick_scope_selective(movement)
 endfunction
 
 let g:qs_enable = 0
-
 nnoremap <expr> <silent> f Quick_scope_selective('f')
 nnoremap <expr> <silent> F Quick_scope_selective('F')
 nnoremap <expr> <silent> t Quick_scope_selective('t')
@@ -631,3 +642,7 @@ vnoremap <expr> <silent> f Quick_scope_selective('f')
 vnoremap <expr> <silent> F Quick_scope_selective('F')
 vnoremap <expr> <silent> t Quick_scope_selective('t')
 vnoremap <expr> <silent> T Quick_scope_selective('T')
+
+
+" Final Startup
+au VimEnter * nested call DefaultWorkspace()
