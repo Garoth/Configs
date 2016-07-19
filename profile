@@ -11,3 +11,8 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 export PATH=/usr/local/bin:/home/garoth/Programs/bin:$PATH:/opt/kde/bin:/home/garoth/.scripts
+# Initialization for FDK command line tools.Mon Jul 18 11:41:22 2016
+FDK_EXE="/Users/athorp/bin/FDK/Tools/osx"
+PATH=${PATH}:"/Users/athorp/bin/FDK/Tools/osx"
+export PATH
+export FDK_EXE

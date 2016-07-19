@@ -12,6 +12,8 @@ export TOMCAT_HOME=/usr/local/Cellar/tomcat6/6.0.37/libexec
 export CATALINA_HOME=$TOMCAT_HOME
 export CATALINA_BASE=$TOMCAT_HOME
 export CATALINA=$TOMCAT_HOME
+# Initialization for Adobe Font Dev Kit tools
+export FDK_EXE="/Users/athorp/bin/FDK/Tools/osx"
 
        PATH=/Users/athorp/Programs/golang/bin:$PATH
        PATH=/Users/athorp/.scripts:${PATH}
@@ -25,6 +27,7 @@ export CATALINA=$TOMCAT_HOME
        PATH=${PATH}:${MYSQL_HOME}/bin
        PATH=${PATH}:${TOMCAT_HOME}/bin
        PATH=${PATH}:/usr/local/node_modules/jshint/bin
+       PATH=${PATH}:${FDK_EXE}
 export PATH
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export EDITOR="/usr/local/bin/vim"

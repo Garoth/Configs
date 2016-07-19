@@ -175,51 +175,36 @@ function! VimrcLoadPlugins()
   " Airline
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  let g:airline_theme = 'athorp'
+  let g:airline_powerline_fonts = 1
+  " Arrow character: 
   " Simplify the number area to just be line number, col number
   let g:airline_section_z = "%2l, %2c"
   " Simplify vcs integration to just show branch name
   let g:airline_section_b = "%{airline#util#wrap(airline#extensions#branch#get_head(),0)}"
   if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+      let g:airline_symbols = {}
   endif
   " unicode symbols
-  let g:airline_left_sep = '»'
-  let g:airline_left_sep = ''
-  let g:airline_right_sep = '«'
-  let g:airline_right_sep = ''
-  let g:airline_theme = 'murmur'
-  " let g:airline_symbols.linenr = '␊'
-  " let g:airline_symbols.linenr = '␤'
-  " let g:airline_symbols.linenr = '¶'
-  let g:airline_symbols.branch = '⎇'
+  let g:airline_symbols.linenr = '␊'
+  let g:airline_symbols.linenr = '␤'
+  let g:airline_symbols.linenr = '¶'
   let g:airline_symbols.paste = 'ρ'
-  " let g:airline_symbols.paste = 'Þ'
-  " let g:airline_symbols.paste = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-
   let g:airline_mode_map = {
-    \ '__' : '-',
-    \ 'n'  : 'N',
-    \ 'i'  : 'I',
-    \ 'R'  : 'R',
-    \ 'c'  : 'C',
-    \ 'v'  : 'v',
-    \ 'V'  : 'V',
-    \ '' : '^V',
-    \ 's'  : 's',
-    \ 'S'  : 'S',
-    \ '' : '^S',
-    \ }
+              \ '__' : '-',
+              \ 'n'  : 'N',
+              \ 'i'  : 'I',
+              \ 'R'  : 'R',
+              \ 'c'  : 'C',
+              \ 'v'  : 'v',
+              \ 'V'  : 'V',
+              \ '' : '^V',
+              \ 's'  : 's',
+              \ 'S'  : 'S',
+              \ '' : '^S',
+              \ }
   let g:airline#extensions#syntastic#enabled = 0
-  let g:airline#extensions#tabline#enabled = 0
-  let g:airline#extensions#tabline#show_tab_type = 0
-  let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
-  let g:airline#extensions#tabline#fnamemod = ':t'
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
-  let g:airline#extensions#tabline#right_sep = ''
-  let g:airline#extensions#tabline#right_alt_sep = ''
-  let g:airline#extensions#tabline#close_symbol = '╳'
+  let g:airline#extensions#whitespace#enabled = 0
 
   " FZF
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -331,13 +316,17 @@ let &t_AF="\e[38;5;%dm"
 colorscheme distinguished
 set background=dark
 set fillchars+=vert:│
+
 " Highlight color customizations
 highlight NonText ctermfg=darkgray  guifg=darkgray
 highlight SpecialKey ctermfg=darkgray guifg=darkgray
 highlight TermCursor ctermfg=red guifg=red
-highlight VertSplit ctermfg=3 ctermbg=0
+highlight VertSplit ctermbg=none ctermfg=3
 highlight NonText ctermfg=0
 highlight Conceal ctermbg=none ctermfg=163 cterm=bold
+highlight Comment ctermbg=none ctermfg=lightblue
+highlight LineNr ctermbg=none ctermfg=grey
+highlight SignColumn ctermbg=none
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
@@ -642,7 +631,6 @@ vnoremap <expr> <silent> f Quick_scope_selective('f')
 vnoremap <expr> <silent> F Quick_scope_selective('F')
 vnoremap <expr> <silent> t Quick_scope_selective('t')
 vnoremap <expr> <silent> T Quick_scope_selective('T')
-
 
 " Final Startup
 au VimEnter * nested call DefaultWorkspace()
