@@ -10,10 +10,12 @@ snippet todo "inserts a todo comment for the current date" b
 // TODO:athorp:`/bin/date +"%Y-%m-%d"` $1
 endsnippet
 
-snippet cefold "inserts a webstorm fold comment" b
-//<editor-fold desc="$1">
-${VISUAL}
-//</editor-fold>
+snippet fixme "inserts a fixme comment for the current date" b
+// FIXME:athorp:`/bin/date +"%Y-%m-%d"` $1
+endsnippet
+
+snippet note "inserts a note comment for the current date" b
+// NOTE:athorp:`/bin/date +"%Y-%m-%d"` $1
 endsnippet
 
 snippet cl "console.log" b
@@ -30,8 +32,8 @@ snippet const "One line constant declaration" b
 /** @const */ var $1 = $2;
 endsnippet
 
-snippet each "en.each" b
-en.each($1, function($2) {
+snippet each "goog for each" b
+goog.array.forEach($1, function($2) {
 	${VISUAL}$0
 });
 endsnippet

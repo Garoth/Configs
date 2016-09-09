@@ -88,6 +88,7 @@ function! VimrcLoadPlugins()
 
   " Neomake
   Plug 'benekastah/neomake'
+  Plug 'benjie/neomake-local-eslint.vim'
   autocmd! BufWritePost * Neomake
 
   " Tabular
@@ -115,8 +116,7 @@ function! VimrcLoadPlugins()
   let g:go_fmt_command = "goimports"
   let g:go_fmt_experimental = 1
 
-  " Completion
-  " Plug 'ervandew/supertab'
+  " Deoplete
   Plug 'Shougo/deoplete.nvim'
   Plug 'zchee/deoplete-go', { 'do': 'make'}
   set previewheight=1
@@ -124,18 +124,21 @@ function! VimrcLoadPlugins()
   let g:deoplete#sources#go#align_class = 1
   let g:deoplete#enable_ignore_case = 'ignorecase'
   let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-  " let g:deoplete#sources = {}
-  " let g:deoplete#sources_ = ['buffer','tag']
-  " let g:deoplete#sources#go#gocode_binary = '/path/to/gocode'
-  inoremap <silent><expr> <Tab>
-              \ pumvisible() ? "\<C-n>" :
-              \ deoplete#mappings#manual_complete()
-  inoremap <expr><C-h>
-              \ deoplete#mappings#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS>
-              \ deoplete#mappings#smart_close_popup()."\<C-h>"
+  inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+  inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
   set completeopt+=noinsert
   inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+  " Deoplete Flow Integration
+  Plug 'steelsojka/deoplete-flow'
+  function! StrTrim(txt)
+      return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+  endfunction
+  let g:flow_path = StrTrim(system('PATH=$(npm bin):$PATH && which flow'))
+  if g:flow_path != 'flow not found'
+      let g:deoplete#sources#flow#flow_bin = g:flow_path
+  endif
 
   " CtrlP
   Plug 'kien/ctrlp.vim'
@@ -566,9 +569,10 @@ if executable('xmllint') == 1
   autocmd FileType xml let &l:equalprg='xmllint --format --recover -'
 endif
 
-if executable('tidy') == 1
-  autocmd FileType html let &l:equalprg='tidy -quiet --indent yes --show-errors 0'
-endif
+" Tidy does some weird shit
+" if executable('tidy') == 1
+"   autocmd FileType html let &l:equalprg='tidy -quiet --indent yes --show-errors 0'
+" endif
 
 " vim-textobj-user
 " ----------------

@@ -69,6 +69,7 @@ alias enupdateon='rm externals_update_disabled'
 alias use-stock='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorPath'
 # Use Uno
 alias use-uno='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/mac-dev.html"'
+alias use-uno-compiled='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/build/mac.html"'
 
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {

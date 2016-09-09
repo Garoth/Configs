@@ -890,15 +890,15 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>2472 526 619 186 1440 0 1920 1057 </string>
+	<string>2472 351 619 227 1440 0 1920 1057 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>4327 554 606 456 3360 0 1920 1080 </string>
 	<key>NSWindow Frame SUAutomaticUpdateAlert</key>
 	<string>4010 662 616 174 3360 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>1759 290 918 452 1440 0 1920 1057 </string>
+	<string>2418 308 918 452 1440 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1619 338 1161 675 1440 0 1920 1057 </string>
+	<string>1440 0 1920 1080 1440 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>38 384 650 452 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -1152,7 +1152,7 @@
 			<key>Hide After Opening</key>
 			<false/>
 			<key>Horizontal Spacing</key>
-			<real>1</real>
+			<real>0.99729974585843373</real>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
@@ -1469,7 +1469,7 @@
 			<key>Normal Font</key>
 			<string>Hasklig-ExtraLight 14</string>
 			<key>Only The Default BG Color Uses Transparency</key>
-			<false/>
+			<true/>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -1479,7 +1479,7 @@
 			<key>Rows</key>
 			<integer>25</integer>
 			<key>Screen</key>
-			<integer>-1</integer>
+			<integer>-2</integer>
 			<key>Scrollback Lines</key>
 			<integer>1000</integer>
 			<key>Scrollback With Status Bar</key>
@@ -1620,8 +1620,10 @@
 			<array/>
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
+			<key>Thin Strokes</key>
+			<integer>2</integer>
 			<key>Transparency</key>
-			<real>0.0</real>
+			<real>0.30138007614213197</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -1633,9 +1635,9 @@
 			<key>Use Canonical Parser</key>
 			<false/>
 			<key>Use HFS Plus Mapping</key>
-			<false/>
+			<true/>
 			<key>Use Italic Font</key>
-			<false/>
+			<true/>
 			<key>Use Non-ASCII Font</key>
 			<false/>
 			<key>Vertical Spacing</key>
@@ -2552,6 +2554,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.20160717-nightly</string>
+	<string>3.0.20160719-nightly</string>
 </dict>
 </plist>
