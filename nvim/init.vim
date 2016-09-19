@@ -496,13 +496,23 @@ function! DefaultWorkspace()
 
     " Setting up the right side, with context and terminal
     let mainwin = winnr()
+    " Load Context (top)
     vsp term://~/Programs/golang/context
     file Context
+    " Load Shell One (bottom)
     sp term://zsh
     file Shell\ One
+    " Set size of Context
     wincmd k
     resize 4
     set wfh
+    " Start CE Debug Server if we're in Uno
+    if getcwd() ==# "/Users/athorp/Programs/uno"
+        below sp term://npm\ start
+        file CE\ Debug\ Server
+        resize 6
+        set wfh
+    endif
 
     " Return to main editor window and ensure it's big enough
     exe mainwin . "wincmd w"
@@ -530,14 +540,22 @@ function! WrapCommand(direction)
   if a:direction == "up"
     try
       lprevious
-    catch /^Vim\%((\a\+)\)\=:E553/
-      llast
+    catch /^Vim\%((\a\+)\)\=:E/ 
+      try
+        llast
+      catch /^Vim\%((\a\+)\)\=:E/ 
+        echo "No Errors! :-)"
+      endtry
     endtry
   elseif a:direction == "down"
     try
       lnext
-    catch /^Vim\%((\a\+)\)\=:E553/
-      lfirst
+    catch /^Vim\%((\a\+)\)\=:E/ 
+      try
+        lfirst
+      catch /^Vim\%((\a\+)\)\=:E/ 
+        echo "No Errors! :-)"
+      endtry
     endtry
   endif
 endfunction

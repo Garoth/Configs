@@ -38,28 +38,24 @@ goog.array.forEach($1, function($2) {
 });
 endsnippet
 
-snippet "(\w*)\+class" "foo+class -> en.node.addClass(foo" r
-en.node.addClass(`!p snip.rv = match.group(1)`, $0);
+snippet "(\w*)\+class" "foo+class -> adds a class to foo" r
+goog.dom.classes.add(`!p snip.rv = match.group(1)`, $0);
 endsnippet
 
-snippet "(\w*)\-class" "foo-class -> en.node.removeClass(foo" r
-en.node.removeClass(`!p snip.rv = match.group(1)`, $0);
+snippet "(\w*)\-class" "foo-class -> removes a class from foo" r
+goog.dom.classes.remove(`!p snip.rv = match.group(1)`, $0);
 endsnippet
 
-snippet "(\w*)\?class" "foo?class -> en.node.hasClass(foo" r
-en.node.hasClass(`!p snip.rv = match.group(1)`, $0);
+snippet "(\w*)\?class" "foo?class -> checks if foo has class" r
+goog.dom.classes.contains(`!p snip.rv = match.group(1)`, $0);
 endsnippet
 
-snippet "(\w*)\+style" "foo+style -> en.node.setStyleValue(foo" r
-en.node.setStyleValue(`!p snip.rv = match.group(1)`, '$1', '$2');
+snippet "(\w*)\+style" "foo+style -> adds a style to foo" r
+goog.style.setStyle(`!p snip.rv = match.group(1)`, '$1', '$2');
 endsnippet
 
-snippet "(\w*)\-style" "foo-style -> en.node.removeStyleValue(foo" r
-en.node.removeStyleValue(`!p snip.rv = match.group(1)`, '$1');
-endsnippet
-
-snippet "(\w*)\?style" "foo?style -> en.node.getStyleValue(foo" r
-en.node.getStyleValue(`!p snip.rv = match.group(1)`, '$1');
+snippet "(\w*)\-style" "foo-style -> removes a style from foo" r
+goog.style.setStyle(`!p snip.rv = match.group(1)`, '$1', '');
 endsnippet
 
 snippet fun "function with dynamic docblock" b
