@@ -77,7 +77,6 @@ function! VimrcLoadPlugins()
   let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
   let g:NERDTreeWinSize = 50
   set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-  nnoremap <silent> <F2> :NERDTreeFind<CR>
   noremap <F3> :NERDTreeToggle<CR>
 
   " Syntastic
@@ -354,8 +353,10 @@ set clipboard=unnamed
 nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 
 " Make integration stuff
-map <F2> :make<cr>
+map <F2> :Neomake!<cr>
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
+autocmd BufEnter $HOME/Programs/uno/* map <buffer> <F2>
+            \ :NeomakeSh cd $HOME/Programs/uno && $HOME/Programs/uno/scripts/deps.sh<CR>
 
 " Statusline (largely frogonweels)
 set statusline=                                 " Clear statusline
@@ -464,25 +465,50 @@ nnoremap <expr> i IndentWithI()
 
 " Workspace Setup
 " ----------------
-let g:workspace = "default"
+let s:workspace = "default"
+let s:mainwin = -1 " Reference to the 'middle' window where my main editor is
+let s:minwidth = 160
 function! NoWorkspace()
-    let g:workspace = "none"
+    let s:workspace = "none"
 endfunction
 command! -register NoWorkspace call NoWorkspace()
+
+function! DefaultWorkspaceWindowResize()
+    if s:workspace == "none"
+        return
+    endif
+
+    if s:mainwin == -1 && &columns <= s:minwidth
+        return
+    endif
+
+    echom "Doing resized with " . winwidth(s:mainwin)
+    if winwidth(s:mainwin) < 90
+        let curwin = winnr()
+        exe s:mainwin . "wincmd w"
+        vertical resize 90
+        set wfw
+        exec curwin . "wincmd w"
+    endif
+
+    wincmd =
+endfunction
+command! -register DefaultWorkspaceWindowResize call DefaultWorkspaceWindowResize()
+autocmd VimResized * call DefaultWorkspaceWindowResize()
 
 function! DefaultWorkspace()
     " Default Variables
     let numcol = 2 " Number of columns to use
-    let mainwin = 0 " Reference to the 'middle' window where my main editor is
+    let s:mainwin = -1
 
     " If the screen is too narrow, just give up. Probably in a split
-    if winwidth(0) <= 160
+    if &columns <= s:minwidth
         call NoWorkspace()
         return
     endif
 
     " If the screen is big enough right now, use three columns
-    if winwidth(0) >= 220
+    if &columns >= 220
         let numcol = 3
     endif
 
@@ -491,11 +517,11 @@ function! DefaultWorkspace()
         e term://zsh
         file Shell\ Two
         vnew
-        let mainwin = winnr()
+        let s:mainwin = winnr()
     endif
 
     " Setting up the right side, with context and terminal
-    let mainwin = winnr()
+    let s:mainwin = winnr()
     " Load Context (top)
     vsp term://~/Programs/golang/context
     file Context
@@ -515,12 +541,10 @@ function! DefaultWorkspace()
     endif
 
     " Return to main editor window and ensure it's big enough
-    exe mainwin . "wincmd w"
-    if winwidth(mainwin) < 90
-        vertical resize 90
-        set wfw
-        wincmd =
-    endif
+    call DefaultWorkspaceWindowResize()
+
+    " Put cursor in main window
+    exe s:mainwin . "wincmd w"
 endfunction
 command! -register DefaultWorkspace call DefaultWorkspace()
 

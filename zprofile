@@ -70,6 +70,7 @@ alias use-stock='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorP
 # Use Uno
 alias use-uno='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/mac-dev.html"'
 alias use-uno-compiled='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/build/mac.html"'
+alias use-uno-server='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "http://localhost:8888/mac-dev.html"'
 
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {
