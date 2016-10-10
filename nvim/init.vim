@@ -213,11 +213,6 @@ function! VimrcLoadPlugins()
   Plug 'junegunn/fzf.vim'
   let g:fzf_layout = { 'window': 'enew' }
   let g:fzf_nvim_statusline = 0
-  " let fzf_command = '((git ls-files && git ls-files --exclude-standard --cached --others 2> /dev/null)'  " git
-  " let fzf_command .= ' || (hg manifest --all 2> /dev/null)'  " mercurial
-  " let fzf_command .= ' || (bzr ls --versioned --recursive 2> /dev/null)'  " bzr
-  " let fzf_command .= ' || (find -type d -name ".svn" -prune -o \( -type f -o -type l \) -print | cut -c3-)) | sort | uniq'  " svn and normal directories
-  " let $FZF_DEFAULT_COMMAND=fzf_command
   if executable('ag')
       let $FZF_DEFAULT_COMMAND='ag -l -g ""'
       nnoremap <silent> <Leader>a :Ag<Cr>
@@ -466,7 +461,7 @@ nnoremap <expr> i IndentWithI()
 " Workspace Setup
 " ----------------
 let s:workspace = "default"
-let s:mainwin = -1 " Reference to the 'middle' window where my main editor is
+let s:mainwinID = -1 " Reference to the 'middle' window where my main editor is
 let s:minwidth = 160
 function! NoWorkspace()
     let s:workspace = "none"
@@ -478,14 +473,18 @@ function! DefaultWorkspaceWindowResize()
         return
     endif
 
-    if s:mainwin == -1 && &columns <= s:minwidth
+    if s:mainwinID == -1 || &columns <= s:minwidth
         return
     endif
 
-    echom "Doing resized with " . winwidth(s:mainwin)
-    if winwidth(s:mainwin) < 90
+    echom "Doing win id " .
+                \ s:mainwinID . " (#" . win_id2win(s:mainwinID) . ")" .
+                \ " resized from " .
+                \ winwidth(win_id2win(s:mainwinID)) .
+                \ " -> 90"
+    if winwidth(win_id2win(s:mainwinID)) < 90
         let curwin = winnr()
-        exe s:mainwin . "wincmd w"
+        exe win_id2win(s:mainwinID) . "wincmd w"
         vertical resize 90
         set wfw
         exec curwin . "wincmd w"
@@ -499,7 +498,7 @@ autocmd VimResized * call DefaultWorkspaceWindowResize()
 function! DefaultWorkspace()
     " Default Variables
     let numcol = 2 " Number of columns to use
-    let s:mainwin = -1
+    let s:mainwinID = -1
 
     " If the screen is too narrow, just give up. Probably in a split
     if &columns <= s:minwidth
@@ -517,11 +516,10 @@ function! DefaultWorkspace()
         e term://zsh
         file Shell\ Two
         vnew
-        let s:mainwin = winnr()
     endif
 
     " Setting up the right side, with context and terminal
-    let s:mainwin = winnr()
+    let s:mainwinID = win_getid()
     " Load Context (top)
     vsp term://~/Programs/golang/context
     file Context
@@ -543,8 +541,8 @@ function! DefaultWorkspace()
     " Return to main editor window and ensure it's big enough
     call DefaultWorkspaceWindowResize()
 
-    " Put cursor in main window
-    exe s:mainwin . "wincmd w"
+    " Select main window
+    exe win_id2win(s:mainwinID) . "wincmd w"
 endfunction
 command! -register DefaultWorkspace call DefaultWorkspace()
 
