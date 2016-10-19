@@ -50,8 +50,12 @@ function! VimrcLoadPlugins()
   " Plug 'rking/ag.vim'
   " Plug 'nicklasos/vim-jsx-riot'
 
+  " FastFold & vim-stay
+  Plug 'Konfekt/FastFold'
+  Plug 'kopischke/vim-stay'
+  set viewoptions=cursor,folds,slash,unix
+
   " vim-javascript
-  " --------------
   Plug 'pangloss/vim-javascript'
   let g:javascript_conceal_function   = "f"
   let g:javascript_conceal_null       = "Π"
@@ -67,7 +71,6 @@ function! VimrcLoadPlugins()
   " let g:jsx_ext_required = 0
 
   " NERDtree
-  " --------
   Plug 'scrooloose/nerdtree'
   let g:NERDTreeChDirMode=2
   let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
@@ -78,12 +81,6 @@ function! VimrcLoadPlugins()
   let g:NERDTreeWinSize = 50
   set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
   noremap <F3> :NERDTreeToggle<CR>
-
-  " Syntastic
-  " Plug 'scrooloose/syntastic'
-  " let g:syntastic_check_on_open=1
-  " let g:syntastic_always_populate_loc_list=1
-  " let g:syntastic_typescript_tsc_args = "--module amd"
 
   " Neomake
   Plug 'benekastah/neomake'
@@ -555,6 +552,15 @@ function! CopyMatches(reg)
   execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
+
+" Removes all space characters from the unnamed (*) register
+" -----------------------------------------------------------
+function! RemoveSpacesFromUnnamedRegister()
+    let @*=substitute(@*, "\\s", "", "g")
+    let @*=substitute(@*, "\\r", "", "g")
+    let @*=substitute(@*, "\\n", "", "g")
+endfunction
+command! -register RemoveSpacesFromUnnamedRegister call RemoveSpacesFromUnnamedRegister()
 
 " Location list loop function
 " ---------------------------
