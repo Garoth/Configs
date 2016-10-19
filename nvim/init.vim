@@ -474,12 +474,12 @@ function! DefaultWorkspaceWindowResize()
         return
     endif
 
-    echom "Doing win id " .
-                \ s:mainwinID . " (#" . win_id2win(s:mainwinID) . ")" .
-                \ " resized from " .
-                \ winwidth(win_id2win(s:mainwinID)) .
-                \ " -> 90"
     if winwidth(win_id2win(s:mainwinID)) < 90
+        echom "Doing win id " .
+                    \ s:mainwinID . " (#" . win_id2win(s:mainwinID) . ")" .
+                    \ " resized from " .
+                    \ winwidth(win_id2win(s:mainwinID)) .
+                    \ " -> 90 (" . strftime('%c') . ")"
         let curwin = winnr()
         exe win_id2win(s:mainwinID) . "wincmd w"
         vertical resize 90
