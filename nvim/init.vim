@@ -38,7 +38,6 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-jdaddy'
   Plug 'tpope/vim-markdown'
-  Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
@@ -49,6 +48,10 @@ function! VimrcLoadPlugins()
   " Plug 'Valloric/python-indent'
   " Plug 'rking/ag.vim'
   " Plug 'nicklasos/vim-jsx-riot'
+
+  " Highlighted yank
+  Plug 'machakann/vim-highlightedyank'
+  map y <Plug>(highlightedyank)
 
   " FastFold & vim-stay
   Plug 'Konfekt/FastFold'
@@ -276,6 +279,7 @@ set nojoinspaces                                   " don't do spacing special ca
 set virtualedit=all                                " allows arbitrary cursor pos
 set undodir=~/.vim/undo,.
 set undofile
+set inccommand=nosplit
 nnoremap j gj
 nnoremap k gk
 " select last pasted (changed) text
