@@ -53,6 +53,9 @@ function! VimrcLoadPlugins()
   Plug 'machakann/vim-highlightedyank'
   map y <Plug>(highlightedyank)
 
+  " Terminal yank url fixing
+  Plug 'Garoth/fix-copied-url.nvim'
+
   " FastFold & vim-stay
   Plug 'Konfekt/FastFold'
   Plug 'kopischke/vim-stay'
@@ -556,15 +559,6 @@ function! CopyMatches(reg)
   execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
-
-" Removes all space characters from the unnamed (*) register
-" -----------------------------------------------------------
-function! RemoveSpacesFromUnnamedRegister()
-    let @*=substitute(@*, "\\s", "", "g")
-    let @*=substitute(@*, "\\r", "", "g")
-    let @*=substitute(@*, "\\n", "", "g")
-endfunction
-command! -register RemoveSpacesFromUnnamedRegister call RemoveSpacesFromUnnamedRegister()
 
 " Location list loop function
 " ---------------------------
