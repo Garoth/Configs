@@ -56,8 +56,8 @@ alias ceuncompiledon='defaults write com.evernote.Evernote ENDebugLocalCommonEdi
 alias certeoff='defaults delete com.evernote.Evernote ENDebugCommonEditorRichText'
 alias certeon='defaults write com.evernote.Evernote ENDebugCommonEditorRichText -bool true'
 # Lets you use stage
-alias enstageon='defaults write com.evernote.Evernote stage YES'
-alias enstageoff='defaults write com.evernote.Evernote stage NO'
+alias enstageon='defaults write ~/Library/Preferences/com.evernote.Evernote ENSubstituteServerName stage.evernote.com'
+alias enstageoff='defaults delete ~/Library/Preferences/com.evernote.Evernote ENSubstituteServerName'
 # Lets you use the debug menus in webviews
 alias endevtoolson='defaults write com.evernote.Evernote ENAppsShowDevTools -bool YES'
 alias endebugmenuon='defaults write com.evernote.Evernote IncludeDebugMenu -bool YES'
@@ -71,6 +71,7 @@ alias use-stock='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorP
 alias use-uno='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/mac-dev.html"'
 alias use-uno-compiled='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/build/mac.html"'
 alias use-uno-server='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "http://localhost:8888/mac-dev.html"'
+alias use-uno-realtime='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "http://104.196.226.94:443/mac-dev.html"'
 
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {
