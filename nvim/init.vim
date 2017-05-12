@@ -41,20 +41,14 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
+  Plug 'roxma/vim-window-resize-easy'
 
-  " Stuff to look into
-  " Plug 'tpope/vim-repeat'
-  " Plug 'Shougo/vinarise.vim'
-  " Plug 'Valloric/python-indent'
-  " Plug 'rking/ag.vim'
-  " Plug 'nicklasos/vim-jsx-riot'
+  " Plugins written by me
+  " Plug 'Garoth/fix-copied-url.nvim'
 
   " Highlighted yank
   Plug 'machakann/vim-highlightedyank'
   map y <Plug>(highlightedyank)
-
-  " Terminal yank url fixing
-  Plug 'Garoth/fix-copied-url.nvim'
 
   " FastFold & vim-stay
   Plug 'Konfekt/FastFold'
