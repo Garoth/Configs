@@ -18,7 +18,7 @@ function! VimrcLoadPlugins()
 
   " Misc
   Plug 'Raimondi/delimitmate'
-  Plug 'Valloric/MatchTagAlways'
+  " Plug 'Valloric/MatchTagAlways'
   Plug 'chrisbra/Colorizer'
   Plug 'ap/vim-css-color'
   Plug 'groenewege/vim-less'
