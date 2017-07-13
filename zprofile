@@ -60,8 +60,11 @@ alias certeon='defaults write com.evernote.Evernote ENDebugCommonEditorRichText 
 alias enstageon='defaults write ~/Library/Preferences/com.evernote.Evernote ENSubstituteServerName stage.evernote.com'
 alias enstageoff='defaults delete ~/Library/Preferences/com.evernote.Evernote ENSubstituteServerName'
 # Lets you use the debug menus in webviews
-alias endevtoolson='defaults write com.evernote.Evernote ENAppsShowDevTools -bool YES'
-alias endebugmenuon='defaults write com.evernote.Evernote IncludeDebugMenu -bool YES'
+# alias endevtoolson='defaults write com.evernote.Evernote ENAppsShowDevTools -bool YES'
+# alias endebugmenuon='defaults write com.evernote.Evernote IncludeDebugMenu -bool YES'
+# defaults write ~/Library/Preferences/com.evernote.Evernote.plist WebKitDeveloperExtras -bool true
+# defaults write ~/Library/Preferences/com.evernote.Evernote.plist WebKitDeveloperExtras -bool false
+# Have to maybe use Safari + enable debug there too...
 # Disables updates to an externals repo
 alias enupdateoff='echo off > externals_update_disabled'
 alias enupdateon='rm externals_update_disabled'

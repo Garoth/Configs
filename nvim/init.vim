@@ -32,7 +32,7 @@ function! VimrcLoadPlugins()
   Plug 'mkitt/tabline.vim'
   Plug 'moll/vim-bbye'
   Plug 'othree/javascript-libraries-syntax.vim'
-  Plug 'romainl/vim-qf'
+  " Plug 'romainl/vim-qf'
   Plug 'tommcdo/vim-exchange'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-eunuch'
@@ -83,7 +83,10 @@ function! VimrcLoadPlugins()
   noremap <F3> :NERDTreeToggle<CR>
 
   " Neomake
-  Plug 'benekastah/neomake'
+  let g:neomake_open_list = 0
+  let g:neomake_list_height = 1
+  let g:neomake_echo_current_error = 1
+  Plug 'neomake/neomake'
   Plug 'benjie/neomake-local-eslint.vim'
   autocmd! BufWritePost * Neomake
 
@@ -247,7 +250,6 @@ function! VimrcLoadPlugins()
 
   call plug#end()
 endfunction
-
 call VimrcLoadPlugins()
 
 " Global Settings
@@ -274,6 +276,7 @@ set showcmd                                        " shows current cmd combo
 set noerrorbells                                   " disables error bell
 set nojoinspaces                                   " don't do spacing special cases
 set virtualedit=all                                " allows arbitrary cursor pos
+set cmdheight=2                                    " to avoid ENTER prompts...
 set undodir=~/.vim/undo,.
 set undofile
 set inccommand=nosplit
@@ -346,10 +349,10 @@ set clipboard=unnamed
 nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
 
 " Make integration stuff
-map <F2> :Neomake!<cr>
-let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
-autocmd BufEnter $HOME/Programs/uno/* map <buffer> <F2>
-            \ :NeomakeSh cd $HOME/Programs/uno && $HOME/Programs/uno/scripts/deps.sh<CR>
+" map <F2> :Neomake!<cr>
+" let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
+" autocmd BufEnter $HOME/Programs/uno/* map <buffer> <F2>
+"                 \ :NeomakeSh cd $HOME/Programs/uno && $HOME/Programs/uno/scripts/deps.sh<CR>
 
 " Statusline (largely frogonweels)
 set statusline=                                 " Clear statusline
