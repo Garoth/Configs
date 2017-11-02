@@ -25,3 +25,5 @@
     rebase = true
 [rebase]
 	autoStash = true
+[diff]
+	renameLimit = 5000

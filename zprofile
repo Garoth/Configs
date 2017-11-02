@@ -63,8 +63,11 @@ alias enstageoff='defaults delete ~/Library/Preferences/com.evernote.Evernote EN
 # alias endevtoolson='defaults write com.evernote.Evernote ENAppsShowDevTools -bool YES'
 # alias endebugmenuon='defaults write com.evernote.Evernote IncludeDebugMenu -bool YES'
 # defaults write ~/Library/Preferences/com.evernote.Evernote.plist WebKitDeveloperExtras -bool true
-# defaults write ~/Library/Preferences/com.evernote.Evernote.plist WebKitDeveloperExtras -bool false
 # Have to maybe use Safari + enable debug there too...
+# 1) `defaults write com.evernote.Evernote ENDebugCommonEditorRichText -bool true`
+# 2) `defaults write com.evernote.Evernote ENAppsShowDevTools -bool YES`
+# 3) `defaults write com.evernote.Evernote IncludeDebugMenu -bool YES`
+# 4) `defaults write ~/Library/Preferences/com.evernote.Evernote.plist WebKitDeveloperExtras -bool true
 # Disables updates to an externals repo
 alias enupdateoff='echo off > externals_update_disabled'
 alias enupdateon='rm externals_update_disabled'
@@ -76,11 +79,17 @@ alias use-uno='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath
 alias use-uno-compiled='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/build/mac.html"'
 alias use-uno-server='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "http://localhost:8888/mac-dev.html"'
 alias use-uno-realtime='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "http://104.196.226.94:443/mac-dev.html"'
+alias use-rte-localhost='defaults write ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL http://localhost:1234'
+alias use-rte-default='defaults delete ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL'
+
+# Evernote realtime commands
+alias rte-localhost='defaults write com.evernote.Evernote ENRTEServerURL'
 
 # Evernote URLs
 alias open-jenkins='open "https://build-build1.c.en-testing.internal//view/NPM/"'
 alias open-artifactory='open "https://maven.vpn.etonreve.com/webapp/#/artifacts/browse/simple/General/npm-local"'
-alias open-realtime-test='localhost:8888/demo/index.html?platform=mac&room=4c5b999d-4914-490c-aabb-a1be110c7959&authToken=S=s1:U=ff415:E=15bf7303469:C=15b5cb16c69:P=5fd:A=en-web:V=2:H=c6e980499cee713941b3524be923a9c3&serviceURL=https://stage.evernote.com/shard/s1/notestore&name=Andrei'
+alias open-realtime-test='open "localhost:8888/demo/index.html?platform=mac&room=4c5b999d-4914-490c-aabb-a1be110c7959&authToken=S=s1:U=ff415:E=15bf7303469:C=15b5cb16c69:P=5fd:A=en-web:V=2:H=c6e980499cee713941b3524be923a9c3&serviceURL=https://stage.evernote.com/shard/s1/notestore&name=Andrei"'
+alias open-ce-jenkin-builder='open "https://build-build1.c.en-testing.internal//view/CE/view/main/job/ce-ci/build?delay=0sec"'
 
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {
