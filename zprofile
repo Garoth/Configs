@@ -31,7 +31,7 @@ export FDK_EXE="/Users/athorp/bin/FDK/Tools/osx"
        PATH=${PATH}:${FDK_EXE}
 export PATH
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-export EDITOR="/usr/local/bin/vim"
+export EDITOR="nvim"
 export CRAWL_NAME="Garoth"
 export CRAWL_PIZZA="Jalapeno"
 export CRAWL_DIR="$HOME/.crawl/"
@@ -74,7 +74,6 @@ alias enupdateon='rm externals_update_disabled'
 
 # Switches between Uno and whatever was in Mac
 alias use-stock='defaults delete com.evernote.Evernote ENDebugLocalCommonEditorPath'
-# Use Uno
 alias use-uno='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/mac-dev.html"'
 alias use-uno-compiled='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "$PROJECT_DIR/uno/build/mac.html"'
 alias use-uno-server='defaults write com.evernote.Evernote ENDebugLocalCommonEditorPath "http://localhost:8888/mac-dev.html"'
@@ -82,14 +81,17 @@ alias use-uno-realtime='defaults write com.evernote.Evernote ENDebugLocalCommonE
 alias use-rte-localhost='defaults write ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL http://localhost:1234'
 alias use-rte-default='defaults delete ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL'
 
-# Evernote realtime commands
-alias rte-localhost='defaults write com.evernote.Evernote ENRTEServerURL'
+# Evernote Stuff
+alias rte-localhost='defaults write ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL http://localhost:1234'
+alias rte-production='defaults write ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL https://rte.www.evernote.com/'
+alias rte-stage='defaults write ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL https://rte.stage.evernote.com/'
+alias rte-clear='defaults delete ~/Library/Preferences/com.evernote.Evernote.plist ENRTEServerURL'
+alias en-rm-mac-version-files='rm ~/Library/Application\ Support/com.evernote.Evernote/version ~/Library/Application\ Support/com.evernote.Evernote/stage.evernote.com/version'
 
 # Evernote URLs
-alias open-jenkins='open "https://build-build1.c.en-testing.internal//view/NPM/"'
+alias open-jenkins-npm='open "https://build-build1.c.en-testing.internal//view/NPM/"'
 alias open-artifactory='open "https://maven.vpn.etonreve.com/webapp/#/artifacts/browse/simple/General/npm-local"'
 alias open-realtime-test='open "localhost:8888/demo/index.html?platform=mac&room=4c5b999d-4914-490c-aabb-a1be110c7959&authToken=S=s1:U=ff415:E=15bf7303469:C=15b5cb16c69:P=5fd:A=en-web:V=2:H=c6e980499cee713941b3524be923a9c3&serviceURL=https://stage.evernote.com/shard/s1/notestore&name=Andrei"'
-alias open-ce-jenkin-builder='open "https://build-build1.c.en-testing.internal//view/CE/view/main/job/ce-ci/build?delay=0sec"'
 
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {

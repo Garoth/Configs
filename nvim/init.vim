@@ -266,12 +266,14 @@ set backspace=indent,eol,start                     " backspace over stuffs
 set confirm                                        " do ask for confirmation
 set vb t_vb=                                       " turn off visual bell
 set lazyredraw                                     " no redraw in macros
-set synmaxcol=300                                  " no syn after 300 col
+set synmaxcol=2000                                 " no syn after 2000
 set mouse=                                         " turn off mouse
 set shortmess=aT                                   " shorten messages in prompt
 " set list listchars=tab:»·,trail:·,extends:>,nbsp:_ " visually display whitespace
 set nowrap                                         " allow visual wrapping
+set number                                         " numbering sidebar
 set relativenumber                                 " relative numbering sidebar
+autocmd TermOpen * setlocal nonumber norelativenumber
 set showcmd                                        " shows current cmd combo
 set noerrorbells                                   " disables error bell
 set nojoinspaces                                   " don't do spacing special cases
@@ -521,19 +523,12 @@ function! DefaultWorkspace()
 
     " Setting up the right side, with context and terminal
     let s:mainwinID = win_getid()
-    " Load Context (top)
-    vsp term://~/Programs/golang/context
-    file Context
-    " Load Shell One (bottom)
-    sp term://zsh
+    vsp term://zsh
     file Shell\ One
-    " Set size of Context
-    wincmd k
-    resize 4
     set wfh
     " Start CE Debug Server if we're in Uno
     if getcwd() ==# "/Users/athorp/Programs/uno"
-        below sp term://npm\ start
+        above sp term://npm\ start
         file CE\ Debug\ Server
         resize 6
         set wfh
