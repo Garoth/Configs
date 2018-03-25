@@ -5,7 +5,7 @@ import os
 import errno
 
 # Locations
-home = "/Users/athorp/"
+home = "/Users/lung/"
 here = home + "Configs/"
 
 # Some colour code helpers
