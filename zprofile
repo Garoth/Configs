@@ -13,7 +13,7 @@ export CATALINA_HOME=$TOMCAT_HOME
 export CATALINA_BASE=$TOMCAT_HOME
 export CATALINA=$TOMCAT_HOME
 # Initialization for Adobe Font Dev Kit tools
-export FDK_EXE="/Users/athorp/bin/FDK/Tools/osx"
+export FDK_EXE="/Users/lung/Programs/FDK/Tools/osx"
 
        PATH=/Users/athorp/Programs/golang/bin:$PATH
        PATH=/Users/athorp/Programs/realtime-utils:$PATH
