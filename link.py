@@ -52,6 +52,7 @@ rules = [
     ["profile",            home + ".profile"           ] ,
     ["screenrc",           home + ".screenrc"          ] ,
     ["scripts",            home + ".scripts"           ] ,
+    ["slate",              home + ".slate"             ] ,
     ["signature-default",  home + ".signature-default" ] ,
     ["sup/hooks",          home + ".sup/hooks"         ] ,
     ["vim",                home + ".vim"               ] ,
