@@ -5,7 +5,7 @@ import os
 import errno
 
 # Locations
-home = "/Users/lung/"
+home = os.path.expanduser("~") + "/"
 here = home + "Configs/"
 
 # Some colour code helpers
