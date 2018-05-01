@@ -67,8 +67,8 @@ function! VimrcLoadPlugins()
   set conceallevel=1
 
   " vim-jsx
-  " Plug 'mxw/vim-jsx'
-  " let g:jsx_ext_required = 0
+  Plug 'mxw/vim-jsx'
+  let g:jsx_ext_required = 1
 
   " NERDtree
   Plug 'scrooloose/nerdtree'
@@ -86,6 +86,7 @@ function! VimrcLoadPlugins()
   let g:neomake_open_list = 0
   let g:neomake_list_height = 1
   let g:neomake_echo_current_error = 1
+  let g:neomake_javascript_enabled_makers = ['eslint']
   Plug 'neomake/neomake'
   Plug 'benjie/neomake-local-eslint.vim'
   autocmd! BufWritePost * Neomake
@@ -337,7 +338,7 @@ autocmd FileType jsp setl ts=2 sw=2 sts=2
 autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType javascript setl colorcolumn=81
 autocmd FileType javascript setl ts=4 sw=4 sts=4
-autocmd FileType javascript.jsx setl ts=2 sw=2 sts=2
+autocmd FileType javascript.jsx setl ts=4 sw=4 sts=4
 autocmd FileType c setl omnifunc=ccomplete#Complete
 autocmd FileType java setl ts=2 sw=2 sts=2
 " autocmd FileType go setl list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
