@@ -111,9 +111,10 @@ function! VimrcLoadPlugins()
 
   " vim-go
   Plug 'fatih/vim-go'
+
   let g:go_fmt_fail_silently = 1
   let g:go_fmt_command = "goimports"
-  let g:go_fmt_experimental = 1
+  " let g:go_fmt_experimental = 1
 
   " Deoplete
   Plug 'Shougo/deoplete.nvim'
@@ -340,7 +341,7 @@ autocmd FileType javascript.jsx setl ts=2 sw=2 sts=2
 autocmd FileType c setl omnifunc=ccomplete#Complete
 autocmd FileType java setl ts=2 sw=2 sts=2
 " autocmd FileType go setl list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
-autocmd FileType go setl colorcolumn=81 foldmethod=syntax foldnestmax=1 noexpandtab
+autocmd FileType go setl colorcolumn=81 noexpandtab
 autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
 autocmd FileType python setl omnifunc=pythoncomplete#Complete
 autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
@@ -526,10 +527,15 @@ function! DefaultWorkspace()
     vsp term://zsh
     file Shell\ One
     set wfh
-    " Start CE Debug Server if we're in Uno
-    if getcwd() ==# "/Users/athorp/Programs/uno"
+
+    " Custom setup for nugbase-web
+    if getcwd() =~ "nugbase-web$"
+        above sp term://npm\ run\ dev
+        file Nugbase Webpack Runner
+        resize 6
+        set wfh
         above sp term://npm\ start
-        file CE\ Debug\ Server
+        file Nugbase Local Server
         resize 6
         set wfh
     endif

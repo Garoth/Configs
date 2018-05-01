@@ -15,9 +15,9 @@ export CATALINA=$TOMCAT_HOME
 # Initialization for Adobe Font Dev Kit tools
 export FDK_EXE="/Users/lung/Programs/FDK/Tools/osx"
 
-       PATH=/Users/athorp/Programs/golang/bin:$PATH
-       PATH=/Users/athorp/Programs/realtime-utils:$PATH
-       PATH=/Users/athorp/.scripts:${PATH}
+       PATH=$HOME/Programs/golang/bin:$PATH
+       PATH=$HOME/Programs/realtime-utils:$PATH
+       PATH=$HOME/.scripts:${PATH}
        PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
        PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
        PATH=/opt/local/bin:${PATH}
