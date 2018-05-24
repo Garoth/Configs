@@ -112,10 +112,9 @@ function! VimrcLoadPlugins()
 
   " vim-go
   Plug 'fatih/vim-go'
-
   let g:go_fmt_fail_silently = 1
   let g:go_fmt_command = "goimports"
-  " let g:go_fmt_experimental = 1
+  set completeopt-=preview
 
   " Deoplete
   Plug 'Shougo/deoplete.nvim'
@@ -531,6 +530,8 @@ function! DefaultWorkspace()
 
     " Custom setup for nugbase-web
     if getcwd() =~ "nugbase-web$"
+        let $GOPATH = $PWD . ':' . $GOPATH
+
         above sp term://npm\ run\ dev
         file Nugbase Webpack Runner
         resize 6
