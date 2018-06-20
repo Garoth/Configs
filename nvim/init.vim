@@ -532,13 +532,18 @@ function! DefaultWorkspace()
     if getcwd() =~ "nugbase-web$"
         let $GOPATH = $PWD . ':' . $GOPATH
 
-        above sp term://npm\ run\ dev
+        above sp
+        term npm run dev
+        normal G
         file Nugbase Webpack Runner
-        resize 6
+        resize 8
         set wfh
-        above sp term://npm\ start
+
+        above sp
+        term npm start
+        normal G
         file Nugbase Local Server
-        resize 6
+        resize 8
         set wfh
     endif
 

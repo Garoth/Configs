@@ -16,9 +16,6 @@
 
 [receive]
     denyCurrentBranch = warn
-[gerrit]
-    reviewer = athorp@evernote.com
-    user = athorp
 [help]
     autocorrect = 5
 [pull]

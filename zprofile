@@ -93,6 +93,14 @@ alias open-jenkins-npm='open "https://build-build1.c.en-testing.internal//view/N
 alias open-artifactory='open "https://maven.vpn.etonreve.com/webapp/#/artifacts/browse/simple/General/npm-local"'
 alias open-realtime-test='open "localhost:8888/demo/index.html?platform=mac&room=4c5b999d-4914-490c-aabb-a1be110c7959&authToken=S=s1:U=ff415:E=15bf7303469:C=15b5cb16c69:P=5fd:A=en-web:V=2:H=c6e980499cee713941b3524be923a9c3&serviceURL=https://stage.evernote.com/shard/s1/notestore&name=Andrei"'
 
+# Mac Globals
+if [ -x "$(command -v defaults)" ]; then
+    defaults write -g ApplePressAndHoldEnabled -bool false
+else
+  echo 'Error: git is not installed.' >&2
+  exit 1
+fi
+
 # Turns on uncompiled debug mode on or off, for true or false
 cedebugmode() {
   if [[ "$1" == "on" ]]; then
