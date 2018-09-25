@@ -42,6 +42,7 @@ function! VimrcLoadPlugins()
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
   Plug 'roxma/vim-window-resize-easy'
+  Plug 'tomlion/vim-solidity'
 
   " Plugins written by me
   " Plug 'Garoth/fix-copied-url.nvim'
@@ -540,7 +541,7 @@ function! DefaultWorkspace()
         set wfh
 
         above sp
-        term npm start
+        term sleep 0.25 && npm start " Sleep fixes timing bug
         normal G
         file Nugbase Local Server
         resize 8
