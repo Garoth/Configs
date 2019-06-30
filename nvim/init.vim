@@ -18,7 +18,6 @@ function! VimrcLoadPlugins()
 
   " Misc
   Plug 'Raimondi/delimitmate'
-  " Plug 'Valloric/MatchTagAlways'
   Plug 'chrisbra/Colorizer'
   Plug 'ap/vim-css-color'
   Plug 'groenewege/vim-less'
@@ -32,7 +31,6 @@ function! VimrcLoadPlugins()
   Plug 'mkitt/tabline.vim'
   Plug 'moll/vim-bbye'
   Plug 'othree/javascript-libraries-syntax.vim'
-  " Plug 'romainl/vim-qf'
   Plug 'tommcdo/vim-exchange'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-eunuch'
@@ -41,8 +39,11 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
-  Plug 'roxma/vim-window-resize-easy'
   Plug 'tomlion/vim-solidity'
+
+  " Live Package Version Info
+  Plug 'meain/vim-package-info', { 'do': 'npm install' }
+  let g:vim_package_info_virutaltext_highlight = 'VimPackageInfoText'
 
   " Plugins written by me
   " Plug 'Garoth/fix-copied-url.nvim'
@@ -72,16 +73,16 @@ function! VimrcLoadPlugins()
   let g:jsx_ext_required = 1
 
   " NERDtree
-  Plug 'scrooloose/nerdtree'
-  let g:NERDTreeChDirMode=2
-  let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-  let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-  let g:NERDTreeShowBookmarks=1
-  let g:nerdtree_tabs_focus_on_files=1
-  let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-  let g:NERDTreeWinSize = 50
-  set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-  noremap <F3> :NERDTreeToggle<CR>
+  " Plug 'scrooloose/nerdtree'
+  " let g:NERDTreeChDirMode=2
+  " let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+  " let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+  " let g:NERDTreeShowBookmarks=1
+  " let g:nerdtree_tabs_focus_on_files=1
+  " let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+  " let g:NERDTreeWinSize = 50
+  " set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+  " noremap <F3> :NERDTreeToggle<CR>
 
   " Neomake
   let g:neomake_open_list = 0
@@ -284,6 +285,7 @@ set cmdheight=2                                    " to avoid ENTER prompts...
 set undodir=~/.vim/undo,.
 set undofile
 set inccommand=nosplit
+set maxmempattern=400000
 nnoremap j gj
 nnoremap k gk
 " select last pasted (changed) text
@@ -329,6 +331,10 @@ highlight Conceal ctermbg=none ctermfg=163 cterm=bold
 highlight Comment ctermbg=none ctermfg=lightblue
 highlight LineNr ctermbg=none ctermfg=grey
 highlight SignColumn ctermbg=none
+highlight VimPackageInfoMajor ctermfg=160 cterm=bold
+highlight VimPackageInfoMinor ctermfg=172 cterm=bold
+highlight VimPackageInfoPatch ctermfg=186 cterm=bold
+highlight VimPackageInfoText ctermfg=245
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
@@ -541,7 +547,8 @@ function! DefaultWorkspace()
         set wfh
 
         above sp
-        term sleep 0.25 && npm start " Sleep fixes timing bug
+        " Sleep fixes timing bug
+        term sleep 0.25 && npm start -- -flowerpatch
         normal G
         file Nugbase Local Server
         resize 8
@@ -606,6 +613,13 @@ function! AppendModeline()
   call setpos('.', save_cursor)
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Format JSON
+" -----------
+function! FormatJSON()
+    execute "%!python -m json.tool"
+endfunction
+command! -register FormatJSON call FormatJSON()
 
 " Load Official matchit.vim
 " -------------------------
