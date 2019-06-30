@@ -893,7 +893,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>-1270 498 620 392 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1842 610 918 394 -1920 0 1920 1057 </string>
+	<string>-1644 216 918 452 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>-1920 0 1920 1080 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
@@ -1085,7 +1085,7 @@
 			<key>Blur</key>
 			<true/>
 			<key>Blur Radius</key>
-			<real>9.4166326522827148</real>
+			<real>20.265105843907083</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -1622,7 +1622,7 @@
 			<key>Thin Strokes</key>
 			<integer>2</integer>
 			<key>Transparency</key>
-			<real>0.30138007614213197</real>
+			<real>0.21547033629441623</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -2458,6 +2458,8 @@
 	<integer>8</integer>
 	<key>RightOption</key>
 	<integer>3</integer>
+	<key>SUAutomaticallyUpdate</key>
+	<true/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedAlternateAppNameKey</key>
@@ -2467,7 +2469,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-06-19T07:08:53Z</date>
+	<date>2018-11-20T18:12:10Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -2519,6 +2521,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.2.0beta3</string>
+	<string>3.2.6beta3</string>
 </dict>
 </plist>
