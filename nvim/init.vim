@@ -533,26 +533,33 @@ function! DefaultWorkspace()
     let s:mainwinID = win_getid()
     vsp term://zsh
     file Shell\ One
-    set wfh
 
     " Custom setup for nugbase-web
     if getcwd() =~ "nugbase-web$"
         let $GOPATH = $PWD . ':' . $GOPATH
 
         above sp
-        term npm run dev
-        normal G
-        file Nugbase Webpack Runner
         resize 8
         set wfh
+        term npm run dev
+        normal G
+        file Webpack Runner
 
         above sp
+        resize 8
+        set wfh
         " Sleep fixes timing bug
         term sleep 0.25 && npm start -- -flowerpatch
         normal G
-        file Nugbase Local Server
+        file Web Server
+
+        above sp
         resize 8
         set wfh
+        " Sleep fixes timing bug
+        term sleep 0.25 && npm run game-server
+        normal G
+        file Flowerpatch Game Server
     endif
 
     " Return to main editor window and ensure it's big enough
