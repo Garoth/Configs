@@ -335,6 +335,7 @@ highlight VimPackageInfoMajor ctermfg=160 cterm=bold
 highlight VimPackageInfoMinor ctermfg=172 cterm=bold
 highlight VimPackageInfoPatch ctermfg=186 cterm=bold
 highlight VimPackageInfoText ctermfg=245
+highlight NormalFloat ctermbg=236
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
@@ -579,6 +580,29 @@ function! CopyMatches(reg)
   execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
+
+" FZF Floating Window
+" -------------------
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+function! FloatingFZF()
+    let buf = nvim_create_buf(v:false, v:true)
+    call setbufvar(buf, '&signcolumn', 'no')
+
+    let winnr = winnr()
+    let winheight = winheight(winnr)
+    let winwidth = winwidth(winnr)
+    let screenpos = win_screenpos(winnr)
+
+    let opts = {
+                \ 'relative': 'editor',
+                \ 'row': screenpos[0],
+                \ 'col': screenpos[1] + 2,
+                \ 'width': winwidth - 6,
+                \ 'height': winheight - 2
+                \ }
+
+    call nvim_open_win(buf, v:true, opts)
+endfunction
 
 " Location list loop function
 " ---------------------------
