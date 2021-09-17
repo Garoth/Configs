@@ -40,6 +40,11 @@ function! VimrcLoadPlugins()
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
   Plug 'tomlion/vim-solidity'
+  Plug 'dyng/ctrlsf.vim'
+
+  " Language server settings
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'weilbith/nvim-lsp-smag'
 
   " Live Package Version Info
   Plug 'meain/vim-package-info', { 'do': 'npm install' }
@@ -67,10 +72,17 @@ function! VimrcLoadPlugins()
   let g:javascript_conceal_NaN        = "ℕ"
   let g:javascript_conceal_prototype  = "¶"
   set conceallevel=1
+  let g:javascript_plugin_flow        = 1
 
-  " vim-jsx
-  Plug 'mxw/vim-jsx'
-  let g:jsx_ext_required = 1
+  " React / JSX support
+  Plug 'MaxMEllon/vim-jsx-pretty'
+
+  " Prettify JS
+  Plug 'prettier/vim-prettier', {
+          \ 'do': 'yarn install',
+          \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+  let g:prettier#autoformat_require_pragma = 0
+  let g:prettier#exec_cmd_async = 1
 
   " NERDtree
   " Plug 'scrooloose/nerdtree'
@@ -120,6 +132,7 @@ function! VimrcLoadPlugins()
 
   " Deoplete
   Plug 'Shougo/deoplete.nvim'
+  Plug 'deoplete-plugins/deoplete-lsp'
   Plug 'zchee/deoplete-go', { 'do': 'make'}
   set previewheight=1
   let g:deoplete#enable_at_startup = 1
@@ -336,20 +349,23 @@ highlight VimPackageInfoMinor ctermfg=172 cterm=bold
 highlight VimPackageInfoPatch ctermfg=186 cterm=bold
 highlight VimPackageInfoText ctermfg=245
 highlight NormalFloat ctermbg=236
+highlight Normal ctermbg=none
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType jsp imap </ </<C-X><C-O><C-[><<
 autocmd FileType jsp setl ts=2 sw=2 sts=2
-autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setl omnifunc=v:lua.vim.lsp.omnifunc
 autocmd FileType javascript setl colorcolumn=81
 autocmd FileType javascript setl ts=4 sw=4 sts=4
-autocmd FileType javascript.jsx setl ts=4 sw=4 sts=4
+autocmd FileType javascript.jsx setl ts=4 sw=4 sts=4 omnifunc=v:lua.vim.lsp.omnifunc
+autocmd FileType javascript,javascript.jsx
+lua require'lspconfig'.flow.setup{}
 autocmd FileType c setl omnifunc=ccomplete#Complete
 autocmd FileType java setl ts=2 sw=2 sts=2
 " autocmd FileType go setl list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
-autocmd FileType go setl colorcolumn=81 noexpandtab
+autocmd FileType go setl ts=4 sw=4 sts=4 colorcolumn=81 noexpandtab
 autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
 autocmd FileType python setl omnifunc=pythoncomplete#Complete
 autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
@@ -480,33 +496,6 @@ function! NoWorkspace()
 endfunction
 command! -register NoWorkspace call NoWorkspace()
 
-function! DefaultWorkspaceWindowResize()
-    if s:workspace == "none"
-        return
-    endif
-
-    if s:mainwinID == -1 || &columns <= s:minwidth
-        return
-    endif
-
-    if winwidth(win_id2win(s:mainwinID)) < 90
-        echom "Doing win id " .
-                    \ s:mainwinID . " (#" . win_id2win(s:mainwinID) . ")" .
-                    \ " resized from " .
-                    \ winwidth(win_id2win(s:mainwinID)) .
-                    \ " -> 90 (" . strftime('%c') . ")"
-        let curwin = winnr()
-        exe win_id2win(s:mainwinID) . "wincmd w"
-        vertical resize 90
-        set wfw
-        exec curwin . "wincmd w"
-    endif
-
-    wincmd =
-endfunction
-command! -register DefaultWorkspaceWindowResize call DefaultWorkspaceWindowResize()
-autocmd VimResized * call DefaultWorkspaceWindowResize()
-
 function! DefaultWorkspace()
     " Default Variables
     let numcol = 2 " Number of columns to use
@@ -526,45 +515,42 @@ function! DefaultWorkspace()
     " Custom stuff to add an extra left column if there are 3
     if numcol == 3
         e term://zsh
-        file Shell\ Two
         vnew
+        set wfw
+        vertical resize 90
     endif
 
     " Setting up the right side, with context and terminal
     let s:mainwinID = win_getid()
     vsp term://zsh
-    file Shell\ One
 
     " Custom setup for nugbase-web
     if getcwd() =~ "nugbase-web$"
         let $GOPATH = $PWD . ':' . $GOPATH
 
-        above sp
-        resize 8
-        set wfh
-        term npm run dev
+        tabnew
+        term zsh -c "npm run dev"
         normal G
-        file Webpack Runner
+        let s:firsttermID = win_getid()
 
-        above sp
-        resize 8
-        set wfh
+        vsp
         " Sleep fixes timing bug
-        term sleep 0.25 && npm start -- -flowerpatch
+        term zsh -c "sleep 0.25 && npm start -- -flowerpatch"
         normal G
-        file Web Server
 
-        above sp
-        resize 8
-        set wfh
+        sp
         " Sleep fixes timing bug
-        term sleep 0.25 && npm run game-server
+        term zsh -c "sleep 0.25 && npm run game-server"
         normal G
-        file Flowerpatch Game Server
+
+        exe win_id2win(s:firsttermID) . "wincmd w"
+        sp
+        " Sleep fixes timing bug
+        term zsh -c "sleep 0.25 && npm run flowerdb-server"
+        normal G
+
+        normal gT
     endif
-
-    " Return to main editor window and ensure it's big enough
-    call DefaultWorkspaceWindowResize()
 
     " Select main window
     exe win_id2win(s:mainwinID) . "wincmd w"
@@ -644,6 +630,17 @@ function! AppendModeline()
   call setpos('.', save_cursor)
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Javascript Custom Commands
+" --------------------------
+function! JSAlternate()
+    if expand("%:e") == "js" || expand("%:e") == "jsx"
+        execute "edit " . expand("%:h") . "/" . expand("%:t:r") . ".less"
+    elseif expand("%:e") == "less"
+        execute "edit " . expand("%:h") . "/" . expand("%:t:r") . ".jsx"
+    endif
+endfunction
+command! -register JSAlternate call JSAlternate()
 
 " Format JSON
 " -----------

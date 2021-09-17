@@ -24,3 +24,5 @@
 	autoStash = true
 [diff]
 	renameLimit = 5000
+[advice]
+	ignoredHook = false

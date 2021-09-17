@@ -1,0 +1,23 @@
+global !p
+def pathToCommonLess(path):
+	 parts = path.split("/")
+
+	 counter = 0
+	 for part in parts:
+		 if part == "components":
+			 break
+		 counter += 1
+
+	 return ((len(parts) - 2 - counter) * "../") + "common.less"
+
+def outerClassName(path):
+	name = path.split("/")[len(path.split("/"))-2]
+	return name[0].lower() + name[1:]
+endglobal
+
+snippet less "inserts a less file template" b
+@import "`!p snip.rv = pathToCommonLess(path)`";
+
+.`!p snip.rv = outerClassName(path)` {
+}
+endsnippet

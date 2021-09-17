@@ -1,21 +1,103 @@
 # Custom Javascript / Common Editor Snippets
 
 snippet for "for (...) {...} (counting up)" b
-for (var ${1:i} = 0; $1 < ${2:foo.length}; $1++) {
+for (let ${1:i} = 0; $1 < ${2:foo.length}; $1++) {
 	${VISUAL}$0
 }
 endsnippet
 
+snippet component "inserts a react component file template" b
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import s from './index.less';
+
+class ${1:`!p snip.rv = path.split("/")[len(path.split("/"))-2]`} extends React.PureComponent {
+    constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return null;
+	}
+}
+
+$1.propTypes = {$2
+};
+
+export default $1;
+endsnippet
+
+snippet component-drizzle "inserts a drizzled react component file template" b
+import React from 'react';
+import PropTypes from 'prop-types';
+import { DrizzleContext } from 'drizzle-react';
+
+import s from './index.less';
+
+class ${1:`!p snip.rv = path.split("/")[len(path.split("/"))-2]`} extends React.PureComponent {
+    constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return null;
+	}
+}
+
+$1.propTypes = {
+    web3: PropTypes.object,
+    account: PropTypes.string,$2
+};
+
+export default (params) => (
+    <DrizzleContext.Consumer>
+        { drizzleContext => {
+            if (!drizzleContext.initialized) {
+				return null;
+            }
+
+            let account = null;
+            try {
+                account = drizzleContext.drizzleState.accounts[0];
+            } catch (e) {}
+
+            return <$1 { ...params }
+                web3={ drizzleContext.drizzle.web3 }
+                account={ account } />
+        }}
+    </DrizzleContext.Consumer>
+);
+endsnippet
+
+snippet component-functional "inserts a functional react component template" b
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import s from './index.less';
+
+// Functional Component -- no lifecycle methods
+const ${1:`!p snip.rv = path.split("/")[len(path.split("/"))-2]`} = ({ ${2} }) => {
+    return <div>
+    </div>;
+};
+
+$1.propTypes = {$2
+};
+
+export default $1;
+endsnippet
+
 snippet todo "inserts a todo comment for the current date" b
-// TODO:athorp:`/bin/date +"%Y-%m-%d"` $1
+// TODO:a.edell:`/bin/date +"%Y-%m-%d"` $1
 endsnippet
 
 snippet fixme "inserts a fixme comment for the current date" b
-// FIXME:athorp:`/bin/date +"%Y-%m-%d"` $1
+// FIXME:a.edell:`/bin/date +"%Y-%m-%d"` $1
 endsnippet
 
 snippet note "inserts a note comment for the current date" b
-// NOTE:athorp:`/bin/date +"%Y-%m-%d"` $1
+// NOTE:a.edell:`/bin/date +"%Y-%m-%d"` $1
 endsnippet
 
 snippet cl "console.log" b
