@@ -143,8 +143,22 @@ up()
     builtin cd ${cdstr}
 }
 
-#Execute these as a terminal opens
+# Execute these as a terminal opens
 date
+
+# Nugbase-web style source
+if [ -f './scripts/source-me.sh' ]; then
+    source './scripts/source-me.sh' &> /dev/null
+    echo '~ loaded ./scripts/source-me.sh ~'
+fi
+
+# Secrets: OpenAI / ChatGPT if available
+if [ -f ~/.secret/openai.sh ]; then
+    source ~/.secret/openai.sh
+    echo '~ loaded secrets ~'
+else
+    echo 'NO SECRET FILE'
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
