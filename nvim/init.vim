@@ -41,10 +41,32 @@ function! VimrcLoadPlugins()
   Plug 'whatyouhide/vim-textobj-xmlattr'
   Plug 'tomlion/vim-solidity'
   Plug 'dyng/ctrlsf.vim'
+  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+  Plug 'sunaku/vim-dasht'
+  Plug 'dhruvasagar/vim-table-mode'
+  Plug 'nanozuki/tabby.nvim'
+
+  " Deps: Treesitter, NUI for neoai and noice, notify
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'MunifTanjim/nui.nvim'
+  " Plug 'rcarriga/nvim-notify'
+
+  " Fancy messages, cmdline
+  " Plug 'folke/noice.nvim'
+
+  " NeoAI
+  Plug 'Bryley/neoai.nvim'
 
   " Language server settings
   Plug 'neovim/nvim-lspconfig'
   Plug 'weilbith/nvim-lsp-smag'
+
+  " Dart / Flutter
+  Plug 'dart-lang/dart-vim-plugin'
+  let g:dart_format_on_save = v:true
+  Plug 'thosakwe/vim-flutter'
+  Plug 'natebosch/vim-lsc'
+  Plug 'natebosch/vim-lsc-dart'
 
   " Live Package Version Info
   Plug 'meain/vim-package-info', { 'do': 'npm install' }
@@ -80,21 +102,10 @@ function! VimrcLoadPlugins()
   " Prettify JS
   Plug 'prettier/vim-prettier', {
           \ 'do': 'yarn install',
-          \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+          \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'svelte', 'yaml', 'html'] }
+  let g:prettier#autoformat = 1
   let g:prettier#autoformat_require_pragma = 0
   let g:prettier#exec_cmd_async = 1
-
-  " NERDtree
-  " Plug 'scrooloose/nerdtree'
-  " let g:NERDTreeChDirMode=2
-  " let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-  " let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-  " let g:NERDTreeShowBookmarks=1
-  " let g:nerdtree_tabs_focus_on_files=1
-  " let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-  " let g:NERDTreeWinSize = 50
-  " set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-  " noremap <F3> :NERDTreeToggle<CR>
 
   " Neomake
   let g:neomake_open_list = 0
@@ -107,7 +118,7 @@ function! VimrcLoadPlugins()
 
   " Tabular
   Plug 'godlygeek/tabular'
-  nmap <Leader>a, :Tabularize /,\zs<CR>
+  " nmap <Leader>a, :Tabularize /,\zs<CR>
 
   " gundo
   Plug 'sjl/gundo.vim'
@@ -140,8 +151,8 @@ function! VimrcLoadPlugins()
   let g:deoplete#enable_ignore_case = 'ignorecase'
   let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
   inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
-  inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+  " inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+  " inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
   set completeopt+=noinsert
   inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -235,16 +246,18 @@ function! VimrcLoadPlugins()
   else
       nnoremap <silent> <Leader>a :echo "'ag' is not installed."<Cr>
   endif
+ command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline']}), <bang>0)
   nnoremap <silent> <Leader>f :Files<Cr>
-  nnoremap <silent> <Leader>r :History<Cr>
+  nnoremap <silent> <Leader>h :History<Cr>
   nnoremap <silent> <Leader>b :Buffers<Cr>
 
   " UltiSnips
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   let g:UltiSnipsSnippetsDir = $HOME.'/.nvim/UltiSnips'
-  let g:UltiSnipsExpandTrigger="<F3>"
-  let g:UltiSnipsListSnippets="<F6>"
+  let g:UltiSnipsExpandTrigger="<D-3>"
+  let g:UltiSnipsListSnippets="<D-4>"
   let g:UltiSnipsJumpForwardTrigger="<c-k>"
   let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 
@@ -253,15 +266,6 @@ function! VimrcLoadPlugins()
   nnoremap <leader>u :UndotreeToggle<cr>
 
   " Fugitive
-  " nnoremap <leader>gs :Gstatus<cr>
-  " nnoremap <leader>gd :Gdiff<cr>
-  " nnoremap <leader>gb :Gblame<cr>
-  " nnoremap <leader>gw :Gwrite
-  " nnoremap <leader>gr :Gread
-  " nnoremap <leader>dp :diffput<cr>:diffupdate<cr>
-  " vnoremap <leader>dp :diffput<cr>:diffupdate<cr>
-  " nnoremap <leader>dg :diffget<cr>:diffupdate<cr>
-  " vnoremap <leader>dg :diffget<cr>:diffupdate<cr>
   Plug 'tpope/vim-fugitive'
 
   call plug#end()
@@ -281,10 +285,10 @@ set scrolloff=8                                    " avoid top/bot of screen
 set backspace=indent,eol,start                     " backspace over stuffs
 set confirm                                        " do ask for confirmation
 set vb t_vb=                                       " turn off visual bell
-set lazyredraw                                     " no redraw in macros
+" set lazyredraw                                     " no redraw in macros
 set synmaxcol=2000                                 " no syn after 2000
 set mouse=                                         " turn off mouse
-set shortmess=aT                                   " shorten messages in prompt
+set shortmess=atTFI                                " shorten messages in prompt
 " set list listchars=tab:»·,trail:·,extends:>,nbsp:_ " visually display whitespace
 set nowrap                                         " allow visual wrapping
 set number                                         " numbering sidebar
@@ -335,21 +339,22 @@ set background=dark
 set fillchars+=vert:│
 
 " Highlight color customizations
-highlight NonText ctermfg=darkgray  guifg=darkgray
-highlight SpecialKey ctermfg=darkgray guifg=darkgray
-highlight TermCursor ctermfg=red guifg=red
-highlight VertSplit ctermbg=none ctermfg=3
-highlight NonText ctermfg=0
+highlight NonText ctermfg=darkgray  guifg=darkgray guibg=none ctermbg=none
+highlight SpecialKey ctermfg=darkgray guifg=darkgray guibg=none ctermbg=none
+highlight VertSplit ctermbg=none ctermfg=3 guibg=none
 highlight Conceal ctermbg=none ctermfg=163 cterm=bold
-highlight Comment ctermbg=none ctermfg=lightblue
-highlight LineNr ctermbg=none ctermfg=grey
-highlight SignColumn ctermbg=none
+highlight Comment ctermbg=none guibg=none ctermfg=lightblue guifg=lightblue
+highlight LineNr ctermbg=none ctermfg=grey guibg=none 
 highlight VimPackageInfoMajor ctermfg=160 cterm=bold
 highlight VimPackageInfoMinor ctermfg=172 cterm=bold
 highlight VimPackageInfoPatch ctermfg=186 cterm=bold
 highlight VimPackageInfoText ctermfg=245
+highlight TermCursor cterm=reverse gui=reverse
 highlight NormalFloat ctermbg=236
-highlight Normal ctermbg=none
+highlight Normal ctermbg=none guibg=none
+highlight Folded guibg=none ctermbg=none
+highlight SignColumn guibg=none ctermbg=none
+highlight EndOfBuffer guibg=none ctermbg=none
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
@@ -362,6 +367,7 @@ autocmd FileType javascript setl ts=4 sw=4 sts=4
 autocmd FileType javascript.jsx setl ts=4 sw=4 sts=4 omnifunc=v:lua.vim.lsp.omnifunc
 autocmd FileType javascript,javascript.jsx
 lua require'lspconfig'.flow.setup{}
+autocmd BufWritePost javascript.jsx lua vim.lsp.diagnostic.set_loclist()
 autocmd FileType c setl omnifunc=ccomplete#Complete
 autocmd FileType java setl ts=2 sw=2 sts=2
 " autocmd FileType go setl list listchars=tab:\ \ ,trail:·,extends:>,nbsp:_
@@ -370,6 +376,10 @@ autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
 autocmd FileType python setl omnifunc=pythoncomplete#Complete
 autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
 autocmd FileType typescript setl colorcolumn=81
+
+" Abbreviations
+ab !+ !=
+ab :+ :=
 
 " Next two commands make vim use X11 clipboard
 set clipboard=unnamed
@@ -404,8 +414,256 @@ endif
 " Grep for word under cursor
 nnoremap <Leader>t :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+lua << EOF
+--require("noice").setup()
+--require("notify").setup({
+--    background_colour = "#003440",
+--})
+
+-- Terminal colors
+vim.g.terminal_color_0 = '#003440'
+vim.g.terminal_color_1 = '#DC312E'
+vim.g.terminal_color_2 = '#859901'
+vim.g.terminal_color_3 = '#B58900'
+vim.g.terminal_color_4 = '#268AD2'
+vim.g.terminal_color_5 = '#D33582'
+vim.g.terminal_color_6 = '#2AA197'
+vim.g.terminal_color_7 = '#EEE8D5'
+vim.g.terminal_color_8 = '#002833'
+vim.g.terminal_color_9 = '#CB4A16'
+vim.g.terminal_color_10 = '#8DA634'
+vim.g.terminal_color_11 = '#C28F2C'
+vim.g.terminal_color_12 = '#0692D4'
+vim.g.terminal_color_13 = '#6C6EC6'
+vim.g.terminal_color_14 = '#00B3A7'
+vim.g.terminal_color_15 = '#FDF6E3'
+
+-- GUI configs
+vim.opt.guifont = "Hasklig_ExtraLight:h14"
+vim.keymap.set('t', '<S-space>', '<space>')
+
+-- Show line diagnostics in a window
+vim.o.updatetime = 250 -- global hold time setting
+vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+        local opts = {
+            focusable = false,
+            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+            border = 'rounded',
+            source = 'always',
+            prefix = ' ',
+            scope = 'line',
+            max_width = 70,
+            pad_top = 1,
+            pad_bottom = 1,
+        }
+        vim.diagnostic.open_float(nil, opts)
+    end
+})
+
+--vim-table-mode - creating markdown compatible tables
+vim.g.table_mode_corner = '|'
+vim.g.table_mode_header_fillchar = '-' -- header underline
+-- color cells: cells must start with yes/no/?
+vim.g.table_mode_color_cells = true
+vim.api.nvim_set_hl(0, 'yesCell', { fg = vim.g.terminal_color_2, underdashed = true })
+vim.api.nvim_set_hl(0, 'maybeCell', { fg = vim.g.terminal_color_11, undercurl = true })
+vim.api.nvim_set_hl(0, 'noCell', { fg = vim.g.terminal_color_9, underdouble = true })
+
+--dasht
+vim.keymap.set('n', '<D-m>', ':Dasht<Space>')
+vim.keymap.set('n', '<D-8>', ':call Dasht(dasht#cursor_search_terms())<Return>')
+vim.g.dasht_filetype_docsets = {}
+vim.g.dasht_filetype_docsets['javascript'] = { 'javascript', 'html', 'react', 'less', 'css' }
+vim.g.dasht_filetype_docsets['less'] = { 'html', 'less', 'css' }
+
+if vim.g.neovide then
+    vim.g.neovide_scroll_animation_length = 0.25
+    vim.g.neovide_hide_mouse_when_typing = true
+    vim.g.neovide_refresh_rate = 30
+    vim.g.neovide_cursor_vfx_mode = "pixiedust"
+
+    -- Allow clipboard copy paste in neovim
+    vim.g.neovide_input_use_logo = 1 -- enable use of the logo (cmd) key
+    vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
+    vim.keymap.set('v', '<D-c>', '"+y') -- Copy
+    vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
+    vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
+    vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
+    vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+    vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true})
+    vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+    vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+    vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+
+    -- Alpha settings & popup window alpha
+    local alpha = function()
+      return string.format("%x", math.floor(255 * vim.g.transparency or 0.8))
+    end
+    -- g:neovide_transparency should be 0 if you want to unify transparency of
+    -- content and title bar
+    vim.g.neovide_transparency = 0.0
+    vim.g.transparency = 0.90
+    vim.g.neovide_background_color = "#00151c" .. alpha()
+    vim.g.neovide_floating_blur_amount_x = 4.0
+    vim.g.neovide_floating_blur_amount_y = 4.0
+    vim.opt.winblend = 30
+    vim.opt.pumblend = 30
+     
+    -- zoom scaling
+    vim.g.neovide_scale_factor = 1.0
+    local change_scale_factor = function(delta)
+      vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+    end
+    vim.keymap.set("n", "<C-=>", function()
+      change_scale_factor(1.25)
+    end)
+    vim.keymap.set("n", "<C-->", function()
+      change_scale_factor(1/1.25)
+    end)
+end
+
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript",
+      "css", "dockerfile", "git_rebase", "gitattributes", 
+      "gitcommit", "gitignore", "go", "gomod", "gosum", "gowork", "html",
+      "http", "jsdoc", "json", "json5", "markdown", "markdown_inline",
+      "mermaid", "proto", "python", "regex", "scss", "solidity", "typescript",
+      "yaml" },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+
+  -- List of parsers to ignore installing (for "all")
+  ignore_install = { },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    enable = true,
+
+    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    -- the name of the parser)
+    -- list of language that will be disabled
+    disable = {},
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
+require('neoai').setup{
+    -- Below are the default options, feel free to override what you would like changed
+    ui = {
+        output_popup_text = "NeoAI",
+        input_popup_text = "Prompt",
+        width = 30,      -- As percentage eg. 30%
+        output_popup_height = 70, -- As percentage eg. 80%
+    },
+    model = "gpt-3.5-turbo",
+    register_output = {
+        ["g"] = function(output)
+            return output
+        end,
+        ["c"] = require("neoai.utils").extract_code_snippets,
+    },
+    inject = {
+        cutoff_width = 75,
+    },
+    prompts = {
+        context_prompt = function(context)
+            return "Hi ChatGPT, I'd like to provide some context for future "
+                .. "messages. Here is the code/text that I want to refer "
+                .. "to in our upcoming conversations:\n\n"
+                .. context
+        end,
+    },
+    open_api_key_env = "OPENAI_API_KEY",
+    shortcuts = {
+        {
+            key = "<leader>cs",
+            use_context = true,
+            prompt = [[
+                Please rewrite the text to make it more readable, clear,
+                concise, and fix any grammatical, punctuation, or spelling
+                errors
+            ]],
+            modes = { "v" },
+            strip_function = nil,
+        },
+        {
+            key = "<leader>cg",
+            use_context = false,
+            prompt = function ()
+                return [[
+                    Using the following git diff generate a consise and
+                    clear git commit message, with a short title summary
+                    that is 75 characters or less:
+                ]] .. vim.fn.system("git diff --cached")
+            end,
+            modes = { "n" },
+            strip_function = nil,
+        },
+    },
+}
+
+vim.g.firenvim_config = {
+    globalSettings = {
+        cmdlineTimeout = 1000
+    },
+    localSettings = {
+        ['.*google.*'] = {
+            takeover = "never",
+            priority = 1,
+        },
+        ['.*'] = {
+            filename = '/tmp/{hostname%32}_{pathname%8}_{selector%8}_{timestamp%32}.{extension}',
+            priority = 0,
+        },
+    }
+}
+if vim.g.started_by_firenvim == true then
+   vim.cmd [[colorscheme delek]]
+
+   vim.g.airline_powerline_fonts = 0
+   vim.g.airline_section_c = ''
+   vim.g.airline_theme = 'papercolor'
+
+   vim.o.spell = true
+   vim.o.wrap = true
+   vim.o.linebreak = true
+   vim.o.number = false
+   vim.o.relativenumber = false
+
+   vim.api.nvim_create_autocmd({'BufEnter'}, {
+       pattern = "*flowerpatch.app*",
+       command = "set filetype=markdown",
+   })
+
+   vim.api.nvim_create_autocmd({'BufEnter'}, {
+       pattern = "*reddit.com*",
+       command = "set filetype=markdown",
+   })
+end
+
+EOF
+nmap <Leader>cn :NeoAIContext<CR>
+nmap <Leader>cc :NeoAIInjectContextCode
+vnoremap <Leader>cc :NeoAIInjectContextCode
+
 " Keybind to replace visual selection with something
-vnoremap <C-r> "hy:%s;<C-r>h;;gc<left><left><left>
+vnoremap <C-r> "fy:%s;<C-r>f;;gc<left><left><left>
 
 " Some important top-level remaps
 imap <BS> <C-H>
@@ -508,7 +766,7 @@ function! DefaultWorkspace()
     endif
 
     " If the screen is big enough right now, use three columns
-    if &columns >= 220
+    if &columns >= 240
         let numcol = 3
     endif
 
@@ -540,13 +798,23 @@ function! DefaultWorkspace()
 
         sp
         " Sleep fixes timing bug
-        term zsh -c "sleep 0.25 && npm run game-server"
+        term zsh -c "sleep 0.25 && FLOWERSCRIPT_DEBUG=TRUE npm run game-server-livity"
+        normal G
+
+        sp
+        " Sleep fixes timing bug
+        term zsh -c "sleep 0.25 && FLOWERSCRIPT_DEBUG=TRUE npm run game-server"
         normal G
 
         exe win_id2win(s:firsttermID) . "wincmd w"
         sp
         " Sleep fixes timing bug
         term zsh -c "sleep 0.25 && npm run flowerdb-server"
+        normal G
+
+        leftabove sp
+        " Sleep fixes timing bug
+        term zsh -c "sleep 0.25 && source ./scripts/source-me.sh && go run userdb"
         normal G
 
         normal gT
@@ -574,17 +842,12 @@ function! FloatingFZF()
     let buf = nvim_create_buf(v:false, v:true)
     call setbufvar(buf, '&signcolumn', 'no')
 
-    let winnr = winnr()
-    let winheight = winheight(winnr)
-    let winwidth = winwidth(winnr)
-    let screenpos = win_screenpos(winnr)
-
     let opts = {
                 \ 'relative': 'editor',
-                \ 'row': screenpos[0],
-                \ 'col': screenpos[1] + 2,
-                \ 'width': winwidth - 6,
-                \ 'height': winheight - 2
+                \ 'row': 4,
+                \ 'col': 8,
+                \ 'width': &columns - 16,
+                \ 'height': &lines - 8
                 \ }
 
     call nvim_open_win(buf, v:true, opts)

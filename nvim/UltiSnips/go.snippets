@@ -3,3 +3,15 @@ type ${1:name} struct {
 	${0}
 }
 endsnippet
+
+snippet todo "inserts a todo comment for the current date" b
+// TODO:lung:`/bin/date +"%Y-%m-%d"` $1
+endsnippet
+
+snippet fixme "inserts a fixme comment for the current date" b
+// FIXME:lung:`/bin/date +"%Y-%m-%d"` $1
+endsnippet
+
+snippet note "inserts a note comment for the current date" b
+// NOTE:lung:`/bin/date +"%Y-%m-%d"` $1
+endsnippet
