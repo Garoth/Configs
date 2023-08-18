@@ -58,6 +58,7 @@ rules = [
     ["vim",                home + ".vim"               ] ,
     ["vimrc",              home + ".vimrc"             ] ,
     ["nvim",               home + ".config/nvim"       ] ,
+    ["neovide",            home + ".config/neovide"    ] ,
     ["xinitrc",            home + ".xinitrc"           ] ,
     ["zprofile",           home + ".zprofile"          ] ,
     ["zshrc",              home + ".zshrc"             ]
@@ -68,10 +69,11 @@ for dir in os.listdir(here + "scripts_go/src"):
     if dir != "github.com":
 
         os.putenv("GOPATH", here + "scripts_go")
+        os.putenv("GO111MODULE", "off")
         os.chdir(here + "scripts_go")
 
         print("Getting dependencies for " + dir)
-        result = commands.getstatusoutput("go get " + dir)
+        result = commands.getstatusoutput("go install " + dir)
         if result[0] != 0:
             print("Could not get deps for go script: " + dir)
             print(result[1])
