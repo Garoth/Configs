@@ -20,6 +20,9 @@ for ARCHIVE in "$@"; do
         *.tar.bz2|*.tbz2)
             tar xjf "$ARCHIVE" && success=1
             ;;
+        *.tar.xz)
+            tar xJf "$ARCHIVE" && success=1
+            ;;
         *.gz)
             gunzip "$ARCHIVE" && success=1
             ;;
