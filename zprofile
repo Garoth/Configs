@@ -16,6 +16,10 @@ export CATALINA=$TOMCAT_HOME
 export FDK_EXE="/Users/lung/Programs/FDK/Tools/osx"
 
        PATH=$HOME/Programs/golang/bin:$PATH
+       PATH=$HOME/Programs/nvim-linux64/bin:$PATH
+       PATH=$HOME/Programs/node-v20.9.0-linux-x64/bin:$PATH
+       PATH=$HOME/Programs/flutter/bin:$PATH
+       PATH=$HOME/Programs/go/bin:$PATH
        PATH=$HOME/Programs/realtime-utils:$PATH
        PATH=$HOME/.scripts:${PATH}
        PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
@@ -29,6 +33,7 @@ export FDK_EXE="/Users/lung/Programs/FDK/Tools/osx"
        PATH=${PATH}:${TOMCAT_HOME}/bin
        PATH=${PATH}:/usr/local/node_modules/jshint/bin
        PATH=${PATH}:${FDK_EXE}
+       PATH=${PATH}:$HOME/
 export PATH
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export EDITOR="nvim"
@@ -96,9 +101,6 @@ alias open-realtime-test='open "localhost:8888/demo/index.html?platform=mac&room
 # Mac Globals
 if [ -x "$(command -v defaults)" ]; then
     defaults write -g ApplePressAndHoldEnabled -bool false
-else
-  echo 'Error: git is not installed.' >&2
-  exit 1
 fi
 
 # Turns on uncompiled debug mode on or off, for true or false
