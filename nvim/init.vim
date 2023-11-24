@@ -483,6 +483,13 @@ if vim.g.neovide then
     vim.g.neovide_hide_mouse_when_typing = true
     vim.g.neovide_refresh_rate = 30
     vim.g.neovide_cursor_vfx_mode = "pixiedust"
+    vim.g.neovide_scale_factor = 0.65
+
+    if vim.g.neovide == true then
+        vim.api.nvim_set_keymap("n", "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.05<CR>", { silent = true })
+        vim.api.nvim_set_keymap("n", "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.05<CR>", { silent = true })
+        vim.api.nvim_set_keymap("n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { silent = true })
+    end
 
     -- Allow clipboard copy paste in neovim
     vim.g.neovide_input_use_logo = 1 -- enable use of the logo (cmd) key
@@ -503,25 +510,13 @@ if vim.g.neovide then
     end
     -- g:neovide_transparency should be 0 if you want to unify transparency of
     -- content and title bar
-    vim.g.neovide_transparency = 0.0
-    vim.g.transparency = 0.95
+    -- vim.g.neovide_transparency = 0.0
+    vim.g.transparency = 0.6
     vim.g.neovide_background_color = "#00151c" .. alpha()
     vim.g.neovide_floating_blur_amount_x = 4.0
     vim.g.neovide_floating_blur_amount_y = 4.0
     vim.opt.winblend = 30
     vim.opt.pumblend = 30
-     
-    -- zoom scaling
-    vim.g.neovide_scale_factor = 1.0
-    local change_scale_factor = function(delta)
-      vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
-    end
-    vim.keymap.set("n", "<C-=>", function()
-      change_scale_factor(1.25)
-    end)
-    vim.keymap.set("n", "<C-->", function()
-      change_scale_factor(1/1.25)
-    end)
 end
 
 require'nvim-treesitter.configs'.setup {
