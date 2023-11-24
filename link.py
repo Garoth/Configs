@@ -1,6 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import sys
-import commands
+import subprocess
 import os
 import errno
 
@@ -65,28 +65,28 @@ rules = [
 ]
 
 # Build go scripts & append them to the rules list
-for dir in os.listdir(here + "scripts_go/src"):
-    if dir != "github.com":
+# for dir in os.listdir(here + "scripts_go/src"):
+#     if dir != "github.com":
 
-        os.putenv("GOPATH", here + "scripts_go")
-        os.putenv("GO111MODULE", "off")
-        os.chdir(here + "scripts_go")
+#         os.putenv("GOPATH", here + "scripts_go")
+#         os.putenv("GO111MODULE", "off")
+#         os.chdir(here + "scripts_go")
 
-        print("Getting dependencies for " + dir)
-        result = commands.getstatusoutput("go install " + dir)
-        if result[0] != 0:
-            print("Could not get deps for go script: " + dir)
-            print(result[1])
-            sys.exit(1)
+#         print("Getting dependencies for " + dir)
+#         result = subprocess.getstatusoutput("go install " + dir)
+#         if result[0] != 0:
+#             print("Could not get deps for go script: " + dir)
+#             print(result[1])
+#             sys.exit(1)
 
-        print("Building go script: " + dir)
-        result = commands.getstatusoutput("go build -o bin/" + dir + " " + dir)
-        if result[0] != 0:
-            print("Could not build go script: " + dir)
-            print(result[1])
-            sys.exit(1)
+#         print("Building go script: " + dir)
+#         result = subprocess.getstatusoutput("go build -o bin/" + dir + " " + dir)
+#         if result[0] != 0:
+#             print("Could not build go script: " + dir)
+#             print(result[1])
+#             sys.exit(1)
 
-        rules.append(["scripts_go/bin/" + dir, home + ".scripts/" + dir])
+#         rules.append(["scripts_go/bin/" + dir, home + ".scripts/" + dir])
 
 # Actually does the symlinking & pretty printing
 everyOther = 0
@@ -99,7 +99,7 @@ for rule in rules:
     if not os.path.exists(rule[1]):
         try:
             os.makedirs(os.path.dirname(rule[1]))
-            print "Made directory " + os.path.dirname(rule[1])
+            print("Made directory " + os.path.dirname(rule[1]))
 
         except OSError as exc:
             if exc.errno == errno.EEXIST and \
@@ -109,14 +109,14 @@ for rule in rules:
                 raise
 
         out = "Linking '" + rule[0] + "' to '" + rule[1] + "'"
-        print colour + out + end
-        commands.getstatusoutput("ln -s " + rule[0] + " " + rule[1])
+        print(colour + out + end)
+        subprocess.getstatusoutput("ln -s " + rule[0] + " " + rule[1])
     else:
         out1 = "Already Exists: '" + rule[1] + "'"
         out2 = "(not linking)"
         numspaces = 75 - len(out1) - len(out2)
 
         if numspaces >= 0:
-            print colour + out1 + (" " * numspaces) + out2 + end
+            print(colour + out1 + (" " * numspaces) + out2 + end)
         else:
-            print colour + out1 + " " + out2 + end
+            print(colour + out1 + " " + out2 + end)
