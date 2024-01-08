@@ -6,7 +6,7 @@ ZSH_COMPLETIONS_PATH="$HOME/Configs/zsh-completions/src"
 if [ -d $ZSH_COMPLETIONS_PATH ]; then
     fpath=($ZSH_COMPLETIONS_PATH $fpath)
 else
-    echo "Warning: Couldn't load ${ZSH_COMPLETIONS_PATH}??"
+    echo "Warning: Couldn't load ${ZSH_COMPLETIONS_PATH}"
 fi
 
 if which brew &>/dev/null && which z &>/dev/null; then
@@ -164,6 +164,7 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if ! type "fzf" > /dev/null; then
     echo '-> fzf not installed'
+    echo 'recommend: git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install'
 fi
 
 # The next line updates PATH for the Google Cloud SDK.

@@ -2,15 +2,15 @@
 " let g:python3_host_prog = '/usr/local/bin/python3'
 
 function! VimrcLoadPlugins()
-  let g:vim_plug_dir = $HOME.'/.nvim'
+  let g:vim_plug_dir = $HOME.'/.config/nvim'
 
   " Install vim-plug if not available
   if !isdirectory(g:vim_plug_dir)
     call mkdir(g:vim_plug_dir, 'p')
   endif
-  if !filereadable(g:vim_plug_dir.'/autoload/plug.vim')
-    execute '!git clone git://github.com/junegunn/vim-plug '
-          \ shellescape(g:vim_plug_dir.'/autoload', 1)
+  if !filereadable(g:vim_plug_dir.'/autoload/vim-plug/plug.vim')
+    execute '!git clone git@github.com:junegunn/vim-plug.git '
+          \ shellescape(g:vim_plug_dir.'/autoload/', 1)
   endif
 
   " Starting plugin setup
