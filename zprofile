@@ -17,6 +17,7 @@ export FDK_EXE="/Users/lung/Programs/FDK/Tools/osx"
 
        PATH=$HOME/Programs/golang/bin:$PATH
        PATH=$HOME/Programs/nvim-linux64/bin:$PATH
+       PATH=$HOME/Programs/google-cloud-sdk/bin:$PATH
        PATH=$HOME/Programs/node-v20.9.0-linux-x64/bin:$PATH
        PATH=$HOME/Programs/flutter/bin:$PATH
        PATH=$HOME/Programs/go/bin:$PATH

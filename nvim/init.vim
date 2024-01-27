@@ -35,7 +35,6 @@ function! VimrcLoadPlugins()
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-jdaddy'
-  Plug 'tpope/vim-markdown'
   Plug 'tpope/vim-surround'
   Plug 'unblevable/quick-scope'
   Plug 'whatyouhide/vim-textobj-xmlattr'
@@ -47,16 +46,14 @@ function! VimrcLoadPlugins()
   Plug 'nanozuki/tabby.nvim'
   Plug 'stevearc/oil.nvim'
 
-  " Deps: Treesitter, NUI for neoai and noice, notify
+  " Deps: Treesitter
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
   Plug 'MunifTanjim/nui.nvim'
-  " Plug 'rcarriga/nvim-notify'
-
-  " Fancy messages, cmdline
-  " Plug 'folke/noice.nvim'
-
-  " NeoAI
-  Plug 'Bryley/neoai.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'jackMort/ChatGPT.nvim'
+  Plug 'folke/which-key.nvim'
 
   " Language server settings
   Plug 'neovim/nvim-lspconfig'
@@ -120,6 +117,11 @@ function! VimrcLoadPlugins()
   " Tabular
   Plug 'godlygeek/tabular'
   " nmap <Leader>a, :Tabularize /,\zs<CR>
+  Plug 'preservim/vim-markdown' " must be after Tabular
+  let g:vim_markdown_frontmatter = 1
+  let g:vim_markdown_toml_frontmatter = 1
+  let g:vim_markdown_json_frontmatter = 1
+  let g:vim_markdown_strikethrough = 1
 
   " gundo
   Plug 'sjl/gundo.vim'
@@ -339,7 +341,8 @@ colorscheme distinguished
 set background=dark
 set fillchars+=vert:│
 
-" Highlight color customizations
+" Highlight color customizations (for distinguished)
+" ':Inspect' groups under cursor
 highlight NonText ctermfg=darkgray  guifg=darkgray guibg=none ctermbg=none
 highlight SpecialKey ctermfg=darkgray guifg=darkgray guibg=none ctermbg=none
 highlight VertSplit ctermbg=none ctermfg=3 guibg=none
@@ -356,6 +359,21 @@ highlight Normal ctermbg=none guibg=none
 highlight Folded guibg=none ctermbg=none
 highlight SignColumn guibg=none ctermbg=none
 highlight EndOfBuffer guibg=none ctermbg=none
+" Markdown mostly
+highlight Title ctermfg=192 cterm=bold
+highlight @text.title.1.marker.markdown ctermfg=191 cterm=bold
+highlight @text.title.1.markdown ctermfg=191 cterm=bold
+highlight @text.title.2.marker.markdown ctermfg=192 cterm=bold
+highlight @text.title.2.markdown ctermfg=192 cterm=bold
+highlight @text.title.3.marker.markdown ctermfg=193 cterm=bold
+highlight @text.title.3.markdown ctermfg=193 cterm=bold
+highlight @text.title.4.marker.markdown ctermfg=194 cterm=bold
+highlight @text.title.4.markdown ctermfg=194 cterm=bold
+highlight Delimiter ctermfg=240 guifg=darkgrey cterm=bold
+highlight @text ctermfg=none
+highlight @text.emphasis.markdown_inline ctermfg=none cterm=italic
+highlight @text.strong.markdown_inline ctermfg=none cterm=bold
+highlight @text.literal.markdown_inline ctermfg=85
 
 " Language-specific tweaks
 autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
@@ -416,11 +434,6 @@ endif
 nnoremap <Leader>t :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 lua << EOF
---require("noice").setup()
---require("notify").setup({
---    background_colour = "#003440",
---})
-
 -- Terminal colors
 vim.g.terminal_color_0 = '#003440'
 vim.g.terminal_color_1 = '#DC312E'
@@ -559,61 +572,6 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
-require('neoai').setup{
-    -- Below are the default options, feel free to override what you would like changed
-    ui = {
-        output_popup_text = "NeoAI",
-        input_popup_text = "Prompt",
-        width = 30,      -- As percentage eg. 30%
-        output_popup_height = 70, -- As percentage eg. 80%
-    },
-    model = "gpt-3.5-turbo",
-    register_output = {
-        ["g"] = function(output)
-            return output
-        end,
-        ["c"] = require("neoai.utils").extract_code_snippets,
-    },
-    inject = {
-        cutoff_width = 75,
-    },
-    prompts = {
-        context_prompt = function(context)
-            return "Hi ChatGPT, I'd like to provide some context for future "
-                .. "messages. Here is the code/text that I want to refer "
-                .. "to in our upcoming conversations:\n\n"
-                .. context
-        end,
-    },
-    open_api_key_env = "OPENAI_API_KEY",
-    shortcuts = {
-        {
-            key = "<leader>cs",
-            use_context = true,
-            prompt = [[
-                Please rewrite the text to make it more readable, clear,
-                concise, and fix any grammatical, punctuation, or spelling
-                errors
-            ]],
-            modes = { "v" },
-            strip_function = nil,
-        },
-        {
-            key = "<leader>cg",
-            use_context = false,
-            prompt = function ()
-                return [[
-                    Using the following git diff generate a consise and
-                    clear git commit message, with a short title summary
-                    that is 75 characters or less:
-                ]] .. vim.fn.system("git diff --cached")
-            end,
-            modes = { "n" },
-            strip_function = nil,
-        },
-    },
-}
-
 vim.g.firenvim_config = {
     globalSettings = {
         cmdlineTimeout = 1000
@@ -652,6 +610,13 @@ if vim.g.started_by_firenvim == true then
        command = "set filetype=markdown",
    })
 end
+
+require('chatgpt').setup()
+
+-- Which-key requires timeout probably
+require('which-key').setup()
+vim.o.timeout = true
+vim.o.timeoutlen = 300
 
 require("oil").setup({
   -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
@@ -789,11 +754,7 @@ require("oil").setup({
     },
   },
 })
-
 EOF
-nmap <Leader>cn :NeoAIContext<CR>
-nmap <Leader>cc :NeoAIInjectContextCode
-vnoremap <Leader>cc :NeoAIInjectContextCode
 
 " Keybind to replace visual selection with something
 vnoremap <C-r> "fy:%s;<C-r>f;;gc<left><left><left>
