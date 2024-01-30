@@ -754,6 +754,16 @@ require("oil").setup({
     },
   },
 })
+
+function _G.open_in_new_tab_copy_mode()
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.cmd('tabnew')
+  vim.api.nvim_win_set_buf(0, bufnr)
+  vim.wo.number = false
+  vim.wo.relativenumber = false
+end
+
+vim.api.nvim_set_keymap('n', '<Leader>p', '<cmd>lua _G.open_in_new_tab_copy_mode()<CR>', { noremap = true, silent = true })
 EOF
 
 " Keybind to replace visual selection with something
@@ -973,7 +983,7 @@ function! WrapCommand(direction)
   endif
 endfunction
 
-nmap <Leader>p :call WrapCommand("up")<CR>
+nmap <Leader>N :call WrapCommand("up")<CR>
 nmap <Leader>n :call WrapCommand("down")<CR>
 
 " Auto Add Modeline
