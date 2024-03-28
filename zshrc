@@ -89,7 +89,6 @@ alias    caocrawl='ssh joshua@crawl.akrasiac.org'
 alias    date='date +"~ %I:%M %p on %A, the %eth of %B ~"'
 alias    ftp="gftp-text"
 alias    music="ncmpcpp"
-alias    pacman="sudo clyde"
 alias    pwmd="pwd" # I typo this 90% of the time
 alias    top="htop"
 alias    tram="transmission-remote"
