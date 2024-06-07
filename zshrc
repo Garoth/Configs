@@ -119,7 +119,7 @@ TODO_OPTIONS="--summary"
 
 ls()
 {
-        /bin/ls -G "$@"
+        /bin/ls --color -G "$@"
 }
 
 # For old find compat, automatically add searchdir of '.' if none supplied

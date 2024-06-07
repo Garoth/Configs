@@ -45,6 +45,7 @@ function! VimrcLoadPlugins()
   Plug 'dhruvasagar/vim-table-mode'
   Plug 'nanozuki/tabby.nvim'
   Plug 'stevearc/oil.nvim'
+  Plug 'mistricky/codesnap.nvim', { 'do': 'make' }
 
   " Deps: Treesitter
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -148,6 +149,7 @@ function! VimrcLoadPlugins()
   Plug 'Shougo/deoplete.nvim'
   Plug 'deoplete-plugins/deoplete-lsp'
   Plug 'zchee/deoplete-go', { 'do': 'make'}
+  " prob need: go install github.com/nsf/gocode
   set previewheight=1
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#sources#go#align_class = 1
@@ -238,7 +240,7 @@ function! VimrcLoadPlugins()
   let g:airline#extensions#syntastic#enabled = 0
   let g:airline#extensions#whitespace#enabled = 0
 
-  " FZF
+  " FZF - install `bat` to get color preview
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   Plug 'junegunn/fzf.vim'
   let g:fzf_layout = { 'window': 'enew' }
@@ -363,12 +365,16 @@ highlight EndOfBuffer guibg=none ctermbg=none
 highlight Title ctermfg=192 cterm=bold
 highlight @text.title.1.marker.markdown ctermfg=191 cterm=bold
 highlight @text.title.1.markdown ctermfg=191 cterm=bold
+highlight @markup.heading.1.markdown ctermfg=191 cterm=bold guifg=lightblue gui=bold
 highlight @text.title.2.marker.markdown ctermfg=192 cterm=bold
 highlight @text.title.2.markdown ctermfg=192 cterm=bold
+highlight @markup.heading.2.markdown ctermfg=192 cterm=bold guifg=lightblue gui=bold
 highlight @text.title.3.marker.markdown ctermfg=193 cterm=bold
 highlight @text.title.3.markdown ctermfg=193 cterm=bold
+highlight @markup.heading.3.markdown ctermfg=193 cterm=bold guifg=lightblue gui=bold
 highlight @text.title.4.marker.markdown ctermfg=194 cterm=bold
 highlight @text.title.4.markdown ctermfg=194 cterm=bold
+highlight @markup.heading.4.markdown ctermfg=194 cterm=bold guifg=lightblue gui=bold
 highlight Delimiter ctermfg=240 guifg=darkgrey cterm=bold
 highlight @text ctermfg=none
 highlight @text.emphasis.markdown_inline ctermfg=none cterm=italic
@@ -400,9 +406,9 @@ autocmd FileType typescript setl colorcolumn=81
 ab !+ !=
 ab :+ :=
 
-" Next two commands make vim use X11 clipboard
-set clipboard=unnamed
-nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamed' ? '"*p' : '"' . v:register . 'p')
+" Next two commands make vim use system clipboard
+set clipboard=unnamedplus
+nnoremap <expr> p (v:register == '"' && &clipboard =~ 'unnamedplus' ? '"*p' : '"' . v:register . 'p')
 
 " Make integration stuff
 " map <F2> :Neomake!<cr>
@@ -453,7 +459,7 @@ vim.g.terminal_color_14 = '#00B3A7'
 vim.g.terminal_color_15 = '#FDF6E3'
 
 -- GUI configs
-vim.opt.guifont = "Hasklig_ExtraLight:h14"
+vim.opt.guifont = "Maple Mono,Hasklug Nerd Font Mono:h20"
 vim.keymap.set('t', '<S-space>', '<space>')
 
 -- Show line diagnostics in a window
@@ -524,8 +530,8 @@ if vim.g.neovide then
     end
     -- g:neovide_transparency should be 0 if you want to unify transparency of
     -- content and title bar
-    vim.g.neovide_transparency = 0.8
-    vim.g.transparency = 0.8
+    vim.g.neovide_transparency = 0.9
+    vim.g.transparency = 0.9
     vim.g.neovide_background_color = "#00151c" .. alpha()
     vim.g.neovide_floating_blur_amount_x = 4.0
     vim.g.neovide_floating_blur_amount_y = 4.0
@@ -764,6 +770,16 @@ function _G.open_in_new_tab_copy_mode()
 end
 
 vim.api.nvim_set_keymap('n', '<Leader>p', '<cmd>lua _G.open_in_new_tab_copy_mode()<CR>', { noremap = true, silent = true })
+
+require("codesnap").setup({
+    has_breadcrumbs = true,
+    breadcrumbs_separator = " ∫ ",
+    show_workspace = true,
+    bg_theme = "summer",
+    watermark = "© Andrei Edell",
+    watermark_font_family = "JaneAusten",
+    mac_window_bar = true,
+})
 EOF
 
 " Keybind to replace visual selection with something
