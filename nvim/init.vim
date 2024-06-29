@@ -1,6 +1,3 @@
-" let g:python_host_prog='/usr/local/bin/python'
-" let g:python3_host_prog = '/usr/local/bin/python3'
-
 function! VimrcLoadPlugins()
   let g:vim_plug_dir = $HOME.'/.config/nvim'
 
@@ -10,53 +7,39 @@ function! VimrcLoadPlugins()
   endif
   if !filereadable(g:vim_plug_dir.'/autoload/vim-plug/plug.vim')
     execute '!git clone git@github.com:junegunn/vim-plug.git '
-          \ shellescape(g:vim_plug_dir.'/autoload/', 1)
+          \ shellescape(g:vim_plug_dir.'/autoload/vim-plug/', 1)
   endif
 
   " Starting plugin setup
   call plug#begin()
 
-  " Misc
-  Plug 'Raimondi/delimitmate'
-  Plug 'chrisbra/Colorizer'
-  Plug 'ap/vim-css-color'
-  Plug 'groenewege/vim-less'
-  Plug 'guns/xterm-color-table.vim'
-  Plug 'honza/vim-snippets'
-  Plug 'jakar/vim-AnsiEsc'
-  Plug 'jceb/vim-textobj-uri'
-  Plug 'justinmk/vim-gtfo'
-  Plug 'kana/vim-textobj-user'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'mkitt/tabline.vim'
-  Plug 'moll/vim-bbye'
-  Plug 'othree/javascript-libraries-syntax.vim'
-  Plug 'tommcdo/vim-exchange'
-  Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-jdaddy'
-  Plug 'tpope/vim-surround'
-  Plug 'unblevable/quick-scope'
-  Plug 'whatyouhide/vim-textobj-xmlattr'
-  Plug 'tomlion/vim-solidity'
-  Plug 'dyng/ctrlsf.vim'
-  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-  Plug 'sunaku/vim-dasht'
-  Plug 'dhruvasagar/vim-table-mode'
-  Plug 'nanozuki/tabby.nvim'
-  Plug 'stevearc/oil.nvim'
-  Plug 'mistricky/codesnap.nvim', { 'do': 'make' }
-
-  " Deps: Treesitter
+  " Dep Libs
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
   Plug 'MunifTanjim/nui.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'jackMort/ChatGPT.nvim'
-  Plug 'folke/which-key.nvim'
+  Plug 'nvim-tree/nvim-web-devicons' " req by: markview
 
-  " Language server settings
+  " Misc
+  Plug 'Raimondi/delimitmate' " auto close parens and stuff
+  Plug 'ap/vim-css-color' " maybe works
+  Plug 'groenewege/vim-less' " less support, maybe outdated
+  Plug 'guns/xterm-color-table.vim' " just cute color table
+  Plug 'honza/vim-snippets' " generic snippet collection
+  Plug 'jakar/vim-AnsiEsc' " maybe conseals escape codes
+  Plug 'nanozuki/tabby.nvim' " tab workspaces
+  Plug 'othree/javascript-libraries-syntax.vim'
+  Plug 'tommcdo/vim-exchange' " swap stuff cx<motion>
+  Plug 'tpope/vim-commentary' " gc commenting
+  Plug 'tpope/vim-eunuch' " filesystem :Move and them
+  Plug 'tpope/vim-surround' " changing surrounding cs, ds
+  Plug 'tomlion/vim-solidity' " syntax for solidity
+  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+  Plug 'dhruvasagar/vim-table-mode' " TableModeToggle \tm
+  Plug 'stevearc/oil.nvim' " sweet filesystem editor
+  Plug 'mistricky/codesnap.nvim', { 'do': 'make' } " screenshots
+  Plug 'OXY2DEV/markview.nvim'
+
+  " Language server stuff
   Plug 'neovim/nvim-lspconfig'
   Plug 'weilbith/nvim-lsp-smag'
 
@@ -79,9 +62,9 @@ function! VimrcLoadPlugins()
   map y <Plug>(highlightedyank)
 
   " FastFold & vim-stay
-  Plug 'Konfekt/FastFold'
-  Plug 'kopischke/vim-stay'
-  set viewoptions=cursor,folds,slash,unix
+  " Plug 'Konfekt/FastFold'
+  " Plug 'kopischke/vim-stay'
+  " set viewoptions=cursor,folds,slash,unix
 
   " vim-javascript
   Plug 'pangloss/vim-javascript'
@@ -123,13 +106,6 @@ function! VimrcLoadPlugins()
   let g:vim_markdown_toml_frontmatter = 1
   let g:vim_markdown_json_frontmatter = 1
   let g:vim_markdown_strikethrough = 1
-
-  " gundo
-  Plug 'sjl/gundo.vim'
-  let g:gundo_width = 30
-  let g:gundo_preview_height = 25
-  let g:gundo_preview_bottom = 1
-  nnoremap <silent> <Leader>g :GundoToggle<cr>
 
   " vim-signify
   Plug 'mhinz/vim-signify'
@@ -256,6 +232,7 @@ function! VimrcLoadPlugins()
   nnoremap <silent> <Leader>f :Files<Cr>
   nnoremap <silent> <Leader>h :History<Cr>
   nnoremap <silent> <Leader>b :Buffers<Cr>
+  Plug 'ojroques/nvim-lspfuzzy'
 
   " UltiSnips
   Plug 'SirVer/ultisnips'
@@ -268,7 +245,7 @@ function! VimrcLoadPlugins()
 
   " undotree
   Plug 'mbbill/undotree'
-  nnoremap <leader>u :UndotreeToggle<cr>
+  nnoremap <leader>g :UndotreeToggle<cr>
 
   " Fugitive
   Plug 'tpope/vim-fugitive'
@@ -361,7 +338,9 @@ highlight Normal ctermbg=none guibg=none
 highlight Folded guibg=none ctermbg=none
 highlight SignColumn guibg=none ctermbg=none
 highlight EndOfBuffer guibg=none ctermbg=none
-" Markdown mostly
+highlight TabLine guifg=#ffffff ctermfg=231 guibg=#444444 ctermbg=238 
+highlight TabLineFill guifg=lightpurple ctermfg=13 guibg=#444444 ctermbg=238
+" Markdown Customizations
 highlight Title ctermfg=192 cterm=bold
 highlight @text.title.1.marker.markdown ctermfg=191 cterm=bold
 highlight @text.title.1.markdown ctermfg=191 cterm=bold
@@ -491,13 +470,6 @@ vim.api.nvim_set_hl(0, 'yesCell', { fg = vim.g.terminal_color_2, underdashed = t
 vim.api.nvim_set_hl(0, 'maybeCell', { fg = vim.g.terminal_color_11, undercurl = true })
 vim.api.nvim_set_hl(0, 'noCell', { fg = vim.g.terminal_color_9, underdouble = true })
 
---dasht
-vim.keymap.set('n', '<D-m>', ':Dasht<Space>')
-vim.keymap.set('n', '<D-8>', ':call Dasht(dasht#cursor_search_terms())<Return>')
-vim.g.dasht_filetype_docsets = {}
-vim.g.dasht_filetype_docsets['javascript'] = { 'javascript', 'html', 'react', 'less', 'css' }
-vim.g.dasht_filetype_docsets['less'] = { 'html', 'less', 'css' }
-
 if vim.g.neovide then
     vim.g.neovide_scroll_animation_length = 0.25
     vim.g.neovide_hide_mouse_when_typing = true
@@ -616,13 +588,6 @@ if vim.g.started_by_firenvim == true then
        command = "set filetype=markdown",
    })
 end
-
-require('chatgpt').setup()
-
--- Which-key requires timeout probably
-require('which-key').setup()
-vim.o.timeout = true
-vim.o.timeoutlen = 300
 
 require("oil").setup({
   -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
@@ -780,6 +745,118 @@ require("codesnap").setup({
     watermark_font_family = "JaneAusten",
     mac_window_bar = true,
 })
+
+-- Folds Config
+vim.keymap.set('n', 'zp', 'zMzv')
+
+-- Tabby tab bar config
+local theme = {
+  fill = 'TabLineFill',
+  head = 'TabLine',
+  current_tab = { fg='#df0087', bg='none' }, -- TabLineSel
+  tab = 'TabLine',
+  win = 'TabLine',
+  tail = 'TabLine',
+}
+local tabname_symbols = {
+  '⍜',
+  '⌇',
+  '☌',
+  '⍙',
+  '☊',
+  '☍',
+  '⊑',
+}
+local name_icons = {
+  'αє',
+  'αє',
+  'αє',
+  'αє',
+  'αє',
+  'αє',
+  'αє',
+  '👽',
+  '👽',
+  '👽',
+  '👽',
+  '👽',
+  '👽',
+  '👽',
+  'ΛΣ',
+  '₳Ɇ',
+  'À̵̰̠̳Ẹ̶́̍̌͜',
+  'A̷̮̟̐ͅE̸̤̋͛',
+}
+local tab_symbols = {
+    start = '',
+    stop = '',
+    active = '',
+    inactive = '󰆣',
+    empty = '␢', -- ≋ 〰 ₦
+}
+local function pretty_buffer_name(name, icon)
+  if name == "[No Name]" then
+    name = tab_symbols.empty
+  end
+
+  local _, _, stripped_name = string.find(name, "%d+:(.*)")
+  if stripped_name then
+    name = stripped_name
+  end
+
+  if icon ~= '' and icon ~= '' then
+      name = name .. ' ' .. icon
+  end
+
+  return name .. '  '
+end
+require('tabby').setup({
+  line = function(line)
+    return {
+      {
+        { ' ' .. name_icons[math.random(#name_icons)] .. '  ', hl = theme.head },
+      },
+      line.tabs().foreach(function(tab)
+        if tab.is_current() then
+          local hl = theme.current_tab
+          return {
+            line.sep(tab_symbols.start, hl, theme.fill),
+            tabname_symbols[tab.number()] or tab.number(),
+            line.sep(tab_symbols.stop, hl, theme.fill),
+            hl = hl,
+            margin = ' ',
+          }
+        else
+          local hl = theme.tab
+          return {
+            line.sep(' ', hl, theme.fill),
+            tabname_symbols[tab.number()] or tab.number(),
+            line.sep(' ', hl, theme.fill),
+            hl = hl,
+            margin = ' ',
+          }
+        end
+      end),
+      line.spacer(),
+      line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+        return {
+          win.is_current() and tab_symbols.active or tab_symbols.inactive,
+          pretty_buffer_name(win.buf_name(), win.file_icon()),
+          hl = theme.win,
+          margin = ' ',
+        }
+      end),
+      {
+        { '  ', hl = theme.tail },
+      },
+      hl = theme.fill,
+    }
+  end,
+})
+
+-- Markview
+require("markview").setup()
+
 EOF
 
 " Keybind to replace visual selection with something
@@ -825,9 +902,6 @@ endfunc
 for dir in ["h", "j", "l", "k"]
     call s:mapMoveToWindowInDirection(dir)
 endfor
-
-" Close all folds except the current line
-nnoremap zp zMzv
 
 " Y to copy until end of line, like D
 map Y y$
@@ -1044,22 +1118,6 @@ if executable('xmllint') == 1
   autocmd FileType xml let &l:equalprg='xmllint --format --recover -'
 endif
 
-" Tidy does some weird shit
-" if executable('tidy') == 1
-"   autocmd FileType html let &l:equalprg='tidy -quiet --indent yes --show-errors 0'
-" endif
-
-" vim-textobj-user
-" ----------------
-call textobj#user#plugin('line', {
-\   '-': {
-\     'select-a-function': 'CurrentLineA',
-\     'select-a': 'al',
-\     'select-i-function': 'CurrentLineI',
-\     'select-i': 'il',
-\   },
-\ })
-
 function! CurrentLineA()
   normal! 0
   let head_pos = getpos('.')
@@ -1079,37 +1137,6 @@ function! CurrentLineI()
   \ ? ['v', head_pos, tail_pos]
   \ : 0
 endfunction
-
-
-" quick-scope
-" -----------
-" Insert into your .vimrc after quick-scope is loaded.
-function! Quick_scope_selective(movement)
-    let needs_disabling = 0
-    if !g:qs_enable
-        QuickScopeToggle
-        redraw
-        let needs_disabling = 1
-    endif
-
-    let letter = nr2char(getchar())
-
-    if needs_disabling
-        QuickScopeToggle
-    endif
-
-    return a:movement . letter
-endfunction
-
-let g:qs_enable = 0
-nnoremap <expr> <silent> f Quick_scope_selective('f')
-nnoremap <expr> <silent> F Quick_scope_selective('F')
-nnoremap <expr> <silent> t Quick_scope_selective('t')
-nnoremap <expr> <silent> T Quick_scope_selective('T')
-vnoremap <expr> <silent> f Quick_scope_selective('f')
-vnoremap <expr> <silent> F Quick_scope_selective('F')
-vnoremap <expr> <silent> t Quick_scope_selective('t')
-vnoremap <expr> <silent> T Quick_scope_selective('T')
 
 " Final Startup
 au VimEnter * nested call DefaultWorkspace()
