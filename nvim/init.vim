@@ -476,6 +476,7 @@ if vim.g.neovide then
     vim.g.neovide_refresh_rate = 30
     vim.g.neovide_cursor_vfx_mode = "pixiedust"
     vim.g.neovide_scale_factor = 0.65
+    vim.g.neovide_fullscreen = true
 
     if vim.g.neovide == true then
         vim.api.nvim_set_keymap("n", "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.05<CR>", { silent = true })
@@ -795,6 +796,10 @@ local tab_symbols = {
     empty = '␢', -- ≋ 〰 ₦
 }
 local function pretty_buffer_name(name, icon)
+  if name == nil then
+      name = tab_symbols.empty
+  end
+
   if name == "[No Name]" then
     name = tab_symbols.empty
   end
@@ -802,6 +807,10 @@ local function pretty_buffer_name(name, icon)
   local _, _, stripped_name = string.find(name, "%d+:(.*)")
   if stripped_name then
     name = stripped_name
+  end
+
+  if string.find(name, "zsh") then
+    name = "zsh"
   end
 
   if icon ~= '' and icon ~= '' then

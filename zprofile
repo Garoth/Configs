@@ -44,6 +44,7 @@ export CRAWL_PIZZA="Jalapeno"
 export CRAWL_DIR="$HOME/.crawl/"
 export CRAWL_RC="$HOME/.crawl/crawlrc"
 export ZSH_WORKDIR="$HOME/.zsh"
+export CHROME_EXECUTABLE=google-chrome-stable
 alias restartAudio="sudo kextunload /System/Library/Extensions/AppleHDA.kext; sudo kextload /System/Library/Extensions/AppleHDA.kext"
 
 # Go settings
