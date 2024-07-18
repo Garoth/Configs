@@ -38,6 +38,7 @@ function! VimrcLoadPlugins()
   Plug 'stevearc/oil.nvim' " sweet filesystem editor
   Plug 'mistricky/codesnap.nvim', { 'do': 'make' } " screenshots
   Plug 'OXY2DEV/markview.nvim'
+  Plug 'uga-rosa/ccc.nvim'
 
   " Language server stuff
   Plug 'neovim/nvim-lspconfig'
@@ -167,7 +168,7 @@ function! VimrcLoadPlugins()
   let g:ctrlp_extensions = ['funky']
   let g:ctrlp_funky_syntax_highlight = 1
   " nmap <Leader>r :CtrlPMRU<Cr>
-  nmap <Leader>c :CtrlPClearCache<Cr>
+  " nmap <Leader>c :CtrlPClearCache<Cr>
   " nmap <Leader>b :CtrlPBuffer<Cr>
   nnoremap <Leader>d :CtrlPFunky<Cr>
   " narrow the list down with a word under cursor
@@ -866,6 +867,66 @@ require('tabby').setup({
 -- Markview
 require("markview").setup()
 
+-- Color Picker CCC
+vim.opt.termguicolors = true
+local ccc = require("ccc")
+ccc.setup({
+-- Your preferred settings
+-- Example: enable highlighter
+highlighter = {
+    auto_enable = true,
+    lsp = true,
+    },
+})
+vim.api.nvim_set_keymap('i', '<Leader>c', '<Plug>(ccc-insert)<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>c', '<Plug>(ccc-select-color)', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('o', '<Leader>c', '<Plug>(ccc-select-color)', { noremap = true, silent = true })
+
+-- Generates a floating sudo prompt
+function _G.floating_sudo()
+  local tmpfile = vim.fn.tempname()
+  local filepath = vim.fn.expand('%:p')
+
+  vim.cmd('silent! write ' .. tmpfile)
+  local sudo_command = string.format('sudo cp %s %s && echo \'Success\' || echo \'Failure\'', tmpfile, filepath)
+  local term_command = string.format([[echo ''
+                                      %s && 
+                                      echo 'Press any key to close' && 
+                                      read -n 1]], sudo_command)
+
+  -- Create the floating window
+  local opts = {
+    relative = 'editor',
+    height = math.ceil(vim.o.lines * 0.4),
+    width = math.ceil(vim.o.columns * 0.4),
+    row = math.ceil((vim.o.lines - math.ceil(vim.o.lines * 0.4)) / 2),
+    col = math.ceil((vim.o.columns - math.ceil(vim.o.columns * 0.4)) / 2),
+    style = 'minimal',
+    title = '─SUDO WRITE',
+    footer = '👽─',
+    footer_pos = 'right',
+    border = 'single',
+    focusable = true,
+  }
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, true, opts)
+
+  -- Run the terminal command
+  vim.fn.termopen(term_command, { on_exit = function()
+    -- Close the floating window and buffer when the terminal command exits
+    vim.api.nvim_win_close(win, true)
+    vim.cmd('bd! ' .. buf)  -- Delete the buffer
+    vim.cmd('edit! ' .. filepath)  -- Reload the file
+  end })
+
+  -- Switch to insert mode automatically
+  vim.api.nvim_buf_set_option(buf, 'modifiable', true)
+  vim.api.nvim_command('startinsert')
+end
+-- Map the command to the function
+vim.api.nvim_set_keymap('c', 'w!!', ':lua floating_sudo()<CR>', { noremap = true, silent = true })
+
 EOF
 
 " Keybind to replace visual selection with something
@@ -880,8 +941,6 @@ noremap <ScrollWheelUp> 1<C-D>
 noremap <ScrollWheelDown> 1<C-U>
 inoremap <ScrollWheelUp> 1<C-D>
 inoremap <ScrollWheelDown> 1<C-U>
-" nmap <C-L> zl
-" nmap <C-H> zh
 
 " Window split settings
 set splitbelow
