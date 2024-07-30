@@ -927,6 +927,37 @@ end
 -- Map the command to the function
 vim.api.nvim_set_keymap('c', 'w!!', ':lua floating_sudo()<CR>', { noremap = true, silent = true })
 
+
+-- LSP Keybinds & idk why I'm using vim-lsc for Dart
+local function set_lsp_keybindings(bufnr)
+    local keymap_opts = { noremap = true, silent = true }
+
+    -- Set keybindings for LSP commands
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-]>', ':LSClientGoToDefinition<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-W>]', ':LSClientGoToDefinitionSplit<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-W><C-]>', ':LSClientGoToDefinitionSplit<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', ':LSClientFindReferences<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-n>', ':LSClientNextReference<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-p>', ':LSClientPreviousReference<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gI', ':LSClientFindImplementations<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ga', ':LSClientFindCodeActions<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gR', ':LSClientRename<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', ':LSClientShowHover<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'go', ':LSClientDocumentSymbol<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gS', ':LSClientWorkspaceSymbol<CR>', keymap_opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gm', ':LSClientSignatureHelp<CR>', keymap_opts)
+
+    vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+    vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
+end
+-- Apply the keybindings immediately for Dart
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "dart",
+    callback = function(args)
+        local bufnr = args.buf
+        set_lsp_keybindings(bufnr)
+    end,
+})
 EOF
 
 " Keybind to replace visual selection with something
