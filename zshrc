@@ -2,13 +2,6 @@
 . ~/.scripts/zsh-jump
 
 # Plugins
-ZSH_COMPLETIONS_PATH="$HOME/Configs/zsh-completions/src"
-if [ -d $ZSH_COMPLETIONS_PATH ]; then
-    fpath=($ZSH_COMPLETIONS_PATH $fpath)
-else
-    echo "Warning: Couldn't load ${ZSH_COMPLETIONS_PATH}"
-fi
-
 if which brew &>/dev/null && which z &>/dev/null; then
     . `brew --prefix`/etc/profile.d/z.sh
 fi
