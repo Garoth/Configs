@@ -39,6 +39,7 @@ function! VimrcLoadPlugins()
   Plug 'mistricky/codesnap.nvim', { 'do': 'make' } " screenshots
   Plug 'OXY2DEV/markview.nvim'
   Plug 'uga-rosa/ccc.nvim'
+  Plug 'samjwill/nvim-unception'
 
   " Language server stuff
   Plug 'neovim/nvim-lspconfig'
@@ -228,11 +229,25 @@ function! VimrcLoadPlugins()
   else
       nnoremap <silent> <Leader>a :echo "'ag' is not installed."<Cr>
   endif
- command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline']}), <bang>0)
+  function! s:open_anything(file)
+      let g:system = "linux"
+      if g:system == "windows"
+          for file in a:file
+              execute '!start ' . shellescape(file)
+          endfor
+      elseif g:system == "linux"
+          for file in a:file
+              execute '!xdg-open ' . shellescape(file)
+          endfor
+      endif
+  endfunction
+  let g:fzf_action = { 'ctrl-o': function('s:open_anything') }
+  command! -bang -nargs=? -complete=dir Files
+              \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline']}), <bang>0)
   nnoremap <silent> <Leader>f :Files<Cr>
   nnoremap <silent> <Leader>h :History<Cr>
   nnoremap <silent> <Leader>b :Buffers<Cr>
+
   Plug 'ojroques/nvim-lspfuzzy'
 
   " UltiSnips
