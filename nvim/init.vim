@@ -496,7 +496,7 @@ if vim.g.neovide then
     -- how you remove the titlebar / do focus mode, but gnome also broke most
     -- of the shell extensions, so now stuff like Unify doesn't work either
     vim.g.neovide_fullscreen = true
-    vim.api.nvim_set_hl(0, "Normal", { ctermbg = "none", guibg = "#181818" })
+    vim.api.nvim_set_hl(0, "Normal", { ctermbg = "none", bg = "#181818" })
 
     if vim.g.neovide == true then
         vim.api.nvim_set_keymap("n", "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.05<CR>", { silent = true })
@@ -780,13 +780,13 @@ local theme = {
   tail = 'TabLine',
 }
 local tabname_symbols = {
-  '⍜',
+  '⍙',
   '⌇',
   '☌',
-  '⍙',
+  '⊑',
   '☊',
   '☍',
-  '⊑',
+  '⍜',
 }
 local name_icons = {
   'αє',
