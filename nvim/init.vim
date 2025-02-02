@@ -404,6 +404,16 @@ autocmd FileType python setl omnifunc=pythoncomplete#Complete
 autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
 autocmd FileType typescript setl colorcolumn=81
 
+" Detect go-template flavored HTML and enable syntax
+function! DetectGoHtmlTmpl()
+    if expand('%:e') ==# "html" && search("{{", "nw") != 0
+        echom "Overriding syntax to gohtmltmpl"
+        set syntax=gohtmltmpl
+    endif
+endfunction
+" Ghetto delay so it correctly overrides after other plugins n shit
+autocmd FileType html call timer_start(100, {-> DetectGoHtmlTmpl()})
+
 " Abbreviations
 ab !+ !=
 ab :+ :=
