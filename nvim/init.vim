@@ -16,7 +16,7 @@ function! VimrcLoadPlugins()
   " Dep Libs
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'MunifTanjim/nui.nvim'
-  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/plenary.nvim' " req by: codecompanion
   Plug 'nvim-tree/nvim-web-devicons' " req by: markview
 
   " Misc
@@ -44,6 +44,9 @@ function! VimrcLoadPlugins()
   " Language server stuff
   Plug 'neovim/nvim-lspconfig'
   Plug 'weilbith/nvim-lsp-smag'
+
+  " CodeCompanion AI
+  Plug 'olimorris/codecompanion.nvim'
 
   " Dart / Flutter
   Plug 'dart-lang/dart-vim-plugin'
@@ -839,6 +842,7 @@ local function pretty_buffer_name(name, icon)
 
   return name .. '  '
 end
+
 require('tabby').setup({
   line = function(line)
     return {
@@ -976,6 +980,24 @@ vim.api.nvim_create_autocmd("FileType", {
         local bufnr = args.buf
         set_lsp_keybindings(bufnr)
     end,
+})
+
+-- CodeCompanion AI
+require("codecompanion").setup({
+    adapters = {
+        ollama = function()
+        return require("codecompanion.adapters").extend("openai_compatible", {
+            env = {
+                url = "http://localhost:8080/v1", -- optional: default value is ollama url http://127.0.0.1:11434
+                api_key = "OpenAI_API_KEY", -- optional: if your endpoint is authenticated
+                chat_url = "/v1/chat/completions", -- optional: default value, override if different
+            },
+        })
+        end,
+    },
+    ui = {
+        border = 'rounded',  -- Optional: Customize the UI
+    },
 })
 EOF
 
