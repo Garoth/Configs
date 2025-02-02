@@ -88,6 +88,7 @@ alias    tram="transmission-remote"
 alias    tree='tree -AC'
 alias    vim='nvim'
 alias    govim='GOPATH=$PWD vim'
+alias    open=xdg-open
 
 # Variables
 HISTFILE=~/.histfile
