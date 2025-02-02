@@ -363,16 +363,20 @@ highlight TabLineFill guifg=lightpurple ctermfg=13 guibg=#444444 ctermbg=238
 highlight Title ctermfg=192 cterm=bold
 highlight @text.title.1.marker.markdown ctermfg=191 cterm=bold
 highlight @text.title.1.markdown ctermfg=191 cterm=bold
-highlight @markup.heading.1.markdown ctermfg=191 cterm=bold guifg=lightblue gui=bold
+highlight @markup.heading.1.markdown ctermfg=191 cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
+highlight MarkviewHeading1 ctermfg=191 cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
 highlight @text.title.2.marker.markdown ctermfg=192 cterm=bold
 highlight @text.title.2.markdown ctermfg=192 cterm=bold
-highlight @markup.heading.2.markdown ctermfg=192 cterm=bold guifg=lightblue gui=bold
+highlight @markup.heading.2.markdown ctermfg=192 cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
+highlight MarkviewHeading2 ctermfg=192 cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
 highlight @text.title.3.marker.markdown ctermfg=193 cterm=bold
 highlight @text.title.3.markdown ctermfg=193 cterm=bold
-highlight @markup.heading.3.markdown ctermfg=193 cterm=bold guifg=lightblue gui=bold
+highlight @markup.heading.3.markdown ctermfg=193 ctermbg=none cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
+highlight MarkviewHeading3 ctermfg=193 ctermbg=none cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
 highlight @text.title.4.marker.markdown ctermfg=194 cterm=bold
 highlight @text.title.4.markdown ctermfg=194 cterm=bold
-highlight @markup.heading.4.markdown ctermfg=194 cterm=bold guifg=lightblue gui=bold
+highlight @markup.heading.4.markdown ctermfg=194 cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
+highlight MarkviewHeading4 ctermfg=194 cterm=bold ctermbg=none guifg=lightblue gui=bold guibg=none
 highlight Delimiter ctermfg=240 guifg=darkgrey cterm=bold
 highlight @text ctermfg=none
 highlight @text.emphasis.markdown_inline ctermfg=none cterm=italic
