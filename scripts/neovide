@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  arch=$(uname -m)
+  if [[ "$arch" == "aarch64"* ]]; then
+    echo "Overriding Neovide Mesa"
+    MESA_GL_VERSION_OVERRIDE=3.3 MESA_GLSL_VERSION_OVERRIDE=330 /usr/bin/neovide
+  else
+    /usr/bin/neovide
+  fi
+else
+  /usr/bin/neovide
+fi

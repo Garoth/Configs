@@ -18,6 +18,7 @@ function! VimrcLoadPlugins()
   Plug 'MunifTanjim/nui.nvim'
   Plug 'nvim-lua/plenary.nvim' " req by: codecompanion
   Plug 'nvim-tree/nvim-web-devicons' " req by: markview
+  Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' } " req by: sad.nvim
 
   " Misc
   Plug 'Raimondi/delimitmate' " auto close parens and stuff
@@ -40,6 +41,7 @@ function! VimrcLoadPlugins()
   Plug 'OXY2DEV/markview.nvim'
   Plug 'uga-rosa/ccc.nvim'
   Plug 'samjwill/nvim-unception'
+  Plug 'ray-x/sad.nvim' " multi-file search and replace
 
   " Language server stuff
   Plug 'neovim/nvim-lspconfig'
@@ -471,8 +473,11 @@ vim.g.terminal_color_14 = '#00B3A7'
 vim.g.terminal_color_15 = '#FDF6E3'
 
 -- GUI configs
-vim.opt.guifont = "Maple Mono,Hasklug Nerd Font Mono:h20"
+vim.opt.guifont = "Maple Mono:h20"
 vim.keymap.set('t', '<S-space>', '<space>')
+
+-- Settings
+vim.opt.diffopt="filler,internal,closeoff,algorithm:histogram,context:5,linematch:60"
 
 -- Show line diagnostics in a window
 vim.o.updatetime = 250 -- global hold time setting
@@ -1012,6 +1017,18 @@ require("codecompanion").setup({
     ui = {
         border = 'rounded',  -- Optional: Customize the UI
     },
+})
+
+-- Sad.nvim
+require'sad'.setup({
+    debug = false, -- print debug info
+    diff = 'bat', -- `delta`, `diff-so-fancy`
+    ls_file = 'git ls-files', -- also `fd`
+    exact = false, -- exact match
+    vsplit = false, -- split sad window the screen vertically, when set to number
+    -- it is a threadhold when window is larger than the threshold sad will split vertically,
+    height_ratio = 0.9, -- height ratio of sad window when split horizontally
+    width_ratio = 0.6, -- height ratio of sad window when split vertically
 })
 EOF
 
