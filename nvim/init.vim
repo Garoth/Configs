@@ -855,7 +855,8 @@ local function pretty_buffer_name(name, icon)
     name = "zsh"
   end
 
-  if icon ~= '' and icon ~= '' then
+  -- Check if icon is a string before concatenating
+  if icon ~= nil and type(icon) == "string" and icon ~= '' and icon ~= '' then
       name = name .. ' ' .. icon
   end
 
