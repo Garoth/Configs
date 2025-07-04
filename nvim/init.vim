@@ -223,9 +223,13 @@ function! VimrcLoadPlugins()
   let g:airline#extensions#syntastic#enabled = 0
   let g:airline#extensions#whitespace#enabled = 0
 
+  " Octo.nvim - GitHub integration
+  Plug 'pwntester/octo.nvim'
+
   " FZF - install `bat` to get color preview
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   Plug 'junegunn/fzf.vim'
+  Plug 'ibhagwan/fzf-lua' " required by octo.nvim
   let g:fzf_layout = { 'window': 'enew' }
   let g:fzf_nvim_statusline = 0
   if executable('ag')
@@ -274,6 +278,9 @@ function! VimrcLoadPlugins()
   call plug#end()
 endfunction
 call VimrcLoadPlugins()
+
+" Set localleader to comma for octo.nvim mappings
+let maplocalleader = ","
 
 " Global Settings
 filetype indent plugin on                          " turn on plugins
@@ -1030,6 +1037,147 @@ require'sad'.setup({
     -- it is a threadhold when window is larger than the threshold sad will split vertically,
     height_ratio = 0.9, -- height ratio of sad window when split horizontally
     width_ratio = 0.6, -- height ratio of sad window when split vertically
+})
+
+-- Octo.nvim - GitHub integration
+require"octo".setup({
+  use_local_fs = false,
+  enable_builtin = false,
+  default_remote = {"upstream", "origin"},
+  default_merge_method = "commit",
+  default_delete_branch = false,
+  ssh_aliases = {},
+  picker = "fzf-lua",
+  picker_config = {
+    use_emojis = false,
+    mappings = {
+      open_in_browser = { lhs = "<C-b>", desc = "open issue in browser" },
+      copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
+      checkout_pr = { lhs = "<C-o>", desc = "checkout pull request" },
+      merge_pr = { lhs = "<C-r>", desc = "merge pull request" },
+    },
+  },
+  comment_icon = "▎",
+  outdated_icon = "󰅒 ",
+  resolved_icon = " ",
+  reaction_viewer_hint_icon = " ",
+  user_icon = " ",
+  timeline_marker = " ",
+  timeline_indent = 2,
+  right_bubble_delimiter = "",
+  left_bubble_delimiter = "",
+  github_hostname = "",
+  snippet_context_lines = 4,
+  gh_cmd = "gh",
+  gh_env = {},
+  timeout = 5000,
+  ui = {
+    use_signcolumn = false,
+    use_signstatus = true,
+  },
+  issues = {
+    order_by = {
+      field = "CREATED_AT",
+      direction = "DESC"
+    }
+  },
+  pull_requests = {
+    order_by = {
+      field = "CREATED_AT",
+      direction = "DESC"
+    },
+    always_select_remote_on_create = false,
+  },
+  file_panel = {
+    size = 10,
+    use_icons = true
+  },
+  mappings = {
+    issue = {
+      close_issue = { lhs = "<localleader>ic", desc = "close issue" },
+      reopen_issue = { lhs = "<localleader>io", desc = "reopen issue" },
+      list_issues = { lhs = "<localleader>il", desc = "list open issues on same repo" },
+      reload = { lhs = "<C-r>", desc = "reload issue" },
+      open_in_browser = { lhs = "<C-b>", desc = "open issue in browser" },
+      copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
+      add_assignee = { lhs = "<localleader>aa", desc = "add assignee" },
+      remove_assignee = { lhs = "<localleader>ad", desc = "remove assignee" },
+      create_label = { lhs = "<localleader>lc", desc = "create label" },
+      add_label = { lhs = "<localleader>la", desc = "add label" },
+      remove_label = { lhs = "<localleader>ld", desc = "remove label" },
+      goto_issue = { lhs = "<localleader>gi", desc = "navigate to a local repo issue" },
+      add_comment = { lhs = "<localleader>ca", desc = "add comment" },
+      delete_comment = { lhs = "<localleader>cd", desc = "delete comment" },
+      next_comment = { lhs = "]c", desc = "go to next comment" },
+      prev_comment = { lhs = "[c", desc = "go to previous comment" },
+      react_hooray = { lhs = "<localleader>rp", desc = "add/remove 🎉 reaction" },
+      react_heart = { lhs = "<localleader>rh", desc = "add/remove ❤️ reaction" },
+      react_eyes = { lhs = "<localleader>re", desc = "add/remove 👀 reaction" },
+      react_thumbs_up = { lhs = "<localleader>r+", desc = "add/remove 👍 reaction" },
+      react_thumbs_down = { lhs = "<localleader>r-", desc = "add/remove 👎 reaction" },
+      react_rocket = { lhs = "<localleader>rr", desc = "add/remove 🚀 reaction" },
+      react_laugh = { lhs = "<localleader>rl", desc = "add/remove 😄 reaction" },
+      react_confused = { lhs = "<localleader>rc", desc = "add/remove 😕 reaction" },
+    },
+    pull_request = {
+      checkout_pr = { lhs = "<localleader>po", desc = "checkout PR" },
+      merge_pr = { lhs = "<localleader>pm", desc = "merge commit PR" },
+      squash_and_merge_pr = { lhs = "<localleader>psm", desc = "squash and merge PR" },
+      rebase_and_merge_pr = { lhs = "<localleader>prm", desc = "rebase and merge PR" },
+      list_commits = { lhs = "<localleader>pc", desc = "list PR commits" },
+      list_changed_files = { lhs = "<localleader>pf", desc = "list PR changed files" },
+      show_pr_diff = { lhs = "<localleader>pd", desc = "show PR diff" },
+      add_reviewer = { lhs = "<localleader>va", desc = "add reviewer" },
+      remove_reviewer = { lhs = "<localleader>vd", desc = "remove reviewer request" },
+      close_issue = { lhs = "<localleader>ic", desc = "close PR" },
+      reopen_issue = { lhs = "<localleader>io", desc = "reopen PR" },
+      list_issues = { lhs = "<localleader>il", desc = "list open issues on same repo" },
+      reload = { lhs = "<C-r>", desc = "reload PR" },
+      open_in_browser = { lhs = "<C-b>", desc = "open PR in browser" },
+      copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
+      goto_file = { lhs = "gf", desc = "go to file" },
+      add_assignee = { lhs = "<localleader>aa", desc = "add assignee" },
+      remove_assignee = { lhs = "<localleader>ad", desc = "remove assignee" },
+      create_label = { lhs = "<localleader>lc", desc = "create label" },
+      add_label = { lhs = "<localleader>la", desc = "add label" },
+      remove_label = { lhs = "<localleader>ld", desc = "remove label" },
+      goto_issue = { lhs = "<localleader>gi", desc = "navigate to a local repo issue" },
+      add_comment = { lhs = "<localleader>ca", desc = "add comment" },
+      delete_comment = { lhs = "<localleader>cd", desc = "delete comment" },
+      next_comment = { lhs = "]c", desc = "go to next comment" },
+      prev_comment = { lhs = "[c", desc = "go to previous comment" },
+      react_hooray = { lhs = "<localleader>rp", desc = "add/remove 🎉 reaction" },
+      react_heart = { lhs = "<localleader>rh", desc = "add/remove ❤️ reaction" },
+      react_eyes = { lhs = "<localleader>re", desc = "add/remove 👀 reaction" },
+      react_thumbs_up = { lhs = "<localleader>r+", desc = "add/remove 👍 reaction" },
+      react_thumbs_down = { lhs = "<localleader>r-", desc = "add/remove 👎 reaction" },
+      react_rocket = { lhs = "<localleader>rr", desc = "add/remove 🚀 reaction" },
+      react_laugh = { lhs = "<localleader>rl", desc = "add/remove 😄 reaction" },
+      react_confused = { lhs = "<localleader>rc", desc = "add/remove 😕 reaction" },
+      review_start = { lhs = "<localleader>vs", desc = "start a review for the current PR" },
+      review_resume = { lhs = "<localleader>vr", desc = "resume a pending review for the current PR" },
+    },
+    review_diff = {
+      submit_review = { lhs = "<localleader>vs", desc = "submit review" },
+      discard_review = { lhs = "<localleader>vd", desc = "discard review" },
+      add_review_comment = { lhs = "<localleader>ca", desc = "add a new review comment" },
+      add_review_suggestion = { lhs = "<localleader>sa", desc = "add a new review suggestion" },
+      focus_files = { lhs = "<localleader>e", desc = "move focus to changed file panel" },
+      toggle_files = { lhs = "<localleader>b", desc = "hide/show changed files panel" },
+      next_thread = { lhs = "]t", desc = "move to next thread" },
+      prev_thread = { lhs = "[t", desc = "move to previous thread" },
+      select_next_entry = { lhs = "]q", desc = "move to next changed file" },
+      select_prev_entry = { lhs = "[q", desc = "move to previous changed file" },
+      close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+      goto_file = { lhs = "gf", desc = "go to file" },
+    },
+    submit_win = {
+      approve_review = { lhs = "<C-a>", desc = "approve review" },
+      comment_review = { lhs = "<C-m>", desc = "comment review" },
+      request_changes = { lhs = "<C-r>", desc = "request changes review" },
+      close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+    },
+  },
 })
 EOF
 
