@@ -15,6 +15,7 @@ export CATALINA=$TOMCAT_HOME
 # Initialization for Adobe Font Dev Kit tools
 export FDK_EXE="/Users/lung/Programs/FDK/Tools/osx"
 
+       PATH=/opt/homebrew/opt/openjdk/bin:$PATH
        PATH=$HOME/Programs/golang/bin:$PATH
        PATH=$HOME/Programs/nvim-linux64/bin:$PATH
        PATH=$HOME/Programs/google-cloud-sdk/bin:$PATH
@@ -27,6 +28,7 @@ export FDK_EXE="/Users/lung/Programs/FDK/Tools/osx"
        PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
        PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
        PATH=/opt/local/bin:${PATH}
+       PATH=/opt/homebrew/bin:${PATH}
        PATH=/usr/local/bin:${PATH}
        PATH=/usr/local/sbin:${PATH}
        # PATH=${JAVA_HOME}/bin:${PATH}
